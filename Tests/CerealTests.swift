@@ -111,7 +111,7 @@ class CerealSignEthereumTransactionWithWalletTests: XCTestCase {
 
     func testGeneratingFromValidWordList() {
         guard let fromWordList = Cereal(words: words) else {
-            XCTFail("Could not generate cereal from vali word list")
+            XCTFail("Could not generate cereal from valid word list")
             return
         }
 
