@@ -97,7 +97,7 @@ final class SessionManager {
                 return
             }
 
-            Cereal.shared = validCereal
+            Cereal.setSharedCereal(validCereal)
             UserDefaultsWrapper.requiresSignIn = false
 
             Profile.setupCurrentProfile(profile)

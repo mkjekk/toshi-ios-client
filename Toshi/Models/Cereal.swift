@@ -20,7 +20,37 @@ import HDWallet
 /// An EtherealCereal wrapper. Generates the address and public key for a given private key. Signs messages.
 class Cereal: NSObject {
 
-    @objc static var shared: Cereal = Cereal()
+    /// The underlying shared Cereal. Will be nil at first if there is no stored cereal,
+    /// at which point it should be set once the user is created.
+    private static var _shared: Cereal? = {
+        guard let passphrase = Cereal.storedPassphrase() else {
+            if UserDefaultsWrapper.hasStoredPassphraseInYap {
+                fatalError("Could not retrive stored passphrase!")
+            }
+
+            return nil
+        }
+
+        return Cereal(words: passphrase)
+    }()
+
+    /// True if the underlying shared Cereal exists, false if it doesn't.
+    static var hasSharedCereal: Bool {
+        return _shared != nil
+    }
+
+    /// The main accessor for the shared user. If the user isn't definitely supposed to be there, check `hasSharedCereal` before calling this.
+    @objc static var shared: Cereal {
+        guard let cereal = _shared else {
+            fatalError("Attempting to access shared cereal when it doesn't exist!")
+        }
+
+        return cereal
+    }
+
+    static func setSharedCereal(_ cereal: Cereal) {
+        _shared = cereal
+    }
 
     static let entropyByteCount = 16
 
@@ -61,6 +91,12 @@ class Cereal: NSObject {
             .derivedKeychain(at: 0, hardened: true)
             .derivedKeychain(at: 0)
             .derivedKeychain(at: 0)
+    }
+
+    private static func storedPassphrase() -> [String]? {
+        guard let words = Yap.sharedInstance.retrieveObject(for: Cereal.privateKeyStorageKey) as? String else { return nil }
+
+        return words.components(separatedBy: " ")
     }
 
     // restore from words
