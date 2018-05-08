@@ -150,69 +150,79 @@ final class IDAPIClient {
     }
 
     func registerUserIfNeeded(_ completion: @escaping ((_ userRegisterStatus: UserRegisterStatus) -> Void)) {
-        retrieveUser(username: Cereal.shared.address) { profile, _ in
 
-            guard profile == nil else {
+        if Cereal.hasSharedCereal {
+            retrieveUser(username: Cereal.shared.address) { profile, _ in
+                guard profile != nil else {
+                    self.registerUser(with: Cereal.shared, completion)
+                    return
+                }
+
                 completion(.existing)
+            }
+        } else {
+            registerUser(completion)
+        }
+    }
+
+    func registerUser(with cerealToRegister: Cereal? = nil, _ completion: @escaping ((_ userRegisterStatus: UserRegisterStatus) -> Void)) {
+
+        self.fetchTimestamp { timestamp, error in
+            guard let timestamp = timestamp else {
+                DispatchQueue.main.async {
+                    completion(.failed)
+                }
                 return
             }
 
-            self.fetchTimestamp { timestamp, error in
-                guard let timestamp = timestamp else {
-                    DispatchQueue.main.async {
-                        completion(.failed)
-                    }
-                    return
+            let registrationCereal = cerealToRegister ?? Cereal.generateNew()
+            let path = "/v2/user"
+            let parameters = [
+                "payment_address": registrationCereal.paymentAddress
+            ]
+
+            guard let data = try? JSONSerialization.data(withJSONObject: parameters, options: []), let parametersString = String(data: data, encoding: .utf8) else {
+                DispatchQueue.main.async {
+                    completion(.failed)
                 }
-                
-                let cereal = Cereal.shared
-                let path = "/v2/user"
-                let parameters = [
-                    "payment_address": cereal.paymentAddress
-                ]
+                return
+            }
 
-                guard let data = try? JSONSerialization.data(withJSONObject: parameters, options: []), let parametersString = String(data: data, encoding: .utf8) else {
+            let hashedParameters = registrationCereal.sha3WithID(string: parametersString)
+            let signature = "0x\(registrationCereal.signWithID(message: "POST\n\(path)\n\(timestamp)\n\(hashedParameters)"))"
+
+            let fields: [String: String] = ["Token-ID-Address": registrationCereal.address, "Token-Signature": signature, "Token-Timestamp": timestamp]
+
+            let json = RequestParameter(parameters)
+
+            self.teapot.post(path, parameters: json, headerFields: fields) { result in
+                var status: UserRegisterStatus = .failed
+
+                defer {
                     DispatchQueue.main.async {
-                        completion(.failed)
+                        completion(status)
                     }
-                    return
                 }
 
-                let hashedParameters = cereal.sha3WithID(string: parametersString)
-                let signature = "0x\(cereal.signWithID(message: "POST\n\(path)\n\(timestamp)\n\(hashedParameters)"))"
+                switch result {
+                case .success(let json, let response):
+                    guard response.statusCode == 200 else { return }
 
-                let fields: [String: String] = ["Token-ID-Address": cereal.address, "Token-Signature": signature, "Token-Timestamp": timestamp]
-
-                let json = RequestParameter(parameters)
-
-                self.teapot.post(path, parameters: json, headerFields: fields) { result in
-                    var status: UserRegisterStatus = .failed
-
-                    defer {
-                        DispatchQueue.main.async {
-                            completion(status)
-                        }
+                    guard let data = json?.data else {
+                       assertionFailure("No data from registration request response")
+                        return
                     }
 
-                    switch result {
-                    case .success(let json, let response):
-                        guard response.statusCode == 200 else { return }
-
-                        guard let data = json?.data else {
-                           assertionFailure("No data from registration request response")
-                            return
-                        }
-
-                        Profile.fromJSONData(data,
-                                             successCompletion: { result in
-                                                Profile.setupCurrentProfile(result)
-                                                status = .registered
-                                             },
-                                             errorCompletion: nil)
-                    case .failure(_, _, let error):
-                        DLog("\(error)")
-                        status = .failed
-                    }
+                    Profile.fromJSONData(data,
+                                         successCompletion: { result in
+                                            Cereal.setSharedCereal(registrationCereal)
+                                            Profile.setupCurrentProfile(result)
+                                            status = .registered
+                                         },
+                                         errorCompletion: nil)
+                case .failure(_, _, let error):
+                    DLog("\(error)")
+                    status = .failed
                 }
             }
         }
