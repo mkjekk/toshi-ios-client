@@ -93,6 +93,14 @@ class CerealSignEthereumTransactionWithWalletTests: XCTestCase {
         XCTAssertEqual(expectedMessageString, resultString)
     }
 
+    func testGeneratingEntropyCreatesDataOfValidLength() {
+        let entropy = Cereal.generateEntropy()
+
+        // Per docs on BTCMnemonic, the bits of the entropy must be divisible by 32, or the
+        // creation of the mnemonic will fail. In practice, it throws an objc error and crashes.
+        XCTAssertTrue(entropy.countInBits % 32 == 0)
+    }
+
     func testGeneratingFromEntropy() {
         XCTAssertNotNil(Cereal(entropy: Cereal.generateEntropy()), "Could not generate cereal from entropy")
     }
