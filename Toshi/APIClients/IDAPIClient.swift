@@ -159,7 +159,9 @@ final class IDAPIClient {
 
             self.fetchTimestamp { timestamp, error in
                 guard let timestamp = timestamp else {
-                    completion(.failed)
+                    DispatchQueue.main.async {
+                        completion(.failed)
+                    }
                     return
                 }
                 
@@ -170,7 +172,9 @@ final class IDAPIClient {
                 ]
 
                 guard let data = try? JSONSerialization.data(withJSONObject: parameters, options: []), let parametersString = String(data: data, encoding: .utf8) else {
-                    completion(.failed)
+                    DispatchQueue.main.async {
+                        completion(.failed)
+                    }
                     return
                 }
 
