@@ -146,6 +146,10 @@ class Cereal: NSObject {
         NotificationCenter.default.addObserver(self, selector: #selector(userCreated(_:)), name: .userCreated, object: nil)
     }
 
+    private override init() {
+        fatalError("Don't use the empty initializer!")
+    }
+
     static func generateEntropy() -> Data {
         var entropy = Data(count: entropyByteCount)
         // This creates the private key inside a block, result is of internal type ResultType.
