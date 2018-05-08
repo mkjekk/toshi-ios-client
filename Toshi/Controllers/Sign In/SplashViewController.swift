@@ -172,9 +172,7 @@ final class SplashViewController: UIViewController {
         }
         
         let agree = UIAlertAction(title: Localized.accept_terms_action_agree, style: .cancel) { [weak self] _ in
-            Navigator.tabbarController?.setupControllers()
-            SessionManager.shared.createNewUser()
-            self?.dismiss(animated: true, completion: nil)
+            self?.attemptUserCreation()
         }
         
         alert.addAction(read)
@@ -182,6 +180,38 @@ final class SplashViewController: UIViewController {
         alert.addAction(agree)
         
         present(alert, animated: true, completion: nil)
+    }
+
+    private func attemptUserCreation() {
+        SessionManager.shared.createNewUser { [weak self] success in
+            guard success else {
+                guard let status = Navigator.tabbarController?.reachabilityManager.currentReachabilityStatus else {
+                    // Can't check status but just to be safe:
+                    self?.showCheckConnectionError()
+                    return
+                }
+
+                switch status {
+                case .notReachable:
+                    // The user definitely does not have internet.
+                    self?.showCheckConnectionError()
+                case .reachableViaWiFi,
+                     .reachableViaWWAN:
+                    // The user definitely has internet, it's something else.
+                    self?.showGenericCreateAccountError()
+                }
+                return
+            }
+
+            Navigator.tabbarController?.setupControllers()
+            self?.dismiss(animated: true, completion: nil)
+        }
+    }
+
+    func showCheckConnectionError() {
+    }
+
+    func showGenericCreateAccountError() {
     }
 }
 

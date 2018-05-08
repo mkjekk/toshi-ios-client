@@ -114,9 +114,12 @@ final class SessionManager {
         }
     }
 
-    func createNewUser() {
+    func createNewUser(completion: @escaping (Bool) -> Void) {
         IDAPIClient.shared.registerUserIfNeeded { [weak self] status in
-            guard status != UserRegisterStatus.failed else { return }
+            guard status != UserRegisterStatus.failed else {
+                completion(false)
+                return
+            }
 
             UserDefaultsWrapper.requiresSignIn = false
 
@@ -125,8 +128,12 @@ final class SessionManager {
             self?.profilesManager.clearProfiles()
 
             ChatAPIClient.shared.registerUser(completion: { _ in
-                guard status == UserRegisterStatus.registered else { return }
+                guard status == UserRegisterStatus.registered else {
+                    completion(false)
+                    return
+                }
                 ChatInteractor.triggerBotGreeting()
+                completion(true)
             })
         }
     }
