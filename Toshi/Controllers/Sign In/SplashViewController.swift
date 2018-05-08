@@ -209,9 +209,11 @@ final class SplashViewController: UIViewController {
     }
 
     func showCheckConnectionError() {
+        showErrorOKAlert(message: Localized.alert_no_internet_message)
     }
 
     func showGenericCreateAccountError() {
+        showErrorOKAlert(message: Localized.error_message_account_create)
     }
 }
 

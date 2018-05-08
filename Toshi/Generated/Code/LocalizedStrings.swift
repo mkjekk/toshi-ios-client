@@ -14,6 +14,7 @@ enum LocalizedKey: String, StringCaseListable {
     accessibility_close,
     accessibility_more,
     active_network_format,
+    alert_no_internet_message,
     alert_ok_action_title,
     attachment_message_preview_string,
     back_action_title,
@@ -93,6 +94,7 @@ enum LocalizedKey: String, StringCaseListable {
     edit_profile_visibility_section_explanation,
     edit_profile_visibility_section_title,
     error_alert_title,
+    error_message_account_create,
     error_title,
     eth_sign_warning,
     group_info_leave_action_title,
@@ -332,6 +334,9 @@ struct Localized {
     /// `en`: "Active network: %@"
     static let active_network_format = LocalizedKey.active_network_format.currentValue
     
+    /// `en`: "It appears your device is not connected to the internet. Please double-check your connection, and try again."
+    static let alert_no_internet_message = LocalizedKey.alert_no_internet_message.currentValue
+    
     /// `en`: "OK"
     static let alert_ok_action_title = LocalizedKey.alert_ok_action_title.currentValue
     
@@ -568,6 +573,9 @@ struct Localized {
     
     /// `en`: "Error"
     static let error_alert_title = LocalizedKey.error_alert_title.currentValue
+    
+    /// `en`: "There was an error creating an account for you. Please wait a moment, and try again."
+    static let error_message_account_create = LocalizedKey.error_message_account_create.currentValue
     
     /// `en`: "Error"
     static let error_title = LocalizedKey.error_title.currentValue
@@ -1006,7 +1014,7 @@ struct Localized {
     
     /// `en`: "Đapps"
     static let tab_bar_title_dapps = LocalizedKey.tab_bar_title_dapps.currentValue
-
+    
     /// `en`: "Settings"
     static let tab_bar_title_settings = LocalizedKey.tab_bar_title_settings.currentValue
     
@@ -1094,7 +1102,7 @@ struct Localized {
     /// `en`: "This amount is not final"
     static let wallet_final_amount_alert_title = LocalizedKey.wallet_final_amount_alert_title.currentValue
     
-    /// `en`: "Insuffisient balance: %@"
+    /// `en`: "Insufficient balance: %@"
     static let wallet_insuffisient_balance_generic = LocalizedKey.wallet_insuffisient_balance_generic.currentValue
     
     /// `en`: "Insufficient %@ balance: %@ (%@)"
