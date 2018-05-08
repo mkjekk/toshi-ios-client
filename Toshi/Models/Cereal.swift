@@ -107,6 +107,13 @@ class Cereal: NSObject {
     }
 
     convenience init?(entropy: Data) {
+        // 8 bits in a byte, `count` is in bytes
+        let bits = entropy.count * 8
+        guard (bits > 0) && (bits % 32 == 0)  else {
+            // Attempting to create a mnemonic from entropy with a number of bytes not divisible by 32 will throw an obj-c error and crash.
+            return nil
+        }
+
         guard let mnemonic = BTCMnemonic(entropy: entropy, password: nil, wordListType: BTCMnemonicWordListType.english) else { return nil }
 
         self.init(mnemonic: mnemonic)
