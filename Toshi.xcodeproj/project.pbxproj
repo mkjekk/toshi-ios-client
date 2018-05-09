@@ -1164,6 +1164,7 @@
 		D197BF84F829C3200A677BE0 /* SofaPaymentRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = D197BCAEADF108A249EC0D89 /* SofaPaymentRequest.swift */; };
 		D197BFB3C85D103063F9C87E /* ToshiError.swift in Sources */ = {isa = PBXBuildFile; fileRef = D197B54B1A4AD5DB747C55BF /* ToshiError.swift */; };
 		D197BFEFB82271BBE1152E9E /* SofaMessage.swift in Sources */ = {isa = PBXBuildFile; fileRef = D197B3F77566E161C5CAB467 /* SofaMessage.swift */; };
+		D197BFF84CD1F312EC4C3803 /* AddTokenTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = D197BBAA667EA9A86F67E488 /* AddTokenTests.swift */; };
 		D197BFFC874FC46F485BE295 /* SofaPayment.swift in Sources */ = {isa = PBXBuildFile; fileRef = D197BC4FF536D4350C725251 /* SofaPayment.swift */; };
 		E1A95D551E6EF092002762DA /* SettingsController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E1A95D541E6EF092002762DA /* SettingsController.swift */; };
 		E60A52A71F28DC5B0032CAC0 /* DevelopmentTokenURLPaths.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14E4D8CF1E72CB6E00389DF9 /* DevelopmentTokenURLPaths.swift */; };
@@ -1693,6 +1694,7 @@
 		D197BB0B32CD87852479976D /* CollectibleCellConfigurator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CollectibleCellConfigurator.swift; sourceTree = "<group>"; };
 		D197BB4FC8D408B73FE253E5 /* BlurView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BlurView.swift; sourceTree = "<group>"; };
 		D197BB6208925B43A58D5483 /* PaymentConfirmationViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PaymentConfirmationViewController.swift; sourceTree = "<group>"; };
+		D197BBAA667EA9A86F67E488 /* AddTokenTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AddTokenTests.swift; sourceTree = "<group>"; };
 		D197BBE7ED942198265AED9B /* String+nsRangeTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "String+nsRangeTests.swift"; sourceTree = "<group>"; };
 		D197BC051BEE35DB98BD053F /* SofaInitialRequest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SofaInitialRequest.swift; sourceTree = "<group>"; };
 		D197BC2A4D26A2F961C2E33E /* SofaWrapper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SofaWrapper.swift; sourceTree = "<group>"; };
@@ -1900,6 +1902,7 @@
 				D197BBE7ED942198265AED9B /* String+nsRangeTests.swift */,
 				9F3CF6A21FE143B600043530 /* TextTransformerTests.swift */,
 				D197B5CF9A6EFA209E1D74B5 /* IDAPIClientTests.swift */,
+				D197BBAA667EA9A86F67E488 /* AddTokenTests.swift */,
 			);
 			path = Tests;
 			sourceTree = "<group>";
@@ -3787,6 +3790,7 @@
 				D197BCD0784E03D9B662C7F8 /* CGFloat+Additions.swift in Sources */,
 				D197BCE9E48328BF70480029 /* DirectoryAPIClientTests.swift in Sources */,
 				D197B64168F50DA7F7EAC669 /* IDAPIClientTests.swift in Sources */,
+				D197BFF84CD1F312EC4C3803 /* AddTokenTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

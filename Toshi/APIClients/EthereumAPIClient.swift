@@ -347,6 +347,35 @@ final class EthereumAPIClient {
         }
     }
 
+    func addToken(with address: String, completion: @escaping ((_ success: Bool, _ error: ToshiError?) -> Void)) {
+        timestamp(mainTeapot) { timestamp, _ in
+            guard let timestamp = timestamp else { return }
+            let path = "/v1/token"
+
+            let info = ["contract_address": address]
+            guard let jsonData = info.toOptionalJSONData() else {
+                completion(false, nil)
+                return
+            }
+
+            guard let headers = try? HeaderGenerator.createHeaders(timestamp: timestamp, path: path, payloadData: jsonData) else {
+                completion(false, nil)
+                return
+            }
+
+            let json = RequestParameter(jsonData)
+
+            self.activeTeapot.post(path, parameters: json, headerFields: headers) { result in
+                switch result {
+                case .success(let json, let response):
+                    completion(true, nil)
+                case .failure(let json, let response, let error):
+                    completion(false, ToshiError(withTeapotError: error))
+                }
+            }
+        }
+    }
+
     // MARK: - Push Notifications
 
     func registerForMainNetworkPushNotifications() {
