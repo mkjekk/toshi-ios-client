@@ -8,6 +8,7 @@ class AddTokenTests: XCTestCase {
     func testAddToken() {
 
         let mockTeapot = MockTeapot(bundle: Bundle(for: IDAPIClientTests.self), mockFilename: "")
+        mockTeapot.overrideEndPoint("timestamp", withFilename: "timestamp")
         let ethereumAPIClient = EthereumAPIClient(mockTeapot: mockTeapot)
 
         let expectation = XCTestExpectation(description: "adds a custom token")
