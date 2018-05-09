@@ -17,10 +17,6 @@ class BalanceController: UIViewController {
         }
     }
 
-    private var isAccountSecured: Bool {
-        return Profile.current?.verified ?? false
-    }
-
     private lazy var tableView: UITableView = {
         let view = UITableView(frame: .zero, style: .grouped)
         view.backgroundColor = nil
@@ -44,7 +40,7 @@ class BalanceController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        if !isAccountSecured {
+        if !Profile.isAccountSecured {
             showSecurityAlert()
         }
 
@@ -71,20 +67,6 @@ class BalanceController: UIViewController {
         fetchAndUpdateBalance { _ in
             refreshControl.endRefreshing()
         }
-    }
-
-    private func showSecurityAlert() {
-        let alert = UIAlertController(title: Localized.settings_deposit_error_title, message: Localized.settings_deposit_error_message, preferredStyle: .alert)
-        alert.addAction(UIAlertAction(title: Localized.cancel_action_title, style: .default, handler: { _ in
-            alert.dismiss(animated: true, completion: nil)
-        }))
-        alert.addAction(UIAlertAction(title: Localized.settings_deposit_error_action_backup, style: .default, handler: { _ in
-            let passphraseEnableController = PassphraseEnableController()
-            let navigationController = UINavigationController(rootViewController: passphraseEnableController)
-            Navigator.presentModally(navigationController)
-        }))
-
-        Navigator.presentModally(alert)
     }
 
     @objc private func handleBalanceUpdate(notification: Notification) {

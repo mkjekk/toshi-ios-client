@@ -151,6 +151,10 @@ struct Profile: Codable {
         return ProfileType.typeFromTypeString(type)
     }
 
+    static var isAccountSecured: Bool {
+        return Profile.current?.verified ?? false
+    }
+
     var balance = NSDecimalNumber.zero
 
     private var userSettings: [String: Any] = [:]

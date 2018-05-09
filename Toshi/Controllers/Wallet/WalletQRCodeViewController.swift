@@ -158,6 +158,14 @@ final class WalletQRCodeViewController: UIViewController {
         fatalError("Use the other initializer!")
     }
 
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+
+        if !Profile.isAccountSecured {
+            showSecurityAlert()
+        }
+    }
+
     // MARK: - View Setup
 
     private func setupCloseButton(in view: UIView) {
