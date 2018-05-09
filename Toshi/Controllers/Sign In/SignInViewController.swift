@@ -3,7 +3,7 @@ import UIKit
 import TinyConstraints
 
 protocol SignInViewControllerDelegate: class {
-    func didRequireNewAccountCreation(_ controller: SignInViewController)
+    func didRequireNewAccountCreation(_ controller: SignInViewController, registrationCereal: Cereal)
 }
 
 final class SignInViewController: UIViewController {
@@ -112,9 +112,8 @@ final class SignInViewController: UIViewController {
                 alertController.addAction(UIAlertAction(title: Localized.cancel_action_title, style: .cancel, handler: nil))
                 alertController.addAction(UIAlertAction(title: Localized.sign_up_with_passphrase_accept_action_title, style: .default, handler: { _ in
                     guard let validCereal = Cereal(words: passphrase) else { return }
-                    Cereal.setSharedCereal(validCereal)
 
-                    strongSelf.delegate?.didRequireNewAccountCreation(strongSelf)
+                    strongSelf.delegate?.didRequireNewAccountCreation(strongSelf, registrationCereal: validCereal)
                 }))
 
                 strongSelf.present(alertController, animated: true, completion: nil)

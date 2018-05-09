@@ -96,6 +96,8 @@ final class SplashViewController: UIViewController {
         return button
     }()
 
+    private var cerealToRegister: Cereal?
+
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -168,6 +170,7 @@ final class SplashViewController: UIViewController {
         }
         
         let cancel = UIAlertAction(title: Localized.cancel_action_title, style: .default) { _ in
+            self.cerealToRegister = nil
             alert.dismiss(animated: true, completion: nil)
         }
         
@@ -183,6 +186,10 @@ final class SplashViewController: UIViewController {
     }
 
     private func attemptUserCreation() {
+        if let existingSeedCereal = cerealToRegister {
+            Cereal.setSharedCereal(existingSeedCereal)
+        }
+
         SessionManager.shared.createNewUser { [weak self] success in
             guard success else {
                 guard let status = Navigator.tabbarController?.reachabilityManager.currentReachabilityStatus else {
@@ -219,9 +226,12 @@ final class SplashViewController: UIViewController {
 
 extension SplashViewController: SignInViewControllerDelegate {
 
-    func didRequireNewAccountCreation(_ controller: SignInViewController) {
+    func didRequireNewAccountCreation(_ controller: SignInViewController, registrationCereal: Cereal) {
+
+        cerealToRegister = registrationCereal
+
         navigationController?.popToViewController(self, animated: true)
-            self.showAcceptTermsAlert()
+        self.showAcceptTermsAlert()
     }
 }
 
