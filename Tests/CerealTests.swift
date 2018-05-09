@@ -19,8 +19,10 @@ import XCTest
 
 class CerealSignEthereumTransactionWithWalletTests: XCTestCase {
 
+    private let words = ["abandon", "abandon", "abandon", "abandon", "abandon", "abandon", "abandon", "abandon", "abandon", "abandon", "abandon", "about"]
+
     private var cereal: Cereal {
-        guard let c = Cereal(words: ["abandon", "abandon", "abandon", "abandon", "abandon", "abandon", "abandon", "abandon", "abandon", "abandon", "abandon", "about"]) else {
+        guard let c = Cereal(words: words) else {
             fatalError("failed to create cereal")
         }
         return c
@@ -65,7 +67,6 @@ class CerealSignEthereumTransactionWithWalletTests: XCTestCase {
     func testWithInvalidTransactionAndValidRLP() {
         let transactionSkeleton = "0xce85746f6b6682832dc6c0832dc6c0"
         XCTAssertNil(cereal.signEthereumTransactionWithWallet(hex: transactionSkeleton))
-
     }
 
     func testWalletQRCodeImage() {
@@ -90,5 +91,49 @@ class CerealSignEthereumTransactionWithWalletTests: XCTestCase {
 
         let expectedMessageString = "ethereum:0x9858effd232b4033e47d90003d41ec34ecaeda94"
         XCTAssertEqual(expectedMessageString, resultString)
+    }
+
+    func testGeneratingEntropyCreatesDataOfValidLength() {
+        let entropy = Cereal.generateEntropy()
+
+        // Per docs on BTCMnemonic, the bits of the entropy must be divisible by 32, or the
+        // creation of the mnemonic will fail. In practice, it throws an objc error and crashes.
+        XCTAssertTrue(entropy.countInBits % 32 == 0)
+    }
+
+    func testGeneratingFromEntropy() {
+        XCTAssertNotNil(Cereal(entropy: Cereal.generateEntropy()), "Could not generate cereal from entropy")
+    }
+
+    func testGeneratingFromEmptyDataFails() {
+        XCTAssertNil(Cereal(entropy: Data()), "Should not be able to generate cereal from empty data")
+    }
+
+    func testGeneratingFromValidWordList() {
+        guard let fromWordList = Cereal(words: words) else {
+            XCTFail("Could not generate cereal from valid word list")
+            return
+        }
+
+        XCTAssertEqual(fromWordList.mnemonic.words, words)
+    }
+
+    func testGeneratingFromInvalidWordListFails() {
+        let invalidWords = [
+            "whispering",
+            "Skinner",
+            "said",
+            "the",
+            "teachers",
+            "will",
+            "crack",
+            "any",
+            "minute",
+            "purple",
+            "monkey",
+            "dishwasher"
+        ]
+
+        XCTAssertNil(Cereal(words: invalidWords), "Should not be able to create a cereal from invalid words")
     }
 }

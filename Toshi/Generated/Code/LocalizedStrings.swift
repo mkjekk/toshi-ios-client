@@ -14,6 +14,7 @@ enum LocalizedKey: String, StringCaseListable {
     accessibility_close,
     accessibility_more,
     active_network_format,
+    alert_no_internet_message,
     alert_ok_action_title,
     attachment_message_preview_string,
     back_action_title,
@@ -90,6 +91,7 @@ enum LocalizedKey: String, StringCaseListable {
     edit_profile_visibility_section_explanation,
     edit_profile_visibility_section_title,
     error_alert_title,
+    error_message_account_create,
     error_title,
     eth_sign_warning,
     group_info_leave_action_title,
@@ -191,6 +193,9 @@ enum LocalizedKey: String, StringCaseListable {
     settings_cell_passphrase,
     settings_cell_signout,
     settings_cell_wallet,
+    settings_deposit_error_action_backup,
+    settings_deposit_error_message,
+    settings_deposit_error_title,
     settings_header_advanced,
     settings_header_other,
     settings_header_profile,
@@ -325,6 +330,9 @@ struct Localized {
     
     /// `en`: "Active network: %@"
     static let active_network_format = LocalizedKey.active_network_format.currentValue
+    
+    /// `en`: "It appears your device is not connected to the internet. Please double-check your connection, and try again."
+    static let alert_no_internet_message = LocalizedKey.alert_no_internet_message.currentValue
     
     /// `en`: "OK"
     static let alert_ok_action_title = LocalizedKey.alert_ok_action_title.currentValue
@@ -553,6 +561,9 @@ struct Localized {
     
     /// `en`: "Error"
     static let error_alert_title = LocalizedKey.error_alert_title.currentValue
+    
+    /// `en`: "There was an error creating an account for you. Please wait a moment, and try again."
+    static let error_message_account_create = LocalizedKey.error_message_account_create.currentValue
     
     /// `en`: "Error"
     static let error_title = LocalizedKey.error_title.currentValue
@@ -856,6 +867,15 @@ struct Localized {
     
     /// `en`: "Active Wallet"
     static let settings_cell_wallet = LocalizedKey.settings_cell_wallet.currentValue
+    
+    /// `en`: "Backup"
+    static let settings_deposit_error_action_backup = LocalizedKey.settings_deposit_error_action_backup.currentValue
+    
+    /// `en`: "You haven’t backed up your passphrase yet. Without it you risk losing money."
+    static let settings_deposit_error_message = LocalizedKey.settings_deposit_error_message.currentValue
+    
+    /// `en`: "Your account is at Risk"
+    static let settings_deposit_error_title = LocalizedKey.settings_deposit_error_title.currentValue
     
     /// `en`: "Advanced"
     static let settings_header_advanced = LocalizedKey.settings_header_advanced.currentValue
