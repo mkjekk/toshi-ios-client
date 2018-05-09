@@ -46,7 +46,11 @@ class IDAPIClientQuickSpecs: QuickSpec {
                 it("registers user if needed") {
                     let mockTeapot = MockTeapot(bundle: Bundle(for: IDAPIClientQuickSpecs.self), mockFilename: "user")
                     mockTeapot.overrideEndPoint("timestamp", withFilename: "timestamp")
-                    mockTeapot.overrideEndPoint(Cereal.shared.address, withFilename: "nonExistingUser")
+
+                    if Cereal.hasSharedCereal {
+                        mockTeapot.overrideEndPoint(Cereal.shared.address, withFilename: "nonExistingUser")
+                    }
+
                     subject = IDAPIClient(teapot: mockTeapot)
 
                     waitUntil { done in
