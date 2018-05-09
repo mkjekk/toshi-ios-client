@@ -226,6 +226,8 @@ struct Profile: Codable {
             Yap.sharedInstance.removeObject(for: ProfileKeys.legacyStoredUserKey)
         }
 
+        guard Cereal.hasSharedCereal else { return profile }
+
         guard var userData = (Yap.sharedInstance.retrieveObject(for: Cereal.shared.address, in: ProfileKeys.storedContactKey) as? Data),
             let deserialised = (try? JSONSerialization.jsonObject(with: userData, options: [])),
             var json = deserialised as? [String: Any] else { return profile }
