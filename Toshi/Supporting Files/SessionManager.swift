@@ -19,6 +19,7 @@ enum SignInResult {
     case succeeded
     case passphraseVerificationFailure
     case signUpWithPassphrase
+    case notConnected
 }
 
 final class SessionManager {
@@ -91,6 +92,16 @@ final class SessionManager {
         
         let idClient = IDAPIClient.shared
         idClient.retrieveUser(username: validCereal.address) { profile, _ in
+
+            guard let status = Navigator.tabbarController?.reachabilityManager.currentReachabilityStatus else {
+                // Can't check status but just to be safe:
+                return
+            }
+
+            if status == .notReachable {
+                completion(.notConnected)
+                return
+            }
 
             guard let profile = profile else {
                 completion(.signUpWithPassphrase)

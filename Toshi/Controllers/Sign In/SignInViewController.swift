@@ -105,6 +105,8 @@ final class SignInViewController: UIViewController {
             strongSelf.hideActivityIndicator()
 
             switch result {
+            case .notConnected:
+                strongSelf.showErrorOKAlert(message: Localized.alert_no_internet_message)
             case .signUpWithPassphrase:
                 let alertController = UIAlertController(title: Localized.sign_up_with_passphrase_alert_title, message: Localized.sign_up_with_passphrase_alert_message, preferredStyle: .alert)
                 alertController.addAction(UIAlertAction(title: Localized.cancel_action_title, style: .cancel, handler: nil))
