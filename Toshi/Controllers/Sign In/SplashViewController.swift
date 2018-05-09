@@ -25,6 +25,8 @@ let titleLabelToSpace: CGFloat = 27.0
 
 final class SplashViewController: UIViewController {
 
+    private lazy var activityView = self.defaultActivityIndicator()
+
     private lazy var backgroundImageView: UIImageView = {
         let imageView = UIImageView(withAutoLayout: true)
         imageView.contentMode = .scaleAspectFill
@@ -102,6 +104,8 @@ final class SplashViewController: UIViewController {
         super.viewDidLoad()
 
         decorateView()
+
+        setupActivityIndicator()
     }
 
     private func decorateView() {
@@ -186,13 +190,23 @@ final class SplashViewController: UIViewController {
     }
 
     private func attemptUserCreation() {
+        newAccountButton.isEnabled = false
+        signinButton.isEnabled = false
+        showActivityIndicator()
+
         if let existingSeedCereal = cerealToRegister {
             Cereal.setSharedCereal(existingSeedCereal)
         }
 
         SessionManager.shared.createNewUser { [weak self] success in
+            self?.newAccountButton.isEnabled = true
+            self?.signinButton.isEnabled = true
+            self?.hideActivityIndicator()
+
             guard success else {
+
                 guard let status = Navigator.tabbarController?.reachabilityManager.currentReachabilityStatus else {
+
                     // Can't check status but just to be safe:
                     self?.showCheckConnectionError()
                     return
@@ -221,6 +235,12 @@ final class SplashViewController: UIViewController {
 
     func showGenericCreateAccountError() {
         showErrorOKAlert(message: Localized.error_message_account_create)
+    }
+}
+
+extension SplashViewController: ActivityIndicating {
+    var activityIndicator: UIActivityIndicatorView {
+        return activityView
     }
 }
 
