@@ -139,3 +139,20 @@ extension Token: WalletItem {
         return symbol
     }
 }
+
+// MARK: - Custom Token
+
+struct CustomToken: Codable {
+    let contractAddress: String
+    let name: String?
+    let symbol: String?
+    let decimals: Int?
+
+    enum CodingKeys: String, CodingKey {
+        case
+             contractAddress = "contract_address",
+             name,
+             symbol,
+             decimals
+    }
+}

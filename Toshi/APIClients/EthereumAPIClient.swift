@@ -347,13 +347,13 @@ final class EthereumAPIClient {
         }
     }
 
-    func addToken(with address: String, completion: @escaping ((_ success: Bool, _ error: ToshiError?) -> Void)) {
+    func addToken(with address: String, name: String? = nil, symbol: String? = nil, decimals: Int? = nil, completion: @escaping ((_ success: Bool, _ error: ToshiError?) -> Void)) {
         timestamp(mainTeapot) { timestamp, _ in
             guard let timestamp = timestamp else { return }
             let path = "/v1/token"
 
-            let info = ["contract_address": address]
-            guard let jsonData = info.toOptionalJSONData() else {
+            let customTokenData = CustomToken(contractAddress: address, name: name, symbol: symbol, decimals: decimals)
+            guard let jsonData = customTokenData.toOptionalJSONData() else {
                 completion(false, nil)
                 return
             }
@@ -366,11 +366,25 @@ final class EthereumAPIClient {
             let json = RequestParameter(jsonData)
 
             self.activeTeapot.post(path, parameters: json, headerFields: headers) { result in
+                var resultError: ToshiError?
+                var success: Bool = false
+
+                defer {
+                    DispatchQueue.main.async {
+                        completion(success, resultError)
+                    }
+                }
+
                 switch result {
-                case .success(let json, let response):
-                    completion(true, nil)
-                case .failure(let json, let response, let error):
-                    completion(false, ToshiError(withTeapotError: error))
+                case .success(_, let response):
+                    guard response.statusCode == 200 else {
+                        resultError = .invalidResponseStatus(response.statusCode)
+                        return
+                    }
+
+                    success = true
+                case .failure(_, _, let error):
+                    resultError = ToshiError(withTeapotError: error)
                 }
             }
         }
