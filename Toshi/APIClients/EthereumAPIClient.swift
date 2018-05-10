@@ -390,6 +390,42 @@ final class EthereumAPIClient {
         }
     }
 
+    func getToken(with address: String, completion: @escaping ((_ token: CustomToken?, _ error: ToshiError?) -> Void)) {
+        self.activeTeapot.get("/v1/token/\(address)") { result in
+            var resultError: ToshiError?
+            var resultToken: CustomToken?
+
+            defer {
+                DispatchQueue.main.async {
+                    completion(resultToken, resultError)
+                }
+            }
+
+            switch result {
+            case .success(let json, let response):
+                guard response.statusCode == 200 else {
+                    resultError = .invalidResponseStatus(response.statusCode)
+                    return
+                }
+
+                guard let data = json?.data else {
+                    resultError = .invalidPayload
+                    return
+                }
+
+                CustomToken.fromJSONData(data,
+                        successCompletion: { token in
+                            resultToken = token
+                        },
+                        errorCompletion: { parsingError in
+                            resultError = parsingError
+                        })
+            case .failure(_, _, let error):
+                resultError = ToshiError(withTeapotError: error)
+            }
+        }
+    }
+
     // MARK: - Push Notifications
 
     func registerForMainNetworkPushNotifications() {

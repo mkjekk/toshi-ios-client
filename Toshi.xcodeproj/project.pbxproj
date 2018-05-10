@@ -1126,6 +1126,7 @@
 		D197BA1FF0BF6C862DE5FA1C /* ReceiptLineView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D197B65C63A525B97898821D /* ReceiptLineView.swift */; };
 		D197BA433CB02EDCAF1DE0AF /* AvatarTitleDescriptionCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = D197B705981C3AED3EFB40DC /* AvatarTitleDescriptionCell.swift */; };
 		D197BA6E5DC09E84D524D1A2 /* getBalance.json in Resources */ = {isa = PBXBuildFile; fileRef = D197B003D276C7AD76B6A223 /* getBalance.json */; };
+		D197BA7C75306F339992A471 /* 0x4d8fc1453a0f359e99c9675954e656d80d996fbf.json in Resources */ = {isa = PBXBuildFile; fileRef = D197BC74C835CC9D5037BF98 /* 0x4d8fc1453a0f359e99c9675954e656d80d996fbf.json */; };
 		D197BA86BA0E50A255A50CD6 /* getCollectibles.json in Resources */ = {isa = PBXBuildFile; fileRef = D197B04967D7C10C90539A78 /* getCollectibles.json */; };
 		D197BA8AAC5425D906767D63 /* ReceiptView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D197B2177A1D6D0ED2186291 /* ReceiptView.swift */; };
 		D197BA94CB5436F7605925FD /* SofaPayment.swift in Sources */ = {isa = PBXBuildFile; fileRef = D197BC4FF536D4350C725251 /* SofaPayment.swift */; };
@@ -1699,6 +1700,7 @@
 		D197BC051BEE35DB98BD053F /* SofaInitialRequest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SofaInitialRequest.swift; sourceTree = "<group>"; };
 		D197BC2A4D26A2F961C2E33E /* SofaWrapper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SofaWrapper.swift; sourceTree = "<group>"; };
 		D197BC4FF536D4350C725251 /* SofaPayment.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SofaPayment.swift; sourceTree = "<group>"; };
+		D197BC74C835CC9D5037BF98 /* 0x4d8fc1453a0f359e99c9675954e656d80d996fbf.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = 0x4d8fc1453a0f359e99c9675954e656d80d996fbf.json; sourceTree = "<group>"; };
 		D197BCAEADF108A249EC0D89 /* SofaPaymentRequest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SofaPaymentRequest.swift; sourceTree = "<group>"; };
 		D197BCE7202958A0BA1A896E /* PaymentRouter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PaymentRouter.swift; sourceTree = "<group>"; };
 		D197BCEB0A1FF98FE303EDBD /* SofaIdentifierTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SofaIdentifierTests.swift; sourceTree = "<group>"; };
@@ -2876,6 +2878,7 @@
 				D197B68934D29AC2FFC10D6C /* RatingsClient */,
 				D197B5FF695BD9EF008C10ED /* PaymentManager */,
 				D197B9040BBE8383C30B6F37 /* DirectoryAPIClient */,
+				D197BDB9531DFA96F8B87197 /* AddToken */,
 			);
 			path = Mocks;
 			sourceTree = "<group>";
@@ -3004,6 +3007,14 @@
 				D197B65C63A525B97898821D /* ReceiptLineView.swift */,
 			);
 			path = View;
+			sourceTree = "<group>";
+		};
+		D197BDB9531DFA96F8B87197 /* AddToken */ = {
+			isa = PBXGroup;
+			children = (
+				D197BC74C835CC9D5037BF98 /* 0x4d8fc1453a0f359e99c9675954e656d80d996fbf.json */,
+			);
+			path = AddToken;
 			sourceTree = "<group>";
 		};
 		E1A95D581E6F031F002762DA /* Views */ = {
@@ -3244,6 +3255,7 @@
 				D197BD13B1D92FA792BFA14C /* searchGroupProfiles.json in Resources */,
 				D197BEB3E29871D88732E16D /* searchUserProfiles.json in Resources */,
 				D197B4BEB15884E646D8683E /* searchBotProfiles.json in Resources */,
+				D197BA7C75306F339992A471 /* 0x4d8fc1453a0f359e99c9675954e656d80d996fbf.json in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

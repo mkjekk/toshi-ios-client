@@ -143,7 +143,7 @@ extension Token: WalletItem {
 // MARK: - Custom Token
 
 struct CustomToken: Codable {
-    let contractAddress: String
+    let contractAddress: String?
     let name: String?
     let symbol: String?
     let decimals: Int?

@@ -22,4 +22,26 @@ class AddTokenTests: XCTestCase {
         
         wait(for: [expectation], timeout: 10.0)
     }
+
+    func testGetTokenWithAddress() {
+
+        let mockTeapot = MockTeapot(bundle: Bundle(for: IDAPIClientTests.self), mockFilename: "0x4d8fc1453a0f359e99c9675954e656d80d996fbf")
+        mockTeapot.overrideEndPoint("timestamp", withFilename: "timestamp")
+        let ethereumAPIClient = EthereumAPIClient(mockTeapot: mockTeapot)
+
+        let expectation = XCTestExpectation(description: "gets token info by address")
+
+        let address = "0x4d8fc1453a0f359e99c9675954e656d80d996fbf"
+        ethereumAPIClient.getToken(with: address) { token, error in
+            guard let token = token else {
+                XCTFail("nil token")
+                return
+            }
+            XCTAssertEqual(token.name, "Bee")
+            expectation.fulfill()
+
+         }
+
+        wait(for: [expectation], timeout: 10.0)
+    }
 }
