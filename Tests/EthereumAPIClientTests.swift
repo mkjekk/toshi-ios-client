@@ -31,6 +31,11 @@ class EthereumAPIClientTests: QuickSpec {
     override func spec() {
         describe("the Ethereum API Client") {
             var subject: EthereumAPIClient!
+            guard let testCereal = Cereal(entropy: Cereal.generateEntropy()) else {
+                fail("Could not generate test cereal!")
+                return
+            }
+            HeaderGenerator.setTestingCereal(testCereal)
 
             context("Happy path 😎") {
                 it("creates an unsigned transaction") {
@@ -108,7 +113,7 @@ class EthereumAPIClientTests: QuickSpec {
                     subject = EthereumAPIClient(mockTeapot: mockTeapot)
 
                     waitUntil { done in
-                        subject.getTokens { tokens, error in
+                        subject.getTokens(address: testCereal.paymentAddress) { tokens, error in
                             expect(tokens).toNot(beNil())
                             expect(error).to(beNil())
 
@@ -131,7 +136,7 @@ class EthereumAPIClientTests: QuickSpec {
                     subject = EthereumAPIClient(mockTeapot: mockTeapot)
 
                     waitUntil { done in
-                        subject.getCollectibles { collectibles, error in
+                        subject.getCollectibles(address: testCereal.paymentAddress) { collectibles, error in
                             expect(collectibles).toNot(beNil())
                             expect(error).to(beNil())
 
@@ -152,7 +157,7 @@ class EthereumAPIClientTests: QuickSpec {
                     subject = EthereumAPIClient(mockTeapot: mockTeapot)
 
                     waitUntil { done in
-                        subject.getCollectible(contractAddress: "0xb1690c08e213a35ed9bab7b318de14420fb57d8c") { collectible, error in
+                        subject.getCollectible(address: testCereal.paymentAddress, contractAddress: "0xb1690c08e213a35ed9bab7b318de14420fb57d8c") { collectible, error in
 
                             guard let collectible = collectible else {
                                 fail("Collectible is nil")

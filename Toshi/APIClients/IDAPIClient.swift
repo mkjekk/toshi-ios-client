@@ -150,63 +150,74 @@ final class IDAPIClient {
     }
 
     func registerUserIfNeeded(_ completion: @escaping ((_ userRegisterStatus: UserRegisterStatus) -> Void)) {
-        retrieveUser(username: Cereal.shared.address) { profile, _ in
 
-            guard profile == nil else {
+        if Cereal.hasSharedCereal {
+            retrieveUser(username: Cereal.shared.address) { profile, _ in
+                guard profile != nil else {
+                    self.registerUser(with: Cereal.shared, completion)
+                    return
+                }
+
                 completion(.existing)
+            }
+        } else {
+            registerUser(completion)
+        }
+    }
+
+    func registerUser(with cerealToRegister: Cereal? = nil, _ completion: @escaping ((_ userRegisterStatus: UserRegisterStatus) -> Void)) {
+
+        self.fetchTimestamp { timestamp, _ in
+            guard let timestamp = timestamp else {
+                DispatchQueue.main.async {
+                    completion(.failed)
+                }
                 return
             }
 
-            self.fetchTimestamp { timestamp, _ in
-                guard let timestamp = timestamp else {
-                    DispatchQueue.main.async {
-                        completion(.failed)
-                    }
-                    return
+            let registrationCereal = cerealToRegister ?? Cereal.generateNew()
+            let path = "/v2/user"
+            let parameters = [
+                "payment_address": registrationCereal.paymentAddress
+            ]
+
+            guard let headers = try? HeaderGenerator.createHeaders(timestamp: timestamp, path: path, payloadDictionary: parameters) else {
+                DispatchQueue.main.async {
+                    completion(.failed)
                 }
-                
-                let cereal = Cereal.shared
-                let path = "/v2/user"
-                let parameters = [
-                    "payment_address": cereal.paymentAddress
-                ]
+                return
+            }
 
-                guard let headers = try? HeaderGenerator.createHeaders(timestamp: timestamp, path: path, payloadDictionary: parameters) else {
+            let json = RequestParameter(parameters)
+
+            self.teapot.post(path, parameters: json, headerFields: headers) { result in
+                var status: UserRegisterStatus = .failed
+
+                defer {
                     DispatchQueue.main.async {
-                        completion(.failed)
+                        completion(status)
                     }
-                    return
                 }
 
-                let json = RequestParameter(parameters)
+                switch result {
+                case .success(let json, let response):
+                    guard response.statusCode == 200 else { return }
 
-                self.teapot.post(path, parameters: json, headerFields: headers) { result in
-                    var status: UserRegisterStatus = .failed
-
-                    defer {
-                        DispatchQueue.main.async {
-                            completion(status)
-                        }
+                    guard let data = json?.data else {
+                       assertionFailure("No data from registration request response")
+                        return
                     }
 
-                    switch result {
-                    case .success(let json, let response):
-                        guard response.statusCode == 200 else { return }
-
-                        guard let data = json?.data else {
-                            assertionFailure("No data from registration request response")
-                            return
-                        }
-
-                        Profile.fromJSONData(data,
-                                             successCompletion: { result in
-                                                Profile.setupCurrentProfile(result)
-                                                status = .registered
-                                             },
-                                             errorCompletion: nil)
-                    case .failure:
-                        status = .failed
-                    }
+                    Profile.fromJSONData(data,
+                                         successCompletion: { result in
+                                            Cereal.setSharedCereal(registrationCereal)
+                                            Profile.setupCurrentProfile(result)
+                                            status = .registered
+                                         },
+                                         errorCompletion: nil)
+                case .failure(_, _, let error):
+                    DLog("\(error)")
+                    status = .failed
                 }
             }
         }

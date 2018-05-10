@@ -20,6 +20,20 @@
                ReferencedContainer = "container:Toshi.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
+         <BuildActionEntry
+            buildForTesting = "NO"
+            buildForRunning = "NO"
+            buildForProfiling = "NO"
+            buildForArchiving = "NO"
+            buildForAnalyzing = "NO">
+            <BuildableReference
+               BuildableIdentifier = "primary"
+               BlueprintIdentifier = "33C034211FFE69E700A9C59C"
+               BuildableName = "Tests_UI.xctest"
+               BlueprintName = "Tests_UI"
+               ReferencedContainer = "container:Toshi.xcodeproj">
+            </BuildableReference>
+         </BuildActionEntry>
       </BuildActionEntries>
    </BuildAction>
    <TestAction
@@ -36,16 +50,6 @@
                BlueprintIdentifier = "14147EA01E8119F0006BD47B"
                BuildableName = "Tests.xctest"
                BlueprintName = "Tests"
-               ReferencedContainer = "container:Toshi.xcodeproj">
-            </BuildableReference>
-         </TestableReference>
-         <TestableReference
-            skipped = "YES">
-            <BuildableReference
-               BuildableIdentifier = "primary"
-               BlueprintIdentifier = "33C034211FFE69E700A9C59C"
-               BuildableName = "Tests_UI.xctest"
-               BlueprintName = "Tests_UI"
                ReferencedContainer = "container:Toshi.xcodeproj">
             </BuildableReference>
          </TestableReference>

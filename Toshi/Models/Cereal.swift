@@ -20,9 +20,39 @@ import HDWallet
 /// An EtherealCereal wrapper. Generates the address and public key for a given private key. Signs messages.
 class Cereal: NSObject {
 
-    @objc static var shared: Cereal = Cereal()
+    /// The underlying shared Cereal. Will be nil at first if there is no stored cereal,
+    /// at which point it should be set once the user is created.
+    private static var _shared: Cereal? = {
+        guard let passphrase = Cereal.storedPassphrase() else {
+            if UserDefaultsWrapper.hasStoredPassphraseInYap {
+                fatalError("Could not retrive stored passphrase!")
+            }
 
-    let entropyByteCount = 16
+            return nil
+        }
+
+        return Cereal(words: passphrase)
+    }()
+
+    /// True if the underlying shared Cereal exists, false if it doesn't.
+    static var hasSharedCereal: Bool {
+        return _shared != nil
+    }
+
+    /// The main accessor for the shared user. If the user isn't definitely supposed to be there, check `hasSharedCereal` before calling this.
+    @objc static var shared: Cereal {
+        guard let cereal = _shared else {
+            fatalError("Attempting to access shared cereal when it doesn't exist!")
+        }
+
+        return cereal
+    }
+
+    static func setSharedCereal(_ cereal: Cereal) {
+        _shared = cereal
+    }
+
+    static let entropyByteCount = 16
 
     var idCereal: EtherealCereal
 
@@ -63,12 +93,43 @@ class Cereal: NSObject {
             .derivedKeychain(at: 0)
     }
 
-    // restore from words
-    init?(words: [String]) {
-        guard let mnemonic = BTCMnemonic(words: words, password: nil, wordListType: .english) else { return nil }
-        self.mnemonic = mnemonic
+    private static func storedPassphrase() -> [String]? {
+        guard let words = Yap.sharedInstance.retrieveObject(for: Cereal.privateKeyStorageKey) as? String else { return nil }
 
-        Yap.sharedInstance.insert(object: self.mnemonic.words.joined(separator: " "), for: Cereal.privateKeyStorageKey)
+        return words.components(separatedBy: " ")
+    }
+
+    // restore from words
+    convenience init?(words: [String]) {
+        guard let mnemonic = BTCMnemonic(words: words, password: nil, wordListType: .english) else { return nil }
+
+        self.init(mnemonic: mnemonic)
+    }
+
+    convenience init?(entropy: Data) {
+        let bits = entropy.countInBits
+        guard (bits > 0) && (bits % 32 == 0)  else {
+            // Attempting to create a mnemonic from entropy with a number of bytes not divisible by 32 will throw an obj-c error and crash.
+            return nil
+        }
+
+        guard let mnemonic = BTCMnemonic(entropy: entropy, password: nil, wordListType: BTCMnemonicWordListType.english) else { return nil }
+
+        self.init(mnemonic: mnemonic)
+    }
+
+    static func generateNew() -> Cereal {
+        let entropy = generateEntropy()
+
+        guard let generated = Cereal(entropy: entropy) else {
+            fatalError("Could not generate cereal from entropy!")
+        }
+        
+        return generated
+    }
+
+    private init(mnemonic: BTCMnemonic) {
+        self.mnemonic = mnemonic
 
         // ID path 0H/1/0
         let idKeychain = Cereal.idKeychain(from: mnemonic)
@@ -84,40 +145,24 @@ class Cereal: NSObject {
         NotificationCenter.default.addObserver(self, selector: #selector(userCreated(_:)), name: .userCreated, object: nil)
     }
 
-    // restore from local user or create new
-    override init() {
-        if let words = Yap.sharedInstance.retrieveObject(for: Cereal.privateKeyStorageKey) as? String {
-            guard let mnemonicValue = BTCMnemonic(words: words.components(separatedBy: " "), password: nil, wordListType: BTCMnemonicWordListType.english) else {
-                CrashlyticsLogger.log("Incorrect entropy for given passphrase")
-                fatalError("Entropy has incorrect size or wordlist is not supported")
-            }
-            mnemonic = mnemonicValue
-        } else {
-            var entropy = Data(count: entropyByteCount)
-            // This creates the private key inside a block, result is of internal type ResultType.
-            // We just need to check if it's 0 to ensure that there were no errors.
-            let count = entropy.count
-            let result: Int32 = entropy.withUnsafeMutableBytes { mutableBytes in
-                SecRandomCopyBytes(kSecRandomDefault, count, mutableBytes)
-            }
-            guard result == 0 else {
-                CrashlyticsLogger.log("Failed to generate random entropy data")
-                fatalError("Failed to randomly generate and copy bytes for entropy generation. SecRandomCopyBytes error code: (\(result)).")
-            }
+    private override init() {
+        fatalError("Don't use the empty initializer!")
+    }
 
-            mnemonic = BTCMnemonic(entropy: entropy, password: nil, wordListType: BTCMnemonicWordListType.english)!
+    static func generateEntropy() -> Data {
+        var entropy = Data(count: entropyByteCount)
+        // This creates the private key inside a block, result is of internal type ResultType.
+        // We just need to check if it's 0 to ensure that there were no errors.
+        let count = entropy.count
+        let result: Int32 = entropy.withUnsafeMutableBytes { mutableBytes in
+            SecRandomCopyBytes(kSecRandomDefault, count, mutableBytes)
+        }
+        guard result == 0 else {
+            CrashlyticsLogger.log("Failed to generate random entropy data")
+            fatalError("Failed to randomly generate and copy bytes for entropy generation. SecRandomCopyBytes error code: (\(result)).")
         }
 
-        let idKeychain: BTCKeychain = Cereal.idKeychain(from: mnemonic)
-        let idPrivateKey = idKeychain.key.privateKey.hexadecimalString()
-        idCereal = EtherealCereal(privateKey: idPrivateKey)
-
-        let walletKeychain: BTCKeychain = Cereal.walletKeychain(from: mnemonic)
-        let walletPrivateKey = walletKeychain.key.privateKey.hexadecimalString()
-        walletCereal = EtherealCereal(privateKey: walletPrivateKey)
-
-        super.init()
-        NotificationCenter.default.addObserver(self, selector: #selector(userCreated(_:)), name: .userCreated, object: nil)
+        return entropy
     }
 
     func walletAddressQRCodeImage(resizeRate: CGFloat) -> UIImage {
@@ -216,5 +261,6 @@ class Cereal: NSObject {
 
     @objc private func userCreated(_ notification: Notification) {
         Yap.sharedInstance.insert(object: mnemonic.words.joined(separator: " "), for: Cereal.privateKeyStorageKey)
+        UserDefaultsWrapper.hasStoredPassphraseInYap = true
     }
 }

@@ -307,6 +307,10 @@ extension WalletViewController: WalletDatasourceDelegate {
 extension WalletViewController: WalletTableViewHeaderDelegate {
 
     func copyAddress(_ address: String, from headerView: WalletTableHeaderView) {
+        if !Profile.isAccountSecured {
+            showSecurityAlert()
+        }
+
         copyToClipboardWithGenericAlert(address)
     }
 

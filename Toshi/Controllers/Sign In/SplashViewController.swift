@@ -25,6 +25,8 @@ let titleLabelToSpace: CGFloat = 27.0
 
 final class SplashViewController: UIViewController {
 
+    private lazy var activityView = self.defaultActivityIndicator()
+
     private lazy var backgroundImageView: UIImageView = {
         let imageView = UIImageView(withAutoLayout: true)
         imageView.contentMode = .scaleAspectFill
@@ -96,10 +98,14 @@ final class SplashViewController: UIViewController {
         return button
     }()
 
+    private var cerealToRegister: Cereal?
+
     override func viewDidLoad() {
         super.viewDidLoad()
 
         decorateView()
+
+        setupActivityIndicator()
     }
 
     private func decorateView() {
@@ -168,13 +174,12 @@ final class SplashViewController: UIViewController {
         }
         
         let cancel = UIAlertAction(title: Localized.cancel_action_title, style: .default) { _ in
+            self.cerealToRegister = nil
             alert.dismiss(animated: true, completion: nil)
         }
         
         let agree = UIAlertAction(title: Localized.accept_terms_action_agree, style: .cancel) { [weak self] _ in
-            Navigator.tabbarController?.setupControllers()
-            SessionManager.shared.createNewUser()
-            self?.dismiss(animated: true, completion: nil)
+            self?.attemptUserCreation()
         }
         
         alert.addAction(read)
@@ -183,13 +188,70 @@ final class SplashViewController: UIViewController {
         
         present(alert, animated: true, completion: nil)
     }
+
+    private func attemptUserCreation() {
+        newAccountButton.isEnabled = false
+        signinButton.isEnabled = false
+        showActivityIndicator()
+
+        if let existingSeedCereal = cerealToRegister {
+            Cereal.setSharedCereal(existingSeedCereal)
+        }
+
+        SessionManager.shared.createNewUser { [weak self] success in
+            self?.newAccountButton.isEnabled = true
+            self?.signinButton.isEnabled = true
+            self?.hideActivityIndicator()
+
+            guard success else {
+
+                guard let status = Navigator.tabbarController?.reachabilityManager.currentReachabilityStatus else {
+
+                    // Can't check status but just to be safe:
+                    self?.showCheckConnectionError()
+                    return
+                }
+
+                switch status {
+                case .notReachable:
+                    // The user definitely does not have internet.
+                    self?.showCheckConnectionError()
+                case .reachableViaWiFi,
+                     .reachableViaWWAN:
+                    // The user definitely has internet, it's something else.
+                    self?.showGenericCreateAccountError()
+                }
+                return
+            }
+
+            Navigator.tabbarController?.setupControllers()
+            self?.dismiss(animated: true, completion: nil)
+        }
+    }
+
+    func showCheckConnectionError() {
+        showErrorOKAlert(message: Localized.alert_no_internet_message)
+    }
+
+    func showGenericCreateAccountError() {
+        showErrorOKAlert(message: Localized.error_message_account_create)
+    }
+}
+
+extension SplashViewController: ActivityIndicating {
+    var activityIndicator: UIActivityIndicatorView {
+        return activityView
+    }
 }
 
 extension SplashViewController: SignInViewControllerDelegate {
 
-    func didRequireNewAccountCreation(_ controller: SignInViewController) {
+    func didRequireNewAccountCreation(_ controller: SignInViewController, registrationCereal: Cereal) {
+
+        cerealToRegister = registrationCereal
+
         navigationController?.popToViewController(self, animated: true)
-            self.showAcceptTermsAlert()
+        self.showAcceptTermsAlert()
     }
 }
 

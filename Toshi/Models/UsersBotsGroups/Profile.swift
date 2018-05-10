@@ -149,6 +149,10 @@ struct Profile: Codable {
         return ProfileType.typeFromTypeString(type)
     }
 
+    static var isAccountSecured: Bool {
+        return Profile.current?.verified ?? false
+    }
+
     var balance = NSDecimalNumber.zero
 
     private var userSettings: [String: Any] = [:]
@@ -221,6 +225,8 @@ struct Profile: Codable {
             Yap.sharedInstance.insert(object: userData, for: Cereal.shared.address, in: ProfileKeys.storedContactKey)
             Yap.sharedInstance.removeObject(for: ProfileKeys.legacyStoredUserKey)
         }
+
+        guard Cereal.hasSharedCereal else { return profile }
 
         guard var userData = (Yap.sharedInstance.retrieveObject(for: Cereal.shared.address, in: ProfileKeys.storedContactKey) as? Data),
             let deserialised = (try? JSONSerialization.jsonObject(with: userData, options: [])),
