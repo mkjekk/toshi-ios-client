@@ -4,6 +4,7 @@
 "welcome_subtitle" = "A browser for the Ethereum network that provides universal access to financial services";
 "sign_in_button_title" = "Sign in";
 "create_account_button_title" = "Create a new account";
+"error_message_account_create" = "There was an error creating an account for you. Please wait a moment, and try again.";
 
 /* Push Notifications */
 "CONTACT_DETAIL_COMM_TYPE_INSECURE" = "Warning: Unregistered Number";
@@ -198,6 +199,10 @@
 "share_action_title" = "Share";
 "confirm_action_title" = "Confirm";
 "clipboard_copied_alert_text" = "Copied to clipboard!";
+"alert_no_internet_message" = "It appears your device is not connected to the internet. Please double-check your connection, and try again.";
+"secure_account_alert_title" = "Your account is at Risk";
+"secure_account_alert_message" = "You haven’t backed up your passphrase yet. Without it you risk losing money.";
+"secure_account_alert_action_backup" = "Backup";
 
 /* Block user Alerts */
 "block_action_title" = "Block";

@@ -14,6 +14,7 @@ enum LocalizedKey: String, StringCaseListable {
     accessibility_close,
     accessibility_more,
     active_network_format,
+    alert_no_internet_message,
     alert_ok_action_title,
     attachment_message_preview_string,
     back_action_title,
@@ -90,6 +91,7 @@ enum LocalizedKey: String, StringCaseListable {
     edit_profile_visibility_section_explanation,
     edit_profile_visibility_section_title,
     error_alert_title,
+    error_message_account_create,
     error_title,
     eth_sign_warning,
     group_info_leave_action_title,
@@ -184,6 +186,9 @@ enum LocalizedKey: String, StringCaseListable {
     search_chat_users_tab_name,
     search_for_name_or_username,
     search_people_placeholder,
+    secure_account_alert_action_backup,
+    secure_account_alert_message,
+    secure_account_alert_title,
     settings_advanced_network_change_warning,
     settings_cell_about,
     settings_cell_local_currency,
@@ -325,6 +330,9 @@ struct Localized {
     
     /// `en`: "Active network: %@"
     static let active_network_format = LocalizedKey.active_network_format.currentValue
+    
+    /// `en`: "It appears your device is not connected to the internet. Please double-check your connection, and try again."
+    static let alert_no_internet_message = LocalizedKey.alert_no_internet_message.currentValue
     
     /// `en`: "OK"
     static let alert_ok_action_title = LocalizedKey.alert_ok_action_title.currentValue
@@ -553,6 +561,9 @@ struct Localized {
     
     /// `en`: "Error"
     static let error_alert_title = LocalizedKey.error_alert_title.currentValue
+    
+    /// `en`: "There was an error creating an account for you. Please wait a moment, and try again."
+    static let error_message_account_create = LocalizedKey.error_message_account_create.currentValue
     
     /// `en`: "Error"
     static let error_title = LocalizedKey.error_title.currentValue
@@ -835,6 +846,15 @@ struct Localized {
     
     /// `en`: "Search people, groups & bots"
     static let search_people_placeholder = LocalizedKey.search_people_placeholder.currentValue
+    
+    /// `en`: "Backup"
+    static let secure_account_alert_action_backup = LocalizedKey.secure_account_alert_action_backup.currentValue
+    
+    /// `en`: "You haven’t backed up your passphrase yet. Without it you risk losing money."
+    static let secure_account_alert_message = LocalizedKey.secure_account_alert_message.currentValue
+    
+    /// `en`: "Your account is at Risk"
+    static let secure_account_alert_title = LocalizedKey.secure_account_alert_title.currentValue
     
     /// `en`: "Changing the network allows you to test services without the risk of losing money. It’s recommended not to change these settings unless you are a developer\n\n"
     static let settings_advanced_network_change_warning = LocalizedKey.settings_advanced_network_change_warning.currentValue

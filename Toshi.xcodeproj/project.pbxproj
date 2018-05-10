@@ -386,6 +386,12 @@
 		3314524320974BA100D4C296 /* APIPushInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3314524120974BA100D4C296 /* APIPushInfo.swift */; };
 		3314524420974BA100D4C296 /* APIPushInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3314524120974BA100D4C296 /* APIPushInfo.swift */; };
 		33207B4420370B7C0025A5A2 /* LoadingHUD.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33207B4320370B7C0025A5A2 /* LoadingHUD.swift */; };
+		332C35C120A1E27B0011A967 /* UIAlertAction+Convenience.swift in Sources */ = {isa = PBXBuildFile; fileRef = 332C35C020A1E27B0011A967 /* UIAlertAction+Convenience.swift */; };
+		332C35C220A1E27B0011A967 /* UIAlertAction+Convenience.swift in Sources */ = {isa = PBXBuildFile; fileRef = 332C35C020A1E27B0011A967 /* UIAlertAction+Convenience.swift */; };
+		332C35C320A1E27B0011A967 /* UIAlertAction+Convenience.swift in Sources */ = {isa = PBXBuildFile; fileRef = 332C35C020A1E27B0011A967 /* UIAlertAction+Convenience.swift */; };
+		332C35C520A21E790011A967 /* Data+Additions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 332C35C420A21E790011A967 /* Data+Additions.swift */; };
+		332C35C620A21E790011A967 /* Data+Additions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 332C35C420A21E790011A967 /* Data+Additions.swift */; };
+		332C35C720A21E790011A967 /* Data+Additions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 332C35C420A21E790011A967 /* Data+Additions.swift */; };
 		33316912202B89BC00A396A2 /* QRCodeGeneratorTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33316911202B89BC00A396A2 /* QRCodeGeneratorTests.swift */; };
 		33316914202B8A8C00A396A2 /* UIImage+ReadQRCode.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33316913202B8A8C00A396A2 /* UIImage+ReadQRCode.swift */; };
 		33316915202BA40200A396A2 /* QRCodeGenerator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3344FBE2202B75E7004297E9 /* QRCodeGenerator.swift */; };
@@ -404,6 +410,9 @@
 		3345A0B42035370B00C559BC /* SendConfirmationSection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3345A0B32035370B00C559BC /* SendConfirmationSection.swift */; };
 		3345A0B52035370B00C559BC /* SendConfirmationSection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3345A0B32035370B00C559BC /* SendConfirmationSection.swift */; };
 		3345A0B62035370B00C559BC /* SendConfirmationSection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3345A0B32035370B00C559BC /* SendConfirmationSection.swift */; };
+		335F076C20A1E1BD00212CEE /* UIViewController+AlertConvenience.swift in Sources */ = {isa = PBXBuildFile; fileRef = 335F076B20A1E1BD00212CEE /* UIViewController+AlertConvenience.swift */; };
+		335F076D20A1E1BD00212CEE /* UIViewController+AlertConvenience.swift in Sources */ = {isa = PBXBuildFile; fileRef = 335F076B20A1E1BD00212CEE /* UIViewController+AlertConvenience.swift */; };
+		335F076E20A1E1BD00212CEE /* UIViewController+AlertConvenience.swift in Sources */ = {isa = PBXBuildFile; fileRef = 335F076B20A1E1BD00212CEE /* UIViewController+AlertConvenience.swift */; };
 		33643DC11FD6D2F400229BE2 /* PasswordValidator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33643DC01FD6D2F300229BE2 /* PasswordValidator.swift */; };
 		33643DC21FD6D2F400229BE2 /* PasswordValidator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33643DC01FD6D2F300229BE2 /* PasswordValidator.swift */; };
 		33643DC31FD6D2F400229BE2 /* PasswordValidator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33643DC01FD6D2F300229BE2 /* PasswordValidator.swift */; };
@@ -1403,6 +1412,8 @@
 		3314523D20973F2700D4C296 /* HeaderGenerator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HeaderGenerator.swift; sourceTree = "<group>"; };
 		3314524120974BA100D4C296 /* APIPushInfo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIPushInfo.swift; sourceTree = "<group>"; };
 		33207B4320370B7C0025A5A2 /* LoadingHUD.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoadingHUD.swift; sourceTree = "<group>"; };
+		332C35C020A1E27B0011A967 /* UIAlertAction+Convenience.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIAlertAction+Convenience.swift"; sourceTree = "<group>"; };
+		332C35C420A21E790011A967 /* Data+Additions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Data+Additions.swift"; sourceTree = "<group>"; };
 		33316911202B89BC00A396A2 /* QRCodeGeneratorTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QRCodeGeneratorTests.swift; sourceTree = "<group>"; };
 		33316913202B8A8C00A396A2 /* UIImage+ReadQRCode.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIImage+ReadQRCode.swift"; sourceTree = "<group>"; };
 		3332E0BB1FE979C800CC1C8A /* DappViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DappViewController.swift; sourceTree = "<group>"; };
@@ -1411,6 +1422,7 @@
 		3344FBE2202B75E7004297E9 /* QRCodeGenerator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QRCodeGenerator.swift; sourceTree = "<group>"; };
 		3345A0AF20348B6D00C559BC /* TokenSendConfirmationViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TokenSendConfirmationViewController.swift; sourceTree = "<group>"; };
 		3345A0B32035370B00C559BC /* SendConfirmationSection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SendConfirmationSection.swift; sourceTree = "<group>"; };
+		335F076B20A1E1BD00212CEE /* UIViewController+AlertConvenience.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIViewController+AlertConvenience.swift"; sourceTree = "<group>"; };
 		33643DC01FD6D2F300229BE2 /* PasswordValidator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PasswordValidator.swift; sourceTree = "<group>"; };
 		33643DC41FD6D32800229BE2 /* PasswordValidatorTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PasswordValidatorTests.swift; sourceTree = "<group>"; };
 		33674E3E1FFFA6CD00089BF7 /* fetchUsersFromIDs.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = fetchUsersFromIDs.json; sourceTree = "<group>"; };
@@ -2549,6 +2561,7 @@
 			isa = PBXGroup;
 			children = (
 				D197B38148DE3442BA5485CD /* CGFloat+Additions.swift */,
+				332C35C420A21E790011A967 /* Data+Additions.swift */,
 				A96B19001F87CCE0002E5B52 /* Collection+Additions.swift */,
 				3381E9D7208F1A5300FACFFF /* Codable+Parsing.swift */,
 				2BA0D88E1F75519F000B8500 /* NSLayoutConstraint+Additions.swift */,
@@ -2568,6 +2581,7 @@
 				9FCF13261E52FB160078FF7F /* TSThread+Additions.h */,
 				9FCF13271E52FC2A0078FF7F /* TSThread+Additions.m */,
 				2BDAA5961FEAAE6100D06645 /* TSThread+Addition.swift */,
+				332C35C020A1E27B0011A967 /* UIAlertAction+Convenience.swift */,
 				9FAC46EC1E800C13005F76A9 /* UIColor+Additions.swift */,
 				2BF634501F7D568C00235C67 /* UIImage+Utils.h */,
 				2BF634511F7D568C00235C67 /* UIImage+Utils.m */,
@@ -2576,6 +2590,7 @@
 				D197B669EF87D9D6642E12BA /* UINotificationName+Additions.swift */,
 				2BE66A081EF9027B007A7130 /* UIScrollView+Keyboard.swift */,
 				3312F6832007A59400881B97 /* UIStackView+Additions.swift */,
+				335F076B20A1E1BD00212CEE /* UIViewController+AlertConvenience.swift */,
 				2BC7CA291F7BA60600033E35 /* UIViewController+NavigationBar.swift */,
 				3367F8DE2003B28900DE1557 /* UIViewController+TestHelpers.swift */,
 				A9AC740A1E77E62900365029 /* UIView+Additions.swift */,
@@ -3826,6 +3841,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				332C35C320A1E27B0011A967 /* UIAlertAction+Convenience.swift in Sources */,
 				2B7ED013204EE3C5009423DA /* DappsSectionHeaderView.swift in Sources */,
 				2B2C845E1F99EB3D00D18CAC /* DepositMoneyController.swift in Sources */,
 				2B2C845F1F99EB3D00D18CAC /* DepositMoneyHeader.swift in Sources */,
@@ -3928,10 +3944,12 @@
 				2BE6FB101EFC0CC500B0B848 /* AvatarManager.swift in Sources */,
 				9FF6AFA11E83E237001B5907 /* ConfirmationButton.swift in Sources */,
 				2B97A0CE2028D4E900A161F8 /* WalletViewController.swift in Sources */,
+				335F076E20A1E1BD00212CEE /* UIViewController+AlertConvenience.swift in Sources */,
 				84D678F01EE049930026D7F1 /* SplashViewController.swift in Sources */,
 				149F9A7E1E72E29A00FB74AA /* NSData+ows_StripToken.m in Sources */,
 				A9AC74091E77E37500365029 /* ActionButton.swift in Sources */,
 				2B369E381EE59959002A44A3 /* Message.swift in Sources */,
+				332C35C720A21E790011A967 /* Data+Additions.swift in Sources */,
 				A9BF33B41E76F8D0009A51AA /* PassphraseCopyController.swift in Sources */,
 				A9202E6B1ED850150036E9B7 /* MessageModel.swift in Sources */,
 				9FB228871EEEA45B00CCAA1D /* PropertyListPreferences.m in Sources */,
@@ -4141,6 +4159,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				332C35C120A1E27B0011A967 /* UIAlertAction+Convenience.swift in Sources */,
 				2B7ED011204EE3C5009423DA /* DappsSectionHeaderView.swift in Sources */,
 				A91D72A31F877FFA0093420C /* ChatInteractor.swift in Sources */,
 				9F4D817E1EEA8BD600FB5361 /* ImagesViewController.swift in Sources */,
@@ -4245,10 +4264,12 @@
 				A963D5301F288E5D00297FDF /* MessagesCornerView.swift in Sources */,
 				2B97A0CC2028D4E900A161F8 /* WalletViewController.swift in Sources */,
 				2BD135AE1EE1A1E000B9F454 /* SplashNavigationController.swift in Sources */,
+				335F076C20A1E1BD00212CEE /* UIViewController+AlertConvenience.swift in Sources */,
 				2BB842791EDD91F70044BDAB /* SplashViewController.swift in Sources */,
 				A9BF33AF1E76DF54009A51AA /* PassphraseCopyController.swift in Sources */,
 				9F3CFDE61E5F086200E8D632 /* EthereumConverter.swift in Sources */,
 				A9E1DCD31F1E1989001A4ABE /* MessagesImageCell.swift in Sources */,
+				332C35C520A21E790011A967 /* Data+Additions.swift in Sources */,
 				A9E691C31F7A496800317DB1 /* DeletableTextField.swift in Sources */,
 				848D82221F23D50900BBFA66 /* NetworkSettingsController.swift in Sources */,
 				A9AC74171E78277700365029 /* PassphraseWordView.swift in Sources */,
@@ -4440,6 +4461,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				332C35C220A1E27B0011A967 /* UIAlertAction+Convenience.swift in Sources */,
 				2B7ED012204EE3C5009423DA /* DappsSectionHeaderView.swift in Sources */,
 				A9603D3A1F4DABDC00BF57B1 /* RoundIconButton.swift in Sources */,
 				A9603D3C1F4DABDC00BF57B1 /* PaymentNavigationController.swift in Sources */,
@@ -4542,10 +4564,12 @@
 				A9603E231F4DABDC00BF57B1 /* SplashViewController.swift in Sources */,
 				A9603E2B1F4DABDC00BF57B1 /* NSData+ows_StripToken.m in Sources */,
 				2B97A0CD2028D4E900A161F8 /* WalletViewController.swift in Sources */,
+				335F076D20A1E1BD00212CEE /* UIViewController+AlertConvenience.swift in Sources */,
 				A9603E2E1F4DABDC00BF57B1 /* ActionButton.swift in Sources */,
 				A9603E2F1F4DABDC00BF57B1 /* Message.swift in Sources */,
 				A9603E3A1F4DABDC00BF57B1 /* PassphraseCopyController.swift in Sources */,
 				A9603E471F4DABDC00BF57B1 /* MessageModel.swift in Sources */,
+				332C35C620A21E790011A967 /* Data+Additions.swift in Sources */,
 				A9603E481F4DABDC00BF57B1 /* PropertyListPreferences.m in Sources */,
 				A9603E4D1F4DABDC00BF57B1 /* TitleLabel.swift in Sources */,
 				A9603E511F4DABDC00BF57B1 /* PaymentAddressViewController.swift in Sources */,

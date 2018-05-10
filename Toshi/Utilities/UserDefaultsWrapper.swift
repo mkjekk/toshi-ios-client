@@ -31,7 +31,8 @@ enum UserDefaultsKey: String, StringCaseListable {
     selectedThreadAddress = "Restoration::SelectedThread",
     tabBarSelectedIndex = "TabBarSelectedIndex",
     activeNetwork = "ActiveNetwork",
-    activeWalletPath = "ActiveWalletPath"
+    activeWalletPath = "ActiveWalletPath",
+    hasStoredPassphraseInYap = "HasStoredPassphraseInYap"
 }
 
 /// A wrapper for NSUserDefaults to facilitate type-safe fetching
@@ -198,6 +199,15 @@ class UserDefaultsWrapper: NSObject {
         }
         set {
             setValue(newValue, for: .activeWalletPath)
+        }
+    }
+
+    static var hasStoredPassphraseInYap: Bool {
+        get {
+            return bool(for: .hasStoredPassphraseInYap)
+        }
+        set {
+            setValue(newValue, for: .hasStoredPassphraseInYap)
         }
     }
     
