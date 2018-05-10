@@ -181,7 +181,7 @@ final class IDAPIClient {
                 "payment_address": registrationCereal.paymentAddress
             ]
 
-            guard let headers = try? HeaderGenerator.createHeaders(timestamp: timestamp, path: path, payloadDictionary: parameters) else {
+            guard let headers = try? HeaderGenerator.createHeaders(timestamp: timestamp, path: path, cereal: registrationCereal, payloadDictionary: parameters) else {
                 DispatchQueue.main.async {
                     completion(.failed)
                 }
