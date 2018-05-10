@@ -13,10 +13,9 @@ class AddTokenTests: XCTestCase {
         let expectation = XCTestExpectation(description: "adds a custom token")
 
         let address = "0x4d8fc1453a0f359e99c9675954e656d80d996fbf"
-        ethereumAPIClient.addToken(with: address) { success, error in
+        ethereumAPIClient.addToken(with: address) { success, _ in
             XCTAssertTrue(success)
             expectation.fulfill()
-
          }
         
         wait(for: [expectation], timeout: 10.0)
@@ -29,7 +28,7 @@ class AddTokenTests: XCTestCase {
         let expectation = XCTestExpectation(description: "gets token info by address")
 
         let address = "0x4d8fc1453a0f359e99c9675954e656d80d996fbf"
-        ethereumAPIClient.getToken(with: address) { token, error in
+        ethereumAPIClient.getToken(with: address) { token, _ in
             guard let token = token else {
                 XCTFail("nil token")
                 return
