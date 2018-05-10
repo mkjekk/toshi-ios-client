@@ -36,7 +36,11 @@ class SettingsController: UIViewController {
             case .security:
                 return [.security]
             case .settings:
-                return [.localCurrency, .advanced, .signOut]
+                #if DEBUG || TOSHIDEV
+                    return [.localCurrency, .signOut]
+                #else
+                    return [.localCurrency, .advanced, .signOut]
+                #endif
             }
         }
 
