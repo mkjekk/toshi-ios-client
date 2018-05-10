@@ -6,7 +6,6 @@ import Teapot
 class AddTokenTests: XCTestCase {
 
     func testAddToken() {
-
         let mockTeapot = MockTeapot(bundle: Bundle(for: IDAPIClientTests.self), mockFilename: "")
         mockTeapot.overrideEndPoint("timestamp", withFilename: "timestamp")
         let ethereumAPIClient = EthereumAPIClient(mockTeapot: mockTeapot)
@@ -24,9 +23,7 @@ class AddTokenTests: XCTestCase {
     }
 
     func testGetTokenWithAddress() {
-
         let mockTeapot = MockTeapot(bundle: Bundle(for: IDAPIClientTests.self), mockFilename: "0x4d8fc1453a0f359e99c9675954e656d80d996fbf")
-        mockTeapot.overrideEndPoint("timestamp", withFilename: "timestamp")
         let ethereumAPIClient = EthereumAPIClient(mockTeapot: mockTeapot)
 
         let expectation = XCTestExpectation(description: "gets token info by address")
@@ -38,8 +35,9 @@ class AddTokenTests: XCTestCase {
                 return
             }
             XCTAssertEqual(token.name, "Bee")
+            XCTAssertEqual(token.decimals, 18)
+            XCTAssertEqual(token.symbol, "BEE")
             expectation.fulfill()
-
          }
 
         wait(for: [expectation], timeout: 10.0)
