@@ -52,6 +52,10 @@ extension UIViewController {
     func showAlert(title: String?, message: String?, actions: [UIAlertAction]) {
         assert(actions.count > 0, "You probably want at least one action")
 
+        guard validateActions(actions) else {
+            return
+        }
+
         let alertController = UIAlertController(title: title,
                                                 message: message,
                                                 preferredStyle: .alert)
@@ -107,10 +111,26 @@ extension UIViewController {
                                             message: message,
                                             preferredStyle: .actionSheet)
 
+        guard validateActions(actions) else {
+            return
+        }
+
         actions.forEach { actionSheet.addAction($0) }
 
         actionSheet.view.tintColor = Theme.tintColor
 
         present(actionSheet, animated: true)
+    }
+
+    // MARK: - Validation
+
+    private func validateActions(_ actions: [UIAlertAction]) -> Bool {
+        let cancelActions = actions.filter { $0.style == .cancel }
+        guard cancelActions.count <= 1 else {
+            assertionFailure("You can only have one cancel action per alert controller, or you'll get a crash.")
+            return false
+        }
+
+        return true
     }
 }
