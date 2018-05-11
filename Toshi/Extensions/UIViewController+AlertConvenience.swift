@@ -26,19 +26,9 @@ extension UIViewController {
     ///   - message: The message to display
     ///   - actions: The actions to display and perform with the alert.
     func showAlert(title: String?, message: String?, actions: [UIAlertAction]) {
-        assert(actions.count > 0, "You probably want at least one action")
-
-        guard validateActions(actions) else {
-            return
-        }
-
-        let alertController = UIAlertController(title: title,
-                                                message: message,
-                                                preferredStyle: .alert)
-
-        actions.forEach { alertController.addAction($0) }
-
-        present(alertController, animated: true)
+        UIAlertController.alertWith(title: title,
+                                    message: message,
+                                    actions: actions)?.show(in: self)
     }
 
     /// Creates and shows an alert with the title "Error" and the given
@@ -49,9 +39,8 @@ extension UIViewController {
     ///   - message: The message to display
     ///   - okActionHandler: An action to perform when the alert is dismissed, or nil.
     func showErrorOKAlert(message: String?, okActionHandler: ((UIAlertAction) -> Void)? = nil) {
-        showOKOnlyAlert(title: Localized.error_title,
-                        message: message,
-                        okActionHandler: okActionHandler)
+        UIAlertController.errorOKAlertWith(message: message,
+                                           okActionHandler: okActionHandler)?.show(in: self)
     }
 
     /// Creates and shows an alert with the title "Error" and the passed-in error's
@@ -62,8 +51,8 @@ extension UIViewController {
     ///   - error: The error whose `localizedDescription` should be displayed
     ///   - okActionHandler: An action to perform when the alert is dismissed, or nil.
     func showErrorOKAlert(error: Error, okActionHandler: ((UIAlertAction) -> Void)? = nil) {
-        showErrorOKAlert(message: (error as NSError).localizedDescription,
-                         okActionHandler: okActionHandler)
+        UIAlertController.errorOKAlertWith(error: error,
+                                           okActionHandler: okActionHandler)?.show(in: self)
     }
 
     /// Creates and shows an alert with the given title and message, along with
@@ -74,9 +63,9 @@ extension UIViewController {
     ///   - message: The message to display
     ///   - okActionHandler: An action to perform when the alert is dismissed, or nil.
     func showOKOnlyAlert(title: String?, message: String?, okActionHandler: ((UIAlertAction) -> Void)? = nil) {
-        showAlert(title: title,
-                  message: message,
-                  actions: [.okAction(handler: okActionHandler)])
+        UIAlertController.okOnlyAlertWith(title: title,
+                                          message: message,
+                                          okActionHandler: okActionHandler)?.show(in: self)
     }
 
     /// Creates and shows the account safety alert with predefined actions.
@@ -110,7 +99,7 @@ extension UIViewController {
 
     // MARK: - Action Sheet Style
 
-    /// Shows an action sheet-style alert controller.
+    /// Creates and shows an action sheet-style alert controller.
     ///
     /// - Parameters:
     ///   - title: The title to display or nil. Defaults to nil.
@@ -119,28 +108,8 @@ extension UIViewController {
     func showActionSheet(title: String? = nil,
                          message: String? = nil,
                          actions: [UIAlertAction]) {
-        let actionSheet = UIAlertController(title: title,
-                                            message: message,
-                                            preferredStyle: .actionSheet)
-
-        guard validateActions(actions) else {
-            return
-        }
-
-        actions.forEach { actionSheet.addAction($0) }
-
-        present(actionSheet, animated: true)
-    }
-
-    // MARK: - Validation
-
-    private func validateActions(_ actions: [UIAlertAction]) -> Bool {
-        let cancelActions = actions.filter { $0.style == .cancel }
-        guard cancelActions.count <= 1 else {
-            assertionFailure("You can only have one cancel action per alert controller, or you'll get a crash.")
-            return false
-        }
-
-        return true
+        UIAlertController.actionSheetWith(title: title,
+                                          message: message,
+                                          actions: actions)?.show(in: self)
     }
 }

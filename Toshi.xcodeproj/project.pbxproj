@@ -484,6 +484,9 @@
 		339E99A020A608D200FE69E2 /* ImagePicking.swift in Sources */ = {isa = PBXBuildFile; fileRef = 339E999F20A608D200FE69E2 /* ImagePicking.swift */; };
 		339E99A120A60E6F00FE69E2 /* ImagePicking.swift in Sources */ = {isa = PBXBuildFile; fileRef = 339E999F20A608D200FE69E2 /* ImagePicking.swift */; };
 		339E99A220A60E7000FE69E2 /* ImagePicking.swift in Sources */ = {isa = PBXBuildFile; fileRef = 339E999F20A608D200FE69E2 /* ImagePicking.swift */; };
+		339E99A620A6388A00FE69E2 /* UIAlertController+Toshi.swift in Sources */ = {isa = PBXBuildFile; fileRef = 339E99A520A6388A00FE69E2 /* UIAlertController+Toshi.swift */; };
+		339E99A720A6388A00FE69E2 /* UIAlertController+Toshi.swift in Sources */ = {isa = PBXBuildFile; fileRef = 339E99A520A6388A00FE69E2 /* UIAlertController+Toshi.swift */; };
+		339E99A820A6388A00FE69E2 /* UIAlertController+Toshi.swift in Sources */ = {isa = PBXBuildFile; fileRef = 339E99A520A6388A00FE69E2 /* UIAlertController+Toshi.swift */; };
 		33C0342D1FFE6A1800A9C59C /* SplashScreenUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33C0342C1FFE6A1800A9C59C /* SplashScreenUITests.swift */; };
 		33C034301FFE6A2F00A9C59C /* BasicRobot.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33C0342F1FFE6A2F00A9C59C /* BasicRobot.swift */; };
 		33C034321FFE6A3B00A9C59C /* SplashScreenRobot.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33C034311FFE6A3B00A9C59C /* SplashScreenRobot.swift */; };
@@ -1429,6 +1432,7 @@
 		3399D6E2205FED0100CAFAE5 /* LocalizedStrings.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LocalizedStrings.swift; sourceTree = "<group>"; };
 		339E999820A5E62F00FE69E2 /* BlockiesSwift.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = BlockiesSwift.framework; path = Carthage/Build/iOS/BlockiesSwift.framework; sourceTree = "<group>"; };
 		339E999F20A608D200FE69E2 /* ImagePicking.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImagePicking.swift; sourceTree = "<group>"; };
+		339E99A520A6388A00FE69E2 /* UIAlertController+Toshi.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIAlertController+Toshi.swift"; sourceTree = "<group>"; };
 		33C034221FFE69E700A9C59C /* Tests_UI.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = Tests_UI.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		33C034261FFE69E700A9C59C /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		33C0342C1FFE6A1800A9C59C /* SplashScreenUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SplashScreenUITests.swift; sourceTree = "<group>"; };
@@ -2548,6 +2552,7 @@
 				9FCF13271E52FC2A0078FF7F /* TSThread+Additions.m */,
 				2BDAA5961FEAAE6100D06645 /* TSThread+Addition.swift */,
 				332C35C020A1E27B0011A967 /* UIAlertAction+Convenience.swift */,
+				339E99A520A6388A00FE69E2 /* UIAlertController+Toshi.swift */,
 				9FAC46EC1E800C13005F76A9 /* UIColor+Additions.swift */,
 				2BF634501F7D568C00235C67 /* UIImage+Utils.h */,
 				2BF634511F7D568C00235C67 /* UIImage+Utils.m */,
@@ -3904,6 +3909,7 @@
 				2BE6FB101EFC0CC500B0B848 /* AvatarManager.swift in Sources */,
 				9FF6AFA11E83E237001B5907 /* ConfirmationButton.swift in Sources */,
 				2B97A0CE2028D4E900A161F8 /* WalletViewController.swift in Sources */,
+				339E99A820A6388A00FE69E2 /* UIAlertController+Toshi.swift in Sources */,
 				335F076E20A1E1BD00212CEE /* UIViewController+AlertConvenience.swift in Sources */,
 				84D678F01EE049930026D7F1 /* SplashViewController.swift in Sources */,
 				149F9A7E1E72E29A00FB74AA /* NSData+ows_StripToken.m in Sources */,
@@ -4215,6 +4221,7 @@
 				A963D5301F288E5D00297FDF /* MessagesCornerView.swift in Sources */,
 				2B97A0CC2028D4E900A161F8 /* WalletViewController.swift in Sources */,
 				2BD135AE1EE1A1E000B9F454 /* SplashNavigationController.swift in Sources */,
+				339E99A620A6388A00FE69E2 /* UIAlertController+Toshi.swift in Sources */,
 				335F076C20A1E1BD00212CEE /* UIViewController+AlertConvenience.swift in Sources */,
 				2BB842791EDD91F70044BDAB /* SplashViewController.swift in Sources */,
 				A9BF33AF1E76DF54009A51AA /* PassphraseCopyController.swift in Sources */,
@@ -4510,6 +4517,7 @@
 				A9603E231F4DABDC00BF57B1 /* SplashViewController.swift in Sources */,
 				A9603E2B1F4DABDC00BF57B1 /* NSData+ows_StripToken.m in Sources */,
 				2B97A0CD2028D4E900A161F8 /* WalletViewController.swift in Sources */,
+				339E99A720A6388A00FE69E2 /* UIAlertController+Toshi.swift in Sources */,
 				335F076D20A1E1BD00212CEE /* UIViewController+AlertConvenience.swift in Sources */,
 				A9603E2E1F4DABDC00BF57B1 /* ActionButton.swift in Sources */,
 				A9603E2F1F4DABDC00BF57B1 /* Message.swift in Sources */,
