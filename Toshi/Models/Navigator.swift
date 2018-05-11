@@ -87,14 +87,6 @@ class Navigator: NSObject {
         present(controller, from: topViewController, animated: true)
     }
 
-    @objc public static func presentDismissableAlert(title: String, message: String) {
-        let alertController = UIAlertController(title: title, message: message, preferredStyle: .alert)
-        
-        alertController.addAction(.okAction())
-
-        presentModally(alertController)
-    }
-
     // Navigation assumes the following structure:
     // TabBar controller contains a messages controller. Messages controller lists chats, and pushes threads.
     @objc static func navigate(to threadIdentifier: String, animated: Bool) {
