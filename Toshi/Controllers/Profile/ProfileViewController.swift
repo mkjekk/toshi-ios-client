@@ -563,21 +563,16 @@ final class ProfileViewController: DisappearingNavBarViewController {
 
     private func presentReportUserFeedbackAlert(_ success: Bool, message: String?) {
         guard success else {
-            let alert = UIAlertController.dismissableAlert(title: Localized.error_title, message: message)
-            Navigator.presentModally(alert)
-
+            showErrorOKAlert(message: message)
             return
         }
 
-        let alert = UIAlertController.dismissableAlert(title: Localized.report_feedback_alert_title, message: Localized.report_feedback_alert_message)
-        Navigator.presentModally(alert)
+        showOKOnlyAlert(title: Localized.report_feedback_alert_title,
+                        message: Localized.report_feedback_alert_message)
     }
     
     private func presentSubmitRatingErrorAlert(error: ToshiError?) {
-        let alert = UIAlertController(title: Localized.error_title, message: error?.description, preferredStyle: .alert)
-        alert.addAction(UIAlertAction(title: Localized.alert_ok_action_title, style: .default))
-        
-        Navigator.presentModally(alert)
+        showErrorOKAlert(message: error?.description)
     }
     
     // MARK: - Other helpers
@@ -592,16 +587,16 @@ final class ProfileViewController: DisappearingNavBarViewController {
     
     private func blockUser() {
         OWSBlockingManager.shared().addBlockedPhoneNumber(profile.toshiId)
-        
-        let alert = UIAlertController.dismissableAlert(title: Localized.block_feedback_alert_title, message: Localized.block_feedback_alert_message)
-        Navigator.presentModally(alert)
+
+        showOKOnlyAlert(title: Localized.block_feedback_alert_title,
+                        message: Localized.block_feedback_alert_message)
     }
     
     private func unblockUser() {
         OWSBlockingManager.shared().removeBlockedPhoneNumber(profile.toshiId)
-        
-        let alert = UIAlertController.dismissableAlert(title: Localized.unblock_user_title, message: Localized.unblock_user_message)
-        Navigator.presentModally(alert)
+
+        showOKOnlyAlert(title: Localized.unblock_user_title,
+                        message: Localized.unblock_user_message)
     }
 
     // MARK: - Background Nav Bar Delegate Overrides

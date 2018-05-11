@@ -155,8 +155,8 @@ final class GroupViewController: UIViewController {
         if success == true {
             navigationController?.popViewController(animated: true)
         } else {
-            let alert = UIAlertController.dismissableAlert(title: viewModel.errorAlertTitle, message: message ?? viewModel.errorAlertMessage)
-            Navigator.presentModally(alert)
+            showOKOnlyAlert(title: viewModel.errorAlertTitle,
+                            message: message ?? viewModel.errorAlertMessage)
         }
     }
 
@@ -207,8 +207,7 @@ final class GroupViewController: UIViewController {
             if success {
                 self?.navigationController?.popToRootViewController(animated: true)
             } else {
-                let alertController = UIAlertController.dismissableAlert(title: Localized.error_title, message: Localized.group_info_leave_group_failure_message)
-                self?.present(alertController, animated: true, completion: nil)
+                self?.showErrorOKAlert(message: Localized.group_info_leave_group_failure_message)
             }
         })
     }

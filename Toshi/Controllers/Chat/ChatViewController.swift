@@ -270,8 +270,7 @@ final class ChatViewController: UIViewController {
 
         }, fetchedCompletion: { [weak self] fetchedBalance, error in
             if let error = error {
-                let alertController = UIAlertController.errorAlert(error as NSError)
-                Navigator.presentModally(alertController)
+                self?.showErrorOKAlert(error: error)
             } else {
                 self?.set(balance: fetchedBalance)
             }
@@ -821,8 +820,8 @@ extension ChatViewController: ChatInteractorOutput {
     func didCatchError(_ message: String) {
         hideActivityIndicator()
 
-        let alert = UIAlertController.dismissableAlert(title: Localized.transaction_error_message, message: message)
-        Navigator.presentModally(alert)
+        showOKOnlyAlert(title: Localized.transaction_error_message,
+                        message: message)
     }
 
     func didFinishRequest() {

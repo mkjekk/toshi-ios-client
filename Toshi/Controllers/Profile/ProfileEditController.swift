@@ -238,9 +238,7 @@ class ProfileEditController: UIViewController, KeyboardAdjustable {
         view.endEditing(true)
 
         if validateUserName(username) == false {
-            let alert = UIAlertController.dismissableAlert(title: Localized.error_alert_title, message: Localized.invalid_username_alert_message)
-            Navigator.presentModally(alert)
-
+            showErrorOKAlert(message: Localized.invalid_username_alert_message)
             return
         }
 
@@ -313,8 +311,7 @@ class ProfileEditController: UIViewController, KeyboardAdjustable {
         if success == true {
             navigationController?.popViewController(animated: true)
         } else {
-            let alert = UIAlertController.dismissableAlert(title: Localized.error_title, message: message ?? Localized.toshi_generic_error)
-            Navigator.presentModally(alert)
+            showErrorOKAlert(message: message ?? Localized.toshi_generic_error)
         }
     }
 

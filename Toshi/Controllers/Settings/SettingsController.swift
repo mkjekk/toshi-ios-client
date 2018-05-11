@@ -181,8 +181,7 @@ class SettingsController: UIViewController {
             self?.balance = cachedBalance
         }, fetchedBalanceCompletion: { [weak self] fetchedBalance, error in
             if let error = error {
-                let alertController = UIAlertController.errorAlert(error as NSError)
-                Navigator.presentModally(alertController)
+                self?.showErrorOKAlert(error: error)
             } else {
                 self?.balance = fetchedBalance
             }

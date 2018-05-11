@@ -80,7 +80,7 @@ class BalanceController: UIViewController {
             self?.balance = cachedBalance
         }, fetchedBalanceCompletion: { [weak self] fetchedBalance, error in
             if let error = error {
-                Navigator.presentModally(UIAlertController.errorAlert(error as NSError))
+                self?.showErrorOKAlert(error: error)
                 completion?(false)
             } else {
                 self?.balance = fetchedBalance

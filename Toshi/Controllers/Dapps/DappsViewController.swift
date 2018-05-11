@@ -190,8 +190,7 @@ final class DappsViewController: UIViewController {
     
     private func showResults(_ apps: [BrowseableItem]?, in section: BrowseContentSection, _ error: Error? = nil) {
         if let error = error {
-            let alertController = UIAlertController.errorAlert(error as NSError)
-            Navigator.presentModally(alertController)
+            showErrorOKAlert(error: error)
         }
     }
     
