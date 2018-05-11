@@ -70,6 +70,16 @@ extension UIViewController {
             let navigationController = UINavigationController(rootViewController: passphraseEnableController)
             Navigator.presentModally(navigationController)
         }))
+    /// Shows a test alert with the given message, a defined title, and an OK button to dismiss it.
+    ///
+    /// - Parameter message: The message to display on the alert.
+    func showTestAlert(message: String) {
+        guard UIApplication.isUITesting else {
+            assertionFailure("DON'T CALL THIS IN PROD!")
+            return
+        }
 
+        showOKOnlyAlert(title: TestOnlyString.testAlertTitle,
+                        message: message)
     }
 }
