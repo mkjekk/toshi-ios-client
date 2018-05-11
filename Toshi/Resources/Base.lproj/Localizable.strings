@@ -190,7 +190,6 @@
 "currency_picker_header_suggested" = "Suggested";
 "currency_picker_header_other" = "Other";
 
-"error_alert_title" = "Error";
 "invalid_username_alert_message" = "Username is invalid! Use numbers, letters, and underscores only.";
 
 "ropsten_test_network_title" = "Ropsten Test Network";
