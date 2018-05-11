@@ -183,15 +183,13 @@ final class GroupViewController: UIViewController {
     }
 
     private func presentExitGroupAlert() {
-        let exitAction = UIAlertAction(title: Localized.group_info_leave_action_title, style: .destructive) { _ in
-            self.exitGroup()
-        }
-
         showAlert(title: nil,
                   message: Localized.group_info_leave_confirmation_message,
                   actions: [
                     .cancelAction(),
-                    exitAction
+                    .destructiveStyleAction(title: Localized.group_info_leave_action_title, handler: { _ in
+                        self.exitGroup()
+                    })
                   ])
     }
 

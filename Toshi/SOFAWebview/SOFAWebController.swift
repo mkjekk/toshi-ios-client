@@ -556,16 +556,13 @@ extension SOFAWebController: WKScriptMessageHandler {
     }
 
     private func presentPersonalMessageSignAlert(_ message: String, callbackId: String, signHandler: @escaping ((String) -> Void)) {
-
-        let signAction = UIAlertAction(title: Localized.sign_action_title, style: .default, handler: { _ in
-            signHandler(callbackId)
-        })
-
         showAlert(title: Localized.sign_alert_title,
                   message: message,
                   actions: [
                     .cancelAction(),
-                    signAction
+                    .defaultStyleAction(title: Localized.sign_action_title, handler: { _ in
+                        signHandler(callbackId)
+                    })
                   ])
     }
 }

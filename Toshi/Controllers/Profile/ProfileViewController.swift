@@ -533,32 +533,26 @@ final class ProfileViewController: DisappearingNavBarViewController {
         let currentBlockState = profile.isBlocked
         let blockTitle = currentBlockState ? Localized.unblock_action_title : Localized.block_action_title
 
-        let blockAction = UIAlertAction(title: blockTitle, style: .destructive) { [weak self] _ in
-            self?.didSelectBlockedState(!currentBlockState)
-        }
-
-        let reportAction = UIAlertAction(title: Localized.report_action_title, style: .destructive) { [weak self] _ in
-            self?.didSelectReportUser()
-        }
-
         showActionSheet(actions: [
-                            blockAction,
-                            reportAction,
-                            .cancelAction()
-                        ])
+            .destructiveStyleAction(title: blockTitle, handler: { [weak self] _ in
+                self?.didSelectBlockedState(!currentBlockState)
+            }),
+            .destructiveStyleAction(title: Localized.report_action_title, handler: { [weak self] _ in
+                self?.didSelectReportUser()
+            }),
+            .cancelAction()
+        ])
     }
     
     private func presentBlockConfirmationAlert() {
-        let alert = UIAlertController(title: Localized.block_alert_title, message: Localized.block_alert_message, preferredStyle: .alert)
-        
-        let blockAction = UIAlertAction(title: Localized.block_action_title, style: .default) { [weak self] _ in
-            self?.blockUser()
-        }
-        alert.addAction(blockAction)
-        
-        alert.addAction(UIAlertAction(title: Localized.cancel_action_title, style: .cancel))
-        
-        Navigator.presentModally(alert)
+        showAlert(title: Localized.block_alert_title,
+                  message: Localized.block_alert_message,
+                  actions: [
+                    .defaultStyleAction(title: Localized.block_action_title, handler: { [weak self] _ in
+                        self?.blockUser()
+                    }),
+                    .cancelAction()
+                  ])
     }
 
     private func presentReportUserFeedbackAlert(_ success: Bool, message: String?) {

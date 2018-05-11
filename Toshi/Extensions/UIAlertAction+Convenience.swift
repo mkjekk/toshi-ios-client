@@ -28,4 +28,19 @@ extension UIAlertAction {
                              style: style,
                              handler: handler)
     }
+
+    static func defaultStyleAction(title: String,
+                                   handler: ((UIAlertAction) -> Void)? = nil) -> UIAlertAction {
+        return UIAlertAction(title: title,
+                             style: .default,
+                             handler: handler)
+    }
+
+    static func destructiveStyleAction(title: String,
+                                       handler: ((UIAlertAction) -> Void)? = nil) -> UIAlertAction {
+        return UIAlertAction(title: title,
+                             style: .destructive,
+                             handler: handler)
+    }
+
 }

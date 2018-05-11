@@ -73,17 +73,14 @@ final class SendTokenViewController: UIViewController {
     }
 
     private func showTransactionLeaveAlert() {
-        let alertController = UIAlertController(title: Localized.wallet_transaction_leave_alert_message, message: nil, preferredStyle: .alert)
-        let stayAction = UIAlertAction(title: Localized.wallet_transaction_leave_cancel_action, style: .default, handler: nil)
-        let leaveAction = UIAlertAction(title: Localized.wallet_transaction_leave_confirm_action, style: .default) { _ in
-            self.dismiss(animated: true, completion: nil)
-        }
-
-        alertController.addAction(stayAction)
-        alertController.addAction(leaveAction)
-        alertController.preferredAction = leaveAction
-
-        Navigator.presentModally(alertController)
+        showAlert(title: Localized.wallet_transaction_leave_alert_message,
+                  message: nil,
+                  actions: [
+                    .defaultStyleAction(title: Localized.wallet_transaction_leave_cancel_action),
+                    .destructiveStyleAction(title: Localized.wallet_transaction_leave_confirm_action, handler: { _ in
+                        self.dismiss(animated: true, completion: nil)
+                    })
+                  ])
     }
 }
 

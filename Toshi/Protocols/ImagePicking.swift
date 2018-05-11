@@ -35,21 +35,15 @@ extension ImagePicking where Self: UIViewController,
     func showImageSourceSelectionActionSheet(editable: Bool) {
         var actions = [UIAlertAction]()
 
-        actions.append(UIAlertAction(title: Localized.image_picker_library_action_title,
-                                     style: .default,
-                                     handler: { _ in
-                                        self.presentImagePicker(sourceType: .photoLibrary, editable: editable)
-                                     })
-        )
+        actions.append(.defaultStyleAction(title: Localized.image_picker_library_action_title, handler: { _ in
+            self.presentImagePicker(sourceType: .photoLibrary, editable: editable)
+        }))
 
         // Only add the camera option if there actually is a camera
         if UIImagePickerController.isSourceTypeAvailable(.camera) {
-            actions.append(UIAlertAction(title: Localized.image_picker_camera_action_title,
-                                         style: .default,
-                                         handler: { _ in
-                                            self.presentImagePicker(sourceType: .camera, editable: editable)
-                                         })
-            )
+            actions.append(.defaultStyleAction(title: Localized.image_picker_camera_action_title, handler: { _ in
+                self.presentImagePicker(sourceType: .camera, editable: editable)
+            }))
         }
 
         actions.append(.cancelAction())

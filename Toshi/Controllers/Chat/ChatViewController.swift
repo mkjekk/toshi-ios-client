@@ -532,18 +532,13 @@ extension ChatViewController: UITableViewDelegate {
         let message = viewModel.messageModels[indexPath.item]
         
         if let signalMessage = message.signalMessage as? TSOutgoingMessage, signalMessage.messageState == .unsent {
-            
-            let deleteAction = UIAlertAction(title: Localized.messages_sent_error_action_delete, style: .destructive, handler: { _ in
-                self.viewModel.deleteItemAt(indexPath)
-            })
-            
-            let resendAction = UIAlertAction(title: Localized.messages_sent_error_action_resend, style: .destructive, handler: { _ in
-                self.viewModel.resendItemAt(indexPath)
-            })
-
             showActionSheet(actions: [
-                                resendAction,
-                                deleteAction,
+                                .destructiveStyleAction(title: Localized.messages_sent_error_action_delete, handler: { _ in
+                                    self.viewModel.deleteItemAt(indexPath)
+                                }),
+                                .destructiveStyleAction(title: Localized.messages_sent_error_action_resend, handler: { _ in
+                                    self.viewModel.resendItemAt(indexPath)
+                                }),
                                 .cancelAction()
                             ])
         } else if message.type == .image {

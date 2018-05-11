@@ -108,20 +108,24 @@ final class SignInViewController: UIViewController {
             case .notConnected:
                 strongSelf.showErrorOKAlert(message: Localized.alert_no_internet_message)
             case .signUpWithPassphrase:
-                let alertController = UIAlertController(title: Localized.sign_up_with_passphrase_alert_title, message: Localized.sign_up_with_passphrase_alert_message, preferredStyle: .alert)
-                alertController.addAction(.cancelAction())
-                alertController.addAction(UIAlertAction(title: Localized.sign_up_with_passphrase_accept_action_title, style: .default, handler: { _ in
-                    guard let validCereal = Cereal(words: passphrase) else { return }
-
-                    strongSelf.delegate?.didRequireNewAccountCreation(strongSelf, registrationCereal: validCereal)
-                }))
-
-                strongSelf.present(alertController, animated: true, completion: nil)
-
+                strongSelf.showAlert(title: Localized.sign_up_with_passphrase_alert_title,
+                          message: Localized.sign_up_with_passphrase_alert_message,
+                          actions: [
+                            .cancelAction(),
+                            .defaultStyleAction(title: Localized.sign_up_with_passphrase_accept_action_title, handler: { _ in
+                                strongSelf.passphraseSignupAccepted(passphrase)
+                            })
+                          ])
             default:
                 strongSelf.navigationController?.dismiss(animated: true, completion: nil)
             }
         }
+    }
+
+    private func passphraseSignupAccepted(_ passphrase: [String]) {
+        guard let validCereal = Cereal(words: passphrase) else { return }
+
+        self.delegate?.didRequireNewAccountCreation(strongSelf, registrationCereal: validCereal)
     }
 
     private func acceptItem(at indexPath: IndexPath, completion: ((Bool) -> Swift.Void)? = nil) {

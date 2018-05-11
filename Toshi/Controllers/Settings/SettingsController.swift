@@ -208,33 +208,26 @@ class SettingsController: UIViewController {
 
     func showSignOutAlert(for balance: NSDecimalNumber) {
         if self.isAccountSecured {
-            let signOutAction = UIAlertAction(title: Localized.settings_signout_action_signout, style: .destructive) { _ in
-                SessionManager.shared.signOutUser()
-            }
-
             showAlert(title: Localized.settings_signout_insecure_title,
                       message: Localized.settings_signout_insecure_message,
                       actions: [
                         .cancelAction(),
-                        signOutAction
+                        .destructiveStyleAction(title: Localized.settings_signout_action_signout, handler: { _ in
+                            SessionManager.shared.signOutUser()
+                        })
                       ])
         } else if balance == .zero {
-            let signOutAction = UIAlertAction(title: Localized.settings_signout_action_delete, style: .destructive) { _ in
-                SessionManager.shared.signOutUser()
-            }
-
             showAlert(title: Localized.settings_signout_nofunds_title,
                       message: Localized.settings_signout_nofunds_message,
                       actions: [
                         .cancelAction(),
-                        signOutAction
+                        .destructiveStyleAction(title: Localized.settings_signout_action_delete, handler: { _ in
+                            SessionManager.shared.signOutUser()
+                        })
                       ])
         } else {
-            showAlert(title: Localized.settings_signout_stepsneeded_title,
-                      message: Localized.settings_signout_stepsneeded_message,
-                      actions: [
-                        UIAlertAction(title: Localized.settings_signout_action_ok, style: .cancel)
-                      ])
+            showOKOnlyAlert(title: Localized.settings_signout_stepsneeded_title,
+                            message: Localized.settings_signout_stepsneeded_message)
         }
     }
 
