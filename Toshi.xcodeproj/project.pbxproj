@@ -481,6 +481,9 @@
 		339E999A20A5E64E00FE69E2 /* BlockiesSwift.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 339E999820A5E62F00FE69E2 /* BlockiesSwift.framework */; };
 		339E999B20A5E68200FE69E2 /* BlockiesSwift.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 339E999820A5E62F00FE69E2 /* BlockiesSwift.framework */; };
 		339E999C20A5E6A600FE69E2 /* BlockiesSwift.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 339E999820A5E62F00FE69E2 /* BlockiesSwift.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		339E99A020A608D200FE69E2 /* ImagePicking.swift in Sources */ = {isa = PBXBuildFile; fileRef = 339E999F20A608D200FE69E2 /* ImagePicking.swift */; };
+		339E99A120A60E6F00FE69E2 /* ImagePicking.swift in Sources */ = {isa = PBXBuildFile; fileRef = 339E999F20A608D200FE69E2 /* ImagePicking.swift */; };
+		339E99A220A60E7000FE69E2 /* ImagePicking.swift in Sources */ = {isa = PBXBuildFile; fileRef = 339E999F20A608D200FE69E2 /* ImagePicking.swift */; };
 		33C0342D1FFE6A1800A9C59C /* SplashScreenUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33C0342C1FFE6A1800A9C59C /* SplashScreenUITests.swift */; };
 		33C034301FFE6A2F00A9C59C /* BasicRobot.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33C0342F1FFE6A2F00A9C59C /* BasicRobot.swift */; };
 		33C034321FFE6A3B00A9C59C /* SplashScreenRobot.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33C034311FFE6A3B00A9C59C /* SplashScreenRobot.swift */; };
@@ -1425,6 +1428,7 @@
 		3399D6AF205FE4C900CAFAE5 /* StencilScript.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StencilScript.swift; sourceTree = "<group>"; };
 		3399D6E2205FED0100CAFAE5 /* LocalizedStrings.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LocalizedStrings.swift; sourceTree = "<group>"; };
 		339E999820A5E62F00FE69E2 /* BlockiesSwift.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = BlockiesSwift.framework; path = Carthage/Build/iOS/BlockiesSwift.framework; sourceTree = "<group>"; };
+		339E999F20A608D200FE69E2 /* ImagePicking.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImagePicking.swift; sourceTree = "<group>"; };
 		33C034221FFE69E700A9C59C /* Tests_UI.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = Tests_UI.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		33C034261FFE69E700A9C59C /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		33C0342C1FFE6A1800A9C59C /* SplashScreenUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SplashScreenUITests.swift; sourceTree = "<group>"; };
@@ -2630,11 +2634,12 @@
 				336CC5D9202E136E0052511C /* ClipboardCopying.swift */,
 				2BC6925C1EE937E800285070 /* Emptiable.swift */,
 				2BE66A0B1EF910B6007A7130 /* KeyboardAdjustable.swift */,
+				339E999F20A608D200FE69E2 /* ImagePicking.swift */,
+				2B07FC46207517F2005F2B40 /* NavBarColorChanging.swift */,
 				D197B827D378D5A6CE7A52D0 /* OfflineAlertDisplaying.swift */,
+				2B5AD7522084DF5D0054065A /* ProfilesProviding.swift */,
 				33CF51381FD1952500293FD1 /* StringCaseListable.swift */,
 				336CC5DB202E24930052511C /* SystemSharing.swift */,
-				2B07FC46207517F2005F2B40 /* NavBarColorChanging.swift */,
-				2B5AD7522084DF5D0054065A /* ProfilesProviding.swift */,
 			);
 			path = Protocols;
 			sourceTree = "<group>";
@@ -3944,6 +3949,7 @@
 				2B97A0D22028D93100A161F8 /* WalletNavigationController.swift in Sources */,
 				2B460174202907730098694D /* WalletDatasource.swift in Sources */,
 				2B4E26011FCCCE39004614D5 /* CellConfigurator.swift in Sources */,
+				339E99A220A60E7000FE69E2 /* ImagePicking.swift in Sources */,
 				9F82B1B31EDF0ECC00EA7626 /* ChatInputTextPanel.swift in Sources */,
 				2B756FEA207DEB6E00EBDAEA /* SearchProfilesDataSource.swift in Sources */,
 				6ACC21641FBDE72E002345D0 /* RLP.swift in Sources */,
@@ -4309,6 +4315,7 @@
 				9FCF13281E52FC2A0078FF7F /* TSThread+Additions.m in Sources */,
 				2B3541D6207B702E0020E841 /* NewChatViewController.swift in Sources */,
 				2BE6FB0F1EFC0C1600B0B848 /* AvatarManager.swift in Sources */,
+				339E99A020A608D200FE69E2 /* ImagePicking.swift in Sources */,
 				2B953AC51FAC9E1A005A5BF3 /* NSString+OWS.m in Sources */,
 				A91D72AB1F8785E10093420C /* ChatButtonsCollectionViewLayout.swift in Sources */,
 				A96823CB1FBC89F3000993FE /* ProfilesViewController.swift in Sources */,
@@ -4548,6 +4555,7 @@
 				2B97A0D12028D93100A161F8 /* WalletNavigationController.swift in Sources */,
 				2B460173202907730098694D /* WalletDatasource.swift in Sources */,
 				2B4E26001FCCCE38004614D5 /* CellConfigurator.swift in Sources */,
+				339E99A120A60E6F00FE69E2 /* ImagePicking.swift in Sources */,
 				2B756FE9207DEB6E00EBDAEA /* SearchProfilesDataSource.swift in Sources */,
 				6ACC21631FBDE72E002345D0 /* RLP.swift in Sources */,
 				A9603EA01F4DABDC00BF57B1 /* ImageCell.swift in Sources */,

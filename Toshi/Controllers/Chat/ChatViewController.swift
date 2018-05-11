@@ -18,7 +18,7 @@ import SweetUIKit
 import MobileCoreServices
 import AVFoundation
 
-final class ChatViewController: UIViewController, UINavigationControllerDelegate {
+final class ChatViewController: UIViewController {
 
     var paymentRequestActiveCell: UITableViewCell?
 
@@ -511,20 +511,17 @@ final class ChatViewController: UIViewController, UINavigationControllerDelegate
     }
 }
 
-extension ChatViewController: UIImagePickerControllerDelegate {
+extension ChatViewController: ImagePicking, UIImagePickerControllerDelegate, UINavigationControllerDelegate {
 
     func imagePickerControllerDidCancel(_ picker: UIImagePickerController) {
-        picker.dismiss(animated: true, completion: nil)
+        dismissImagePicker(picker)
     }
 
     func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String: Any]) {
+        handlePicker(picker, didFinishPickingMediaWithInfo: info)
+    }
 
-        picker.dismiss(animated: true, completion: nil)
-
-        guard let image = info[UIImagePickerControllerOriginalImage] as? UIImage else {
-            return
-        }
-
+    func selectedImage(_ image: UIImage) {
         viewModel.interactor.send(image: image)
     }
 }
@@ -854,28 +851,7 @@ extension ChatViewController: ChatInputTextPanelDelegate {
 
         view.endEditing(true)
 
-        let pickerTypeAlertController = UIAlertController(title: Localized.image_picker_select_source_title, message: nil, preferredStyle: .actionSheet)
-        let cameraAction = UIAlertAction(title: Localized.image_picker_camera_action_title, style: .default) { _ in
-            self.presentImagePicker(sourceType: .camera)
-        }
-
-        let libraryAction = UIAlertAction(title: Localized.image_picker_library_action_title, style: .default) { _ in
-            self.presentImagePicker(sourceType: .photoLibrary)
-        }
-
-        pickerTypeAlertController.addAction(cameraAction)
-        pickerTypeAlertController.addAction(libraryAction)
-        pickerTypeAlertController.addAction(.cancelAction())
-
-        present(pickerTypeAlertController, animated: true)
-    }
-
-    private func presentImagePicker(sourceType: UIImagePickerControllerSourceType) {
-        let imagePicker = UIImagePickerController()
-        imagePicker.sourceType = sourceType
-        imagePicker.delegate = self
-
-        present(imagePicker, animated: true)
+        showImageSourceSelectionActionSheet(editable: false)
     }
 
     func inputTextPanelDidChangeHeight(_ height: CGFloat) {

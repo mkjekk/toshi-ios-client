@@ -135,22 +135,7 @@ final class GroupViewController: UIViewController {
     }
 
     @objc func updateAvatar() {
-        let pickerTypeAlertController = UIAlertController(title: viewModel.imagePickerTitle, message: nil, preferredStyle: .actionSheet)
-        let cameraAction = UIAlertAction(title: viewModel.imagePickerCameraActionTitle, style: .default) { _ in
-            self.presentImagePicker(sourceType: .camera)
-        }
-
-        let libraryAction = UIAlertAction(title: viewModel.imagePickerLibraryActionTitle, style: .default) { _ in
-            self.presentImagePicker(sourceType: .photoLibrary)
-        }
-
-        let cancelAction = UIAlertAction(title: viewModel.imagePickerCancelActionTitle, style: .cancel, handler: nil)
-
-        pickerTypeAlertController.addAction(cameraAction)
-        pickerTypeAlertController.addAction(libraryAction)
-        pickerTypeAlertController.addAction(cancelAction)
-
-        present(pickerTypeAlertController, animated: true)
+        showImageSourceSelectionActionSheet(editable: true)
     }
 
     func changeAvatar(to avatar: UIImage?) {
@@ -263,20 +248,17 @@ extension GroupViewController: GroupViewModelCompleteActionDelegate {
     }
 }
 
-extension GroupViewController: UIImagePickerControllerDelegate {
+extension GroupViewController: ImagePicking, UIImagePickerControllerDelegate, UINavigationControllerDelegate {
 
     public func imagePickerControllerDidCancel(_ picker: UIImagePickerController) {
-        picker.dismiss(animated: true, completion: nil)
+        dismissImagePicker(picker)
     }
 
     public func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String: Any]) {
+        handlePicker(picker, didFinishPickingMediaWithInfo: info)
+    }
 
-        picker.dismiss(animated: true, completion: nil)
-
-        guard let image = info[UIImagePickerControllerEditedImage] as? UIImage else {
-            return
-        }
-
+    func selectedImage(_ image: UIImage) {
         changeAvatar(to: image)
     }
 }
@@ -308,18 +290,6 @@ extension GroupViewController: UITableViewDelegate {
         default:
             break
         }
-    }
-}
-
-extension GroupViewController: UINavigationControllerDelegate {
-
-    private func presentImagePicker(sourceType: UIImagePickerControllerSourceType) {
-        let imagePicker = UIImagePickerController()
-        imagePicker.sourceType = sourceType
-        imagePicker.allowsEditing = true
-        imagePicker.delegate = self
-
-        present(imagePicker, animated: true)
     }
 }
 

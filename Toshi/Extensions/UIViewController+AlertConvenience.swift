@@ -17,6 +17,8 @@ import UIKit
 
 extension UIViewController {
 
+    // MARK: - Alert Style
+
     /// Creates and shows an alert with the title "Error" and the given
     /// message, along with an "OK" button to dismiss and perform the optional
     /// action passed in.
@@ -77,7 +79,6 @@ extension UIViewController {
                   ])
     }
 
-
     /// Shows a test alert with the given message, a defined title, and an OK button to dismiss it.
     ///
     /// - Parameter message: The message to display on the alert.
@@ -89,5 +90,27 @@ extension UIViewController {
 
         showOKOnlyAlert(title: TestOnlyString.testAlertTitle,
                         message: message)
+    }
+
+    // MARK: - Action Sheet Style
+
+    /// Shows an action sheet-style alert controller.
+    ///
+    /// - Parameters:
+    ///   - title: The title to display or nil. Defaults to nil.
+    ///   - message: The message to display or nil. Defaults to nil.
+    ///   - actions: The actions to offer on the action sheet.
+    func showActionSheet(title: String? = nil,
+                         message: String? = nil,
+                         actions: [UIAlertAction]) {
+        let actionSheet = UIAlertController(title: title,
+                                            message: message,
+                                            preferredStyle: .actionSheet)
+
+        actions.forEach { actionSheet.addAction($0) }
+
+        actionSheet.view.tintColor = Theme.tintColor
+
+        present(actionSheet, animated: true)
     }
 }

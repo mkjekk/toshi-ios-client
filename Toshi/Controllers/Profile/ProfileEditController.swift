@@ -17,7 +17,7 @@ import UIKit
 import SweetUIKit
 import SweetFoundation
 
-class ProfileEditController: UIViewController, KeyboardAdjustable, UINavigationControllerDelegate {
+class ProfileEditController: UIViewController, KeyboardAdjustable {
 
     private static let profileVisibilitySectionTitle = Localized.edit_profile_visibility_section_title
     private static let profileVisibilitySectionFooter = Localized.edit_profile_visibility_section_explanation
@@ -188,29 +188,7 @@ class ProfileEditController: UIViewController, KeyboardAdjustable, UINavigationC
     }
 
     @objc func updateAvatar() {
-        let pickerTypeAlertController = UIAlertController(title: Localized.image_picker_select_source_title, message: nil, preferredStyle: .actionSheet)
-        let cameraAction = UIAlertAction(title: Localized.image_picker_camera_action_title, style: .default) { _ in
-            self.presentImagePicker(sourceType: .camera)
-        }
-
-        let libraryAction = UIAlertAction(title: Localized.image_picker_library_action_title, style: .default) { _ in
-            self.presentImagePicker(sourceType: .photoLibrary)
-        }
-
-        pickerTypeAlertController.addAction(cameraAction)
-        pickerTypeAlertController.addAction(libraryAction)
-        pickerTypeAlertController.addAction(.cancelAction())
-
-        present(pickerTypeAlertController, animated: true)
-    }
-
-    private func presentImagePicker(sourceType: UIImagePickerControllerSourceType) {
-        let imagePicker = UIImagePickerController()
-        imagePicker.sourceType = sourceType
-        imagePicker.allowsEditing = true
-        imagePicker.delegate = self
-
-        present(imagePicker, animated: true)
+        showImageSourceSelectionActionSheet(editable: true)
     }
 
     func changeAvatar(to avatar: UIImage?) {
@@ -356,21 +334,18 @@ class ProfileEditController: UIViewController, KeyboardAdjustable, UINavigationC
     }()
 }
 
-extension ProfileEditController: UIImagePickerControllerDelegate {
+extension ProfileEditController: ImagePicking, UIImagePickerControllerDelegate, UINavigationControllerDelegate {
 
     func imagePickerControllerDidCancel(_ picker: UIImagePickerController) {
-        picker.dismiss(animated: true, completion: nil)
+        dismissImagePicker(picker)
     }
 
     func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String: Any]) {
+         handlePicker(picker, didFinishPickingMediaWithInfo: info)
+    }
 
-        picker.dismiss(animated: true, completion: nil)
-
-        guard let image = info[UIImagePickerControllerEditedImage] as? UIImage else {
-            return
-        }
-
-        self.changeAvatar(to: image)
+    func selectedImage(_ image: UIImage) {
+        changeAvatar(to: image)
     }
 }
 
