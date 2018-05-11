@@ -530,23 +530,22 @@ final class ProfileViewController: DisappearingNavBarViewController {
     }
     
     private func presentMoreActionSheet() {
-        let actionSheet = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
-        
         let currentBlockState = profile.isBlocked
         let blockTitle = currentBlockState ? Localized.unblock_action_title : Localized.block_action_title
+
         let blockAction = UIAlertAction(title: blockTitle, style: .destructive) { [weak self] _ in
             self?.didSelectBlockedState(!currentBlockState)
         }
-        actionSheet.addAction(blockAction)
-        
+
         let reportAction = UIAlertAction(title: Localized.report_action_title, style: .destructive) { [weak self] _ in
             self?.didSelectReportUser()
         }
-        actionSheet.addAction(reportAction)
-        
-        actionSheet.addAction(UIAlertAction(title: Localized.cancel_action_title, style: .cancel))
-        
-        Navigator.presentModally(actionSheet)
+
+        showActionSheet(actions: [
+                            blockAction,
+                            reportAction,
+                            .cancelAction()
+                        ])
     }
     
     private func presentBlockConfirmationAlert() {
