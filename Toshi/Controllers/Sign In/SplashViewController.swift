@@ -157,19 +157,6 @@ final class SplashViewController: UIViewController {
     }
     
     private func showAcceptTermsAlert() {
-        let readAction = UIAlertAction(title: Localized.accept_terms_action_read, style: .default) { [weak self] _ in
-            guard let url = URL(string: "http://www.toshi.org/terms-of-service/") else { return }
-            guard !UIApplication.isUITesting else {
-                self?.showTestAlert(message: TestOnlyString.readTermsAlertMessage(termsURL: url))
-                return
-            }
-
-            let controller = SFSafariViewController(url: url, entersReaderIfAvailable: true)
-            controller.delegate = self
-            controller.preferredControlTintColor = Theme.tintColor
-            self?.present(controller, animated: true, completion: nil)
-        }
-
         // Use cancel style to get bold font
         let agreeAction = UIAlertAction(title: Localized.accept_terms_action_agree, style: .cancel) { [weak self] _ in
             self?.attemptUserCreation()
@@ -178,13 +165,28 @@ final class SplashViewController: UIViewController {
         showAlert(title: Localized.accept_terms_title,
                   message: Localized.accept_terms_text,
                   actions: [
-                    readAction,
+                    .defaultStyleAction(title: Localized.accept_terms_action_read, handler: { _ in
+                        self.readTerms()
+                    }),
                     // Use default style since you can only have one `cancel` style action per alert
                     .cancelAction(style: .default, handler: { _ in
                         self.cerealToRegister = nil
                     }),
                     agreeAction
                   ])
+    }
+
+    private func readTerms() {
+        guard let url = URL(string: "http://www.toshi.org/terms-of-service/") else { return }
+        guard !UIApplication.isUITesting else {
+            self.showTestAlert(message: TestOnlyString.readTermsAlertMessage(termsURL: url))
+            return
+        }
+
+        let controller = SFSafariViewController(url: url, entersReaderIfAvailable: true)
+        controller.delegate = self
+        controller.preferredControlTintColor = Theme.tintColor
+        self.present(controller, animated: true, completion: nil)
     }
 
     private func attemptUserCreation() {
