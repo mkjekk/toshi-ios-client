@@ -673,7 +673,7 @@ extension SendTokenViewConfigurator: UITextViewDelegate {
             let updatedText = currentText.replacingCharacters(in: textRange,
                                                               with: text)
             if !isClearingPlaceholder {
-                destinationAddress = updatedText
+                destinationAddress = updatedText.trimmingCharacters(in: .whitespacesAndNewlines)
             }
         }
 
