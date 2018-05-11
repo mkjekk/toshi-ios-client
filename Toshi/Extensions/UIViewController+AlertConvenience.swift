@@ -56,20 +56,28 @@ extension UIViewController {
 
         actions.forEach { alertController.addAction($0) }
 
+        alertController.view.tintColor = Theme.tintColor
+
         self.present(alertController, animated: true)
     }
 
     ////// Creates and shows the account safety alert with predefined actions.
     func showSecurityAlert() {
-        let alert = UIAlertController(title: Localized.settings_deposit_error_title, message: Localized.settings_deposit_error_message, preferredStyle: .alert)
-        alert.addAction(UIAlertAction(title: Localized.cancel_action_title, style: .default, handler: { _ in
-            alert.dismiss(animated: true, completion: nil)
-        }))
-        alert.addAction(UIAlertAction(title: Localized.settings_deposit_error_action_backup, style: .default, handler: { _ in
+        let backupAction = UIAlertAction(title: Localized.settings_deposit_error_action_backup, style: .default, handler: { _ in
             let passphraseEnableController = PassphraseEnableController()
             let navigationController = UINavigationController(rootViewController: passphraseEnableController)
             Navigator.presentModally(navigationController)
-        }))
+        })
+
+        showAlert(title: Localized.settings_deposit_error_title,
+                  message: Localized.settings_deposit_error_message,
+                  actions: [
+                    .cancelAction(),
+                    backupAction
+                  ])
+    }
+
+
     /// Shows a test alert with the given message, a defined title, and an OK button to dismiss it.
     ///
     /// - Parameter message: The message to display on the alert.

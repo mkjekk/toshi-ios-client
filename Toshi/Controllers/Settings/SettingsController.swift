@@ -200,39 +200,43 @@ class SettingsController: UIViewController {
             return
         }
 
-        let alert = self.alertController(balance: currentUser.balance)
         // We dispatch it back to the main thread here, even tho we are already inside the main thread
         // to avoid some weird issue where the alert controller will take seconds to present, instead of being instant.
         DispatchQueue.main.async {
-            Navigator.presentModally(alert)
+            self.showSignOutAlert(for: currentUser.balance)
         }
     }
 
-    func alertController(balance: NSDecimalNumber) -> UIAlertController {
-        var alert: UIAlertController
-
+    func showSignOutAlert(for balance: NSDecimalNumber) {
         if self.isAccountSecured {
-            alert = UIAlertController(title: Localized.settings_signout_insecure_title, message: Localized.settings_signout_insecure_message, preferredStyle: .alert)
-            alert.addAction(UIAlertAction(title: Localized.cancel_action_title, style: .cancel))
-
-            alert.addAction(UIAlertAction(title: Localized.settings_signout_action_signout, style: .destructive) { _ in
+            let signOutAction = UIAlertAction(title: Localized.settings_signout_action_signout, style: .destructive) { _ in
                 SessionManager.shared.signOutUser()
-            })
+            }
+
+            showAlert(title: Localized.settings_signout_insecure_title,
+                      message: Localized.settings_signout_insecure_message,
+                      actions: [
+                        .cancelAction(),
+                        signOutAction
+                      ])
         } else if balance == .zero {
-            alert = UIAlertController(title: Localized.settings_signout_nofunds_title, message: Localized.settings_signout_nofunds_message, preferredStyle: .alert)
-            alert.addAction(UIAlertAction(title: Localized.cancel_action_title, style: .cancel))
-
-            alert.addAction(UIAlertAction(title: Localized.settings_signout_action_delete, style: .destructive) { _ in
+            let signOutAction = UIAlertAction(title: Localized.settings_signout_action_delete, style: .destructive) { _ in
                 SessionManager.shared.signOutUser()
-            })
+            }
+
+            showAlert(title: Localized.settings_signout_nofunds_title,
+                      message: Localized.settings_signout_nofunds_message,
+                      actions: [
+                        .cancelAction(),
+                        signOutAction
+                      ])
         } else {
-            alert = UIAlertController(title: Localized.settings_signout_stepsneeded_title, message: Localized.settings_signout_stepsneeded_message, preferredStyle: .alert)
-            alert.addAction(UIAlertAction(title: Localized.settings_signout_action_ok, style: .cancel))
+            showAlert(title: Localized.settings_signout_stepsneeded_title,
+                      message: Localized.settings_signout_stepsneeded_message,
+                      actions: [
+                        UIAlertAction(title: Localized.settings_signout_action_ok, style: .cancel)
+                      ])
         }
-
-        alert.view.tintColor = Theme.tintColor
-
-        return alert
     }
 
     private func setupProfileCell(_ cell: UITableViewCell) {

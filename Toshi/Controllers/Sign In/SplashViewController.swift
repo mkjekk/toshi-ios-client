@@ -157,36 +157,32 @@ final class SplashViewController: UIViewController {
     }
     
     private func showAcceptTermsAlert() {
-        
-        let alert = UIAlertController(title: Localized.accept_terms_title, message: Localized.accept_terms_text, preferredStyle: .alert)
-        
-        let read = UIAlertAction(title: Localized.accept_terms_action_read, style: .default) { [weak self] _ in
+        let readAction = UIAlertAction(title: Localized.accept_terms_action_read, style: .default) { [weak self] _ in
             guard let url = URL(string: "http://www.toshi.org/terms-of-service/") else { return }
             guard !UIApplication.isUITesting else {
                 self?.showTestAlert(message: TestOnlyString.readTermsAlertMessage(termsURL: url))
                 return
             }
-            
+
             let controller = SFSafariViewController(url: url, entersReaderIfAvailable: true)
             controller.delegate = self
             controller.preferredControlTintColor = Theme.tintColor
             self?.present(controller, animated: true, completion: nil)
         }
-        
-        let cancel = UIAlertAction(title: Localized.cancel_action_title, style: .default) { _ in
-            self.cerealToRegister = nil
-            alert.dismiss(animated: true, completion: nil)
-        }
-        
-        let agree = UIAlertAction(title: Localized.accept_terms_action_agree, style: .cancel) { [weak self] _ in
+
+        let agreeAction = UIAlertAction(title: Localized.accept_terms_action_agree, style: .cancel) { [weak self] _ in
             self?.attemptUserCreation()
         }
-        
-        alert.addAction(read)
-        alert.addAction(cancel)
-        alert.addAction(agree)
-        
-        present(alert, animated: true, completion: nil)
+
+        showAlert(title: Localized.accept_terms_title,
+                  message: Localized.accept_terms_text,
+                  actions: [
+                    readAction,
+                    .cancelAction(handler: { _ in
+                        self.cerealToRegister = nil
+                    }),
+                    agreeAction
+                  ])
     }
 
     private func attemptUserCreation() {
