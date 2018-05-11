@@ -125,7 +125,7 @@ final class SignInViewController: UIViewController {
     private func passphraseSignupAccepted(_ passphrase: [String]) {
         guard let validCereal = Cereal(words: passphrase) else { return }
 
-        self.delegate?.didRequireNewAccountCreation(strongSelf, registrationCereal: validCereal)
+        self.delegate?.didRequireNewAccountCreation(self, registrationCereal: validCereal)
     }
 
     private func acceptItem(at indexPath: IndexPath, completion: ((Bool) -> Swift.Void)? = nil) {
