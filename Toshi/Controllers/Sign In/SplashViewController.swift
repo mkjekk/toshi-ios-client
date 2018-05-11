@@ -170,6 +170,7 @@ final class SplashViewController: UIViewController {
             self?.present(controller, animated: true, completion: nil)
         }
 
+        // Use cancel style to get bold font
         let agreeAction = UIAlertAction(title: Localized.accept_terms_action_agree, style: .cancel) { [weak self] _ in
             self?.attemptUserCreation()
         }
@@ -178,7 +179,8 @@ final class SplashViewController: UIViewController {
                   message: Localized.accept_terms_text,
                   actions: [
                     readAction,
-                    .cancelAction(handler: { _ in
+                    // Use default style since you can only have one `cancel` style action per alert
+                    .cancelAction(style: .default, handler: { _ in
                         self.cerealToRegister = nil
                     }),
                     agreeAction
