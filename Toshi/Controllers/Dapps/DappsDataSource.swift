@@ -81,8 +81,7 @@ extension DappsDataSourceDelegate {
 
     // We can define default behaviour of showing an alert with relevant error message
     func dappsDataSourceDidEncounterError(_ dataSource: DappsDataSource, _ error: ToshiError) {
-        let alert = UIAlertController.dismissableAlert(title: error.localizedDescription)
-        Navigator.presentModally(alert)
+        UIAlertController.errorOKAlertWith(error: error)?.showWithNavigator()
     }
 }
 

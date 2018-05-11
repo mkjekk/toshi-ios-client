@@ -73,11 +73,8 @@ final class SessionManager {
             exit(0)
 
         }, failure: { _ in
-            let alertController = UIAlertController(title: Localized.sign_out_failure_title,
-                                                    message: Localized.sign_out_failure_message,
-                                                    preferredStyle: .alert)
-            alertController.addAction(.okAction())
-            Navigator.presentModally(alertController)
+            UIAlertController.okOnlyAlertWith(title: Localized.sign_out_failure_title,
+                                              message: Localized.sign_out_failure_message)?.showWithNavigator()
         })
     }
 
