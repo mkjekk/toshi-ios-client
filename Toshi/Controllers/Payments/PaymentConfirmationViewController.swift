@@ -598,8 +598,7 @@ final class PaymentConfirmationViewController: UIViewController {
             guard error == nil else {
                 weakSelf.showOKOnlyAlert(title: Localized.transaction_error_message,
                                          message: (error?.description ?? ToshiError.genericError.description),
-                                         okActionHandler:  { _ in
-
+                                         okActionHandler: { _ in
                                             weakSelf.delegate?.paymentConfirmationViewControllerFinished(on: weakSelf, parameters: weakSelf.paymentManager.parameters, transactionHash: transactionHash, recipientInfo: weakSelf.recipientInfo, error: error)
                                          })
 

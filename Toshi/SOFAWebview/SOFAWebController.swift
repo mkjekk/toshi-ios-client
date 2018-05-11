@@ -646,7 +646,7 @@ extension SOFAWebController: WKUIDelegate {
         showAlert(title: message,
                   message: nil,
                   actions: [
-                    .okAction(handler:{ _ in
+                    .okAction(handler: { _ in
                         completionHandler(true)
                     }),
                     .cancelAction(handler: { _ in

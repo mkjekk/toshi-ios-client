@@ -206,7 +206,7 @@ extension TabBarController: ScannerViewControllerDelegate {
 
             showOKOnlyAlert(title: Localized.error_alert_title,
                             message: Localized.offline_alert_message,
-                            okActionHandler:  { _ in
+                            okActionHandler: { _ in
                                 self.scannerController.startScanning()
                             })
             return
