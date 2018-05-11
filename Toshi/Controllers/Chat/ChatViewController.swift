@@ -863,11 +863,9 @@ extension ChatViewController: ChatInputTextPanelDelegate {
             self.presentImagePicker(sourceType: .photoLibrary)
         }
 
-        let cancelAction = UIAlertAction(title: Localized.cancel_action_title, style: .cancel, handler: nil)
-
         pickerTypeAlertController.addAction(cameraAction)
         pickerTypeAlertController.addAction(libraryAction)
-        pickerTypeAlertController.addAction(cancelAction)
+        pickerTypeAlertController.addAction(.cancelAction())
 
         present(pickerTypeAlertController, animated: true)
     }

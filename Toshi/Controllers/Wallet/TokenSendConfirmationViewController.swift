@@ -250,13 +250,13 @@ final class TokenSendConfirmationViewController: UIViewController {
             guard error == nil else {
                 weakSelf.hud.hide()
 
-                let alert = UIAlertController(title: Localized.transaction_error_message, message: (error?.description ?? ToshiError.genericError.description), preferredStyle: .alert)
-                alert.addAction(UIAlertAction(title: Localized.alert_ok_action_title, style: .default, handler: { _ in
-                    weakSelf.navigationController?.dismiss(animated: true, completion: nil)
-                }))
-
-                Navigator.presentModally(alert)
-
+                weakSelf.showAlert(title: Localized.transaction_error_message,
+                                   message: (error?.description ?? ToshiError.genericError.description),
+                                   actions: [
+                                    .okAction(handler: { _ in
+                                        weakSelf.navigationController?.dismiss(animated: true, completion: nil)
+                                    })
+                                   ])
                 return
             }
 

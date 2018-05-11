@@ -24,7 +24,7 @@ extension UIViewController {
     /// - Parameters:
     ///   - message: The message to display
     ///   - okActionHandler: An action to perform when the alert is dismissed, or nil.
-    func showErrorOKAlert(message: String, okActionHandler: ((UIAlertAction) -> Void)? = nil) {
+    func showErrorOKAlert(message: String?, okActionHandler: ((UIAlertAction) -> Void)? = nil) {
         self.showOKOnlyAlert(title: Localized.error_alert_title, message: message)
     }
 
@@ -35,7 +35,7 @@ extension UIViewController {
     ///   - title: The title to display
     ///   - message: The message to display
     ///   - okActionHandler: An action to perform when the alert is dismissed, or nil.
-    func showOKOnlyAlert(title: String, message: String, okActionHandler: ((UIAlertAction) -> Void)? = nil) {
+    func showOKOnlyAlert(title: String?, message: String?, okActionHandler: ((UIAlertAction) -> Void)? = nil) {
         self.showAlert(title: title,
                        message: message,
                        actions: [.okAction(handler: okActionHandler)])
@@ -47,7 +47,7 @@ extension UIViewController {
     ///   - title: The title to display
     ///   - message: The message to display
     ///   - actions: The actions to display and perform with the alert.
-    func showAlert(title: String, message: String, actions: [UIAlertAction]) {
+    func showAlert(title: String?, message: String?, actions: [UIAlertAction]) {
         assert(actions.count > 0, "You probably want at least one action")
 
         let alertController = UIAlertController(title: title,
@@ -71,6 +71,5 @@ extension UIViewController {
             Navigator.presentModally(navigationController)
         }))
 
-        Navigator.presentModally(alert)
     }
 }

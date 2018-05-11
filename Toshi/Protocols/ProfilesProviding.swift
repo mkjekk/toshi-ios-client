@@ -50,7 +50,7 @@ extension ProfilesProviding {
 
     private func showErrorAlert(_ error: ToshiError) {
         let alert = UIAlertController(title: error.localizedDescription, message: nil, preferredStyle: .alert)
-        alert.addAction(UIAlertAction(title: Localized.alert_ok_action_title, style: .default, handler: nil))
+        alert.addAction(.okAction())
         Navigator.presentModally(alert)
     }
 }

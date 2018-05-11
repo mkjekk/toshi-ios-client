@@ -191,11 +191,11 @@ class SettingsController: UIViewController {
 
     private func handleSignOut() {
         guard let currentUser = Profile.current else {
-            let alert = UIAlertController(title: Localized.settings_signout_error_title, message: Localized.settings_signout_error_message, preferredStyle: .alert)
-            alert.addAction(UIAlertAction(title: Localized.settings_signout_action_ok, style: .default, handler: { _ in
-                fatalError()
-            }))
-            Navigator.presentModally(alert)
+            showOKOnlyAlert(title: Localized.settings_signout_error_title,
+                            message: Localized.settings_signout_error_message,
+                            okActionHandler: { _ in
+                                fatalError()
+                            })
 
             return
         }

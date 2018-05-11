@@ -22,4 +22,10 @@ extension UIAlertAction {
                              style: style,
                              handler: handler)
     }
+
+    static func cancelAction(style: UIAlertActionStyle = .cancel, handler: ((UIAlertAction) -> Void)? = nil) -> UIAlertAction {
+        return UIAlertAction(title: Localized.cancel_action_title,
+                             style: style,
+                             handler: handler)
+    }
 }

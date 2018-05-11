@@ -342,17 +342,15 @@ final class SendTokenViewConfigurator: NSObject {
 
         isShowingFinalValueAlert = true
         let alert = UIAlertController(title: Localized.wallet_final_amount_alert_title, message: Localized.wallet_final_amount_alert_message, preferredStyle: .alert)
-        let okAction = UIAlertAction(title: Localized.alert_ok_action_title, style: .default, handler: { _ in
+
+        alert.addAction(.okAction(handler: { _ in
             self.isShowingFinalValueAlert = false
             self.setMaxValue()
-        })
+        }))
 
-        let cancelAction = UIAlertAction(title: Localized.cancel_action_title, style: .cancel, handler: { _ in
+        alert.addAction(.cancelAction(handler: { _ in
             self.isShowingFinalValueAlert = false
-        })
-
-        alert.addAction(okAction)
-        alert.addAction(cancelAction)
+        }))
 
         Navigator.presentModally(alert)
     }

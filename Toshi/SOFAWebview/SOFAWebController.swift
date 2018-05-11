@@ -557,13 +557,16 @@ extension SOFAWebController: WKScriptMessageHandler {
 
     private func presentPersonalMessageSignAlert(_ message: String, callbackId: String, signHandler: @escaping ((String) -> Void)) {
 
-        let alert = UIAlertController(title: Localized.sign_alert_title, message: message, preferredStyle: .alert)
-        alert.addAction(UIAlertAction(title: Localized.cancel_action_title, style: .cancel, handler: nil))
-        alert.addAction(UIAlertAction(title: Localized.sign_action_title, style: .default, handler: { _ in
+        let signAction = UIAlertAction(title: Localized.sign_action_title, style: .default, handler: { _ in
             signHandler(callbackId)
-        }))
+        })
 
-        Navigator.presentModally(alert)
+        showAlert(title: Localized.sign_alert_title,
+                  message: message,
+                  actions: [
+                    .cancelAction(),
+                    signAction
+                  ])
     }
 }
 
@@ -632,24 +635,24 @@ extension SOFAWebController: UITextFieldDelegate {
 extension SOFAWebController: WKUIDelegate {
 
     func webView(_ webView: WKWebView, runJavaScriptAlertPanelWithMessage message: String, initiatedByFrame frame: WKFrameInfo, completionHandler: @escaping () -> Void) {
-        let controller = UIAlertController(title: message, message: nil, preferredStyle: .alert)
-        controller.addAction(UIAlertAction(title: Localized.alert_ok_action_title, style: .default, handler: { _ in
-            completionHandler()
-        }))
-
-        Navigator.presentModally(controller)
+        showOKOnlyAlert(title: message,
+                        message: nil,
+                        okActionHandler: { _ in
+                            completionHandler()
+                        })
     }
 
     func webView(_ webView: WKWebView, runJavaScriptConfirmPanelWithMessage message: String, initiatedByFrame frame: WKFrameInfo, completionHandler: @escaping (Bool) -> Swift.Void) {
-        let controller = UIAlertController(title: message, message: nil, preferredStyle: .alert)
-        controller.addAction(UIAlertAction(title: Localized.alert_ok_action_title, style: .default, handler: { _ in
-            completionHandler(true)
-        }))
-        controller.addAction(UIAlertAction(title: Localized.cancel_action_title, style: .default, handler: { _ in
-            completionHandler(false)
-        }))
-
-        Navigator.presentModally(controller)
+        showAlert(title: message,
+                  message: nil,
+                  actions: [
+                    .okAction(handler:{ _ in
+                        completionHandler(true)
+                    }),
+                    .cancelAction(handler: { _ in
+                        completionHandler(false)
+                    })
+                  ])
     }
 
     func webView(_ webView: WKWebView, runJavaScriptTextInputPanelWithPrompt prompt: String, defaultText: String?, initiatedByFrame frame: WKFrameInfo, completionHandler: @escaping (String?) -> Swift.Void) {
@@ -659,7 +662,7 @@ extension SOFAWebController: WKUIDelegate {
             textField.text = defaultText
         }
 
-        controller.addAction(UIAlertAction(title: Localized.alert_ok_action_title, style: .default, handler: { _ in
+        controller.addAction(.okAction(handler: { _ in
             if let text = controller.textFields?.first?.text {
                 completionHandler(text)
             } else {
@@ -667,7 +670,7 @@ extension SOFAWebController: WKUIDelegate {
             }
         }))
 
-        controller.addAction(UIAlertAction(title: Localized.cancel_action_title, style: .default, handler: { _ in
+        controller.addAction(.cancelAction(handler: { _ in
             completionHandler(nil)
         }))
 

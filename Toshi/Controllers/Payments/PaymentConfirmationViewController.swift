@@ -596,17 +596,15 @@ final class PaymentConfirmationViewController: UIViewController {
             weakSelf.payButton.hideSpinner()
 
             guard error == nil else {
-                let alert = UIAlertController(title: Localized.transaction_error_message, message: (error?.description ?? ToshiError.genericError.description), preferredStyle: .alert)
-                alert.addAction(UIAlertAction(title: Localized.alert_ok_action_title, style: .default, handler: { _ in
-                    weakSelf.delegate?.paymentConfirmationViewControllerFinished(on: weakSelf, parameters: weakSelf.paymentManager.parameters, transactionHash: transactionHash, recipientInfo: weakSelf.recipientInfo, error: error)
-                }))
+                weakSelf.showOKOnlyAlert(title: Localized.transaction_error_message,
+                                         message: (error?.description ?? ToshiError.genericError.description),
+                                         okActionHandler:  { _ in
 
-                Navigator.presentModally(alert)
+                                            weakSelf.delegate?.paymentConfirmationViewControllerFinished(on: weakSelf, parameters: weakSelf.paymentManager.parameters, transactionHash: transactionHash, recipientInfo: weakSelf.recipientInfo, error: error)
+                                         })
 
                 return
             }
-
-            weakSelf.delegate?.paymentConfirmationViewControllerFinished(on: weakSelf, parameters: weakSelf.paymentManager.parameters, transactionHash: transactionHash, recipientInfo: weakSelf.recipientInfo, error: error)
         }
     }
 

@@ -203,13 +203,12 @@ extension TabBarController: ScannerViewControllerDelegate {
     func scannerViewController(_ controller: ScannerViewController, didScanResult result: String) {
         
         guard reachabilityManager.reachability?.currentReachabilityStatus != .notReachable else {
-            let alert = UIAlertController(title: Localized.error_alert_title, message: Localized.offline_alert_message, preferredStyle: .alert)
-            alert.addAction(UIAlertAction(title: Localized.alert_ok_action_title, style: .cancel, handler: { _ in
-                self.scannerController.startScanning()
-            }))
-            
-            Navigator.presentModally(alert)
-            
+
+            showOKOnlyAlert(title: Localized.error_alert_title,
+                            message: Localized.offline_alert_message,
+                            okActionHandler:  { _ in
+                                self.scannerController.startScanning()
+                            })
             return
         }
         
