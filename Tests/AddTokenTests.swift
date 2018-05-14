@@ -5,14 +5,11 @@ import Teapot
 
 class AddTokenTests: XCTestCase {
 
-    private var testCereal: Cereal {
-        guard let cereal = Cereal(words: ["abandon", "abandon", "abandon", "abandon", "abandon", "abandon", "abandon", "abandon", "abandon", "abandon", "abandon", "about"]) else {
-            fatalError("failed to create cereal")
-        }
-        return cereal
-    }
-
     func testAddToken() {
+        guard let testCereal = Cereal(words: ["abandon", "abandon", "abandon", "abandon", "abandon", "abandon", "abandon", "abandon", "abandon", "abandon", "abandon", "about"]) else {
+            XCTFail("failed to create cereal")
+            return
+        }
 
         Cereal.setSharedCereal(testCereal)
 
