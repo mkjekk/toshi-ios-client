@@ -354,12 +354,16 @@ final class EthereumAPIClient {
 
             let customTokenData = CustomToken(contractAddress: address, name: name, symbol: symbol, decimals: decimals)
             guard let jsonData = customTokenData.toOptionalJSONData() else {
-                completion(false, nil)
+                DispatchQueue.main.async {
+                    completion(false, nil)
+                }
                 return
             }
 
             guard let headers = try? HeaderGenerator.createHeaders(timestamp: timestamp, path: path, payloadData: jsonData) else {
-                completion(false, nil)
+                DispatchQueue.main.async {
+                    completion(false, nil)
+                }
                 return
             }
 
