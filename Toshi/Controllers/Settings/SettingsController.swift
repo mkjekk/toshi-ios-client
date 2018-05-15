@@ -35,7 +35,7 @@ class SettingsController: UIViewController {
             case .advanced:
                 return [.wallet, .network]
             case .other:
-                return [.localCurrency, .about, .signOut]
+                return [.localCurrency, .signOut]
             }
         }
 
@@ -71,7 +71,7 @@ class SettingsController: UIViewController {
     }
 
     enum SettingsItem: Int {
-        case profile, security, wallet, network, localCurrency, about, signOut
+        case profile, security, wallet, network, localCurrency, signOut
     }
 
     private var ethereumAPIClient: EthereumAPIClient {
@@ -277,9 +277,6 @@ extension SettingsController: UITableViewDataSource {
         case .localCurrency:
             cell.textLabel?.text = Localized.settings_cell_local_currency
             cell.accessoryType = .disclosureIndicator
-        case .about:
-            cell.textLabel?.text = Localized.settings_cell_about
-            cell.accessoryType = .disclosureIndicator
         case .signOut:
             cell.textLabel?.text = Localized.settings_cell_signout
             cell.textLabel?.textColor = Theme.errorColor
@@ -328,9 +325,6 @@ extension SettingsController: UITableViewDelegate {
             navigationController?.pushViewController(NetworkSettingsController(), animated: true)
         case .localCurrency:
             self.navigationController?.pushViewController(CurrencyPicker(), animated: true)
-        case .about:
-            //TODO: implement about ViewController when design is ready
-            DLog("push about ViewController")
         case .signOut:
             self.handleSignOut()
         }
