@@ -34,7 +34,7 @@ struct Collectible: Codable {
     }
 }
 
-/// Convenience class for decoding an array of Collectibles with the key "collectibles"
+/// Convenience struct for decoding an array of Collectibles with the key "collectibles"
 struct CollectibleResults: Codable {
 
     let collectibles: [Collectible]
@@ -42,6 +42,10 @@ struct CollectibleResults: Codable {
     enum CodingKeys: String, CodingKey {
         case
         collectibles
+    }
+
+    init(collectibles: [Collectible]) {
+        self.collectibles = collectibles
     }
 }
 

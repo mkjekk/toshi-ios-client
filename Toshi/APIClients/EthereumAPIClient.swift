@@ -22,6 +22,10 @@ typealias WalletItemsCompletion = ((_ items: [WalletItem], _ error: ToshiError?)
 
 final class EthereumAPIClient {
 
+    enum Keys {
+        static let CachedBalanceKey = "CachedBalanceKey"
+    }
+
     static let shared: EthereumAPIClient = EthereumAPIClient()
 
     private var mainTeapot: Teapot
@@ -40,9 +44,7 @@ final class EthereumAPIClient {
         return NetworkSwitcher.shared.activeNetworkBaseUrl
     }
 
-    private let cache = Shared.stringCache
-
-    private static let CachedBalanceKey = "CachedBalanceKey"
+    private let balanceCache = Shared.stringCache
 
     convenience init(mockTeapot: MockTeapot) {
         self.init()
@@ -175,7 +177,7 @@ final class EthereumAPIClient {
 
     func getBalance(address: String = Cereal.shared.paymentAddress, cachedBalanceCompletion: @escaping BalanceCompletion = { balance, _ in }, fetchedBalanceCompletion: @escaping BalanceCompletion) {
 
-        cache.fetch(key: EthereumAPIClient.CachedBalanceKey).onSuccess { numberString in
+        balanceCache.fetch(key: EthereumAPIClient.Keys.CachedBalanceKey).onSuccess { numberString in
             let cachedBalance: NSDecimalNumber = NSDecimalNumber(string: numberString)
             cachedBalanceCompletion(cachedBalance, nil)
         }
@@ -211,7 +213,7 @@ final class EthereumAPIClient {
                 resultError = ToshiError(withTeapotError: error)
             }
 
-            self?.cache.set(value: balance.stringValue, key: EthereumAPIClient.CachedBalanceKey)
+            self?.balanceCache.set(value: balance.stringValue, key: EthereumAPIClient.Keys.CachedBalanceKey)
         }
     }
 
@@ -311,7 +313,7 @@ final class EthereumAPIClient {
 
     func getTokens(address: String = Cereal.shared.paymentAddress, completion: @escaping WalletItemsCompletion) {
 
-        self.activeTeapot.get("/v1/tokens/\(address)") { (result: NetworkResult) in
+        self.activeTeapot.get("/v1/tokens/\(address)") { [weak self] (result: NetworkResult) in
             var resultError: ToshiError?
             var resultItems = [Token]()
 

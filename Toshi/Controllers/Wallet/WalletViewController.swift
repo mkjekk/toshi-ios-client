@@ -197,12 +197,12 @@ extension WalletViewController: UITableViewDataSource {
             let tokenValueNumber = NSDecimalNumber(string: walletItem.details, locale: Locale.current)
             let formattedValueString = tokensValueFormatter.string(from: tokenValueNumber)
 
-            if let ether = walletItem as? EtherToken {
-                cellData = TableCellData(title: ether.subtitle,
-                                         subtitle: ether.title,
-                                         leftImage: ether.localIcon,
+            if let token = walletItem as? Token, token.isEtherToken == true {
+                cellData = TableCellData(title: token.subtitle,
+                                         subtitle: token.title,
+                                         leftImage: token.localIcon,
                                          topDetails: formattedValueString,
-                                         badgeText: ether.convertToFiat())
+                                         badgeText: token.convertToFiat())
             } else {
                 cellData = TableCellData(title: walletItem.subtitle, subtitle: walletItem.title, leftImagePath: walletItem.iconPath, topDetails: formattedValueString)
             }

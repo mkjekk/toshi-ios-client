@@ -366,8 +366,8 @@ final class SendTokenViewConfigurator: NSObject {
         case .token:
             primaryValueText = token.displayValueString
         case .fiat:
-            if let ether = token as? EtherToken {
-                primaryValueText = EthereumConverter.fiatValueString(forWei: ether.wei, exchangeRate: ExchangeRateClient.exchangeRate, withCurrencyCode: false)
+            if let valueInWei = token.wei {
+                primaryValueText = EthereumConverter.fiatValueString(forWei: valueInWei, exchangeRate: ExchangeRateClient.exchangeRate, withCurrencyCode: false)
             }
         }
 

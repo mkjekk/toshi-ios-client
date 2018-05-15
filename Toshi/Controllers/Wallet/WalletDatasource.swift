@@ -14,6 +14,7 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 import Foundation
+import Haneke
 
 typealias WalletItemResults = (_ apps: [WalletItem]?, _ error: ToshiError?) -> Void
 
@@ -28,8 +29,17 @@ protocol WalletDatasourceDelegate: class {
 
 final class WalletDatasource {
 
-    private let tokenCacheKey: NSString = "Tokens"
-    private let collectiblesCacheKey: NSString = "Collectibles"
+    struct Keys {
+        static var CachedTokensKey: String {
+            return "CachedTokensKey+\(NetworkSwitcher.shared.activeNetworkID)+\(Cereal.shared.paymentAddress)"
+        }
+
+        static var CachedCollectiblesKey: String {
+            return "CachedCollectiblesKey+\(NetworkSwitcher.shared.activeNetworkID)+\(Cereal.shared.paymentAddress)"
+        }
+    }
+
+    private let tokensCache = Shared.dataCache
 
     weak var delegate: WalletDatasourceDelegate?
 
@@ -40,7 +50,6 @@ final class WalletDatasource {
     }
 
     private(set) var items: [WalletItem] = []
-    private lazy var cache = NSCache<NSString, AnyObject>()
 
     init(delegate: WalletDatasourceDelegate?) {
         self.delegate = delegate
@@ -117,9 +126,9 @@ final class WalletDatasource {
     }
 
     private func loadTokens(completion: ((Bool) -> Void)? = nil) {
-        var loadedItems: [WalletItem] = []
+        useCachedTokensIfPresent()
 
-        useCachedObjectIfPresent(for: tokenCacheKey)
+        var loadedItems: [WalletItem] = []
 
         EthereumAPIClient.shared.getBalance(fetchedBalanceCompletion: { [weak self] balance, error in
 
@@ -133,7 +142,7 @@ final class WalletDatasource {
             }
 
             if balance.floatValue > 0 {
-                let etherToken = EtherToken(valueInWei: balance)
+                let etherToken = Token(valueInWei: balance)
                 loadedItems.append(etherToken)
             } // else, don't show ether balance.
 
@@ -148,18 +157,22 @@ final class WalletDatasource {
                 }
 
                 loadedItems.append(contentsOf: items)
-                strongSelf.cacheObjects(loadedItems, for: strongSelf.tokenCacheKey)
 
                 completion?(true)
                 guard strongSelf.itemsType == .token else { return }
                 strongSelf.items = loadedItems
+
+                if let tokens = strongSelf.items as? [Token], let data = TokenResults(tokens: tokens).toOptionalJSONData() {
+                    strongSelf.tokensCache.set(value: data, key: Keys.CachedTokensKey)
+                }
+
                 strongSelf.delegate?.walletDatasourceDidReload(strongSelf, cachedResult: false)
             }
         })
     }
     
     private func loadCollectibles(completion: ((Bool) -> Void)? = nil) {
-        useCachedObjectIfPresent(for: collectiblesCacheKey)
+        useCachedCollectiblesIfPresent()
 
         EthereumAPIClient.shared.getCollectibles { [weak self] items, error in
             guard let strongSelf = self else { return }
@@ -171,24 +184,44 @@ final class WalletDatasource {
                 return
             }
 
-            strongSelf.cacheObjects(items, for: strongSelf.collectiblesCacheKey)
             guard strongSelf.itemsType == .collectibles else { return }
 
             completion?(true)
             strongSelf.items = items
+
+            if let collectibles = strongSelf.items as? [Collectible], let data = CollectibleResults(collectibles: collectibles).toOptionalJSONData() {
+                strongSelf.tokensCache.set(value: data, key: Keys.CachedCollectiblesKey)
+            }
+
             strongSelf.delegate?.walletDatasourceDidReload(strongSelf, cachedResult: false)
         }
     }
-    
-    private func cacheObjects(_ objects: [WalletItem], for key: NSString) {
-        cache.setObject(objects as AnyObject, forKey: key)
+
+    private func useCachedTokensIfPresent() {
+        tokensCache.fetch(key: Keys.CachedTokensKey).onSuccess { data in
+
+            TokenResults.fromJSONData(data,
+                                      successCompletion: { [weak self] results in
+                                        guard let strongSelf = self else { return }
+                                        strongSelf.items = results.tokens
+                                        strongSelf.delegate?.walletDatasourceDidReload(strongSelf, cachedResult: true)
+
+                },
+                                      errorCompletion: nil)
+        }
     }
 
-    private func useCachedObjectIfPresent(for key: NSString) {
-        if let cachedVersion = cache.object(forKey: key) as? [WalletItem] {
-            items = cachedVersion
-        }
+    private func useCachedCollectiblesIfPresent() {
+        tokensCache.fetch(key: Keys.CachedCollectiblesKey).onSuccess { data in
 
-        delegate?.walletDatasourceDidReload(self, cachedResult: true)
+            CollectibleResults.fromJSONData(data,
+                                      successCompletion: { [weak self] results in
+                                        guard let strongSelf = self else { return }
+                                        strongSelf.items = results.collectibles
+                                        strongSelf.delegate?.walletDatasourceDidReload(strongSelf, cachedResult: true)
+
+                },
+                                      errorCompletion: nil)
+        }
     }
 }

@@ -18,20 +18,27 @@ import Foundation
 /// An individual Token
 class Token: Codable {
 
+    private static let EthSymbol = "ETH"
+    private static let EthDecimalsCount = 5
+
     let name: String
     let symbol: String
-    let value: String
+    let value: String?
+    let balance: String
     let decimals: Int
     let contractAddress: String
     let icon: String?
+    let weiValueString: String?
+
     fileprivate(set) var canShowFiatValue = false
 
     lazy var displayValueString: String = {
-        return self.value.toDisplayValue(with: self.decimals)
+        guard self.isEtherToken, let valueInWei = wei else { return self.balance.toDisplayValue(with: self.decimals) }
+        return EthereumConverter.ethereumValueString(forWei: valueInWei, withSymbol: false, fractionDigits: 6)
     }()
 
     var isEtherToken: Bool {
-        return symbol == "ETH"
+        return symbol == Token.EthSymbol
     }
 
     enum CodingKeys: String, CodingKey {
@@ -39,23 +46,47 @@ class Token: Codable {
         name,
         symbol,
         value,
+        balance,
         decimals,
         contractAddress = "contract_address",
-        icon
+        icon,
+        weiValueString
     }
 
     init(name: String,
          symbol: String,
-         value: String,
+         balance: String,
          decimals: Int,
          contractAddress: String,
-         iconPath: String) {
+         iconPath: String,
+         weiValueString: String?) {
         self.name = name
         self.symbol = symbol
-        self.value = value
+        self.balance = balance
+        self.value = balance
         self.decimals = decimals
         self.contractAddress = contractAddress
         self.icon = iconPath
+        self.weiValueString = weiValueString
+    }
+
+    // Create an Eth token from value in wei
+    init(valueInWei: NSDecimalNumber) {
+
+        self.name = Localized.wallet_ether_name
+        self.symbol = Token.EthSymbol
+        self.balance = valueInWei.toHexString
+        self.value = self.balance
+        self.decimals = Token.EthDecimalsCount
+        self.contractAddress = ""
+        self.icon = AssetCatalogItem.ether_logo.rawValue
+        self.weiValueString = valueInWei.stringValue
+        canShowFiatValue = true
+    }
+
+    var wei: NSDecimalNumber? {
+        guard let weiValueString = weiValueString else { return nil }
+        return NSDecimalNumber(string: weiValueString)
     }
 
     var localIcon: UIImage? {
@@ -64,44 +95,8 @@ class Token: Codable {
     }
 
     func convertToFiat() -> String? {
-        return nil
-    }
-}
-
-// MARK: - Ether Token
-
-/// A class which uses token to view Ether balances
-final class EtherToken: Token {
-
-    let wei: NSDecimalNumber
-
-    init(valueInWei: NSDecimalNumber) {
-        wei = valueInWei
-
-        super.init(name: Localized.wallet_ether_name,
-                   symbol: "ETH",
-                   value: wei.toHexString,
-                   decimals: 5,
-                   contractAddress: "",
-                   iconPath: AssetCatalogItem.ether_logo.rawValue)
-        canShowFiatValue = true
-    }
-
-    override var displayValueString: String {
-        get {
-            return EthereumConverter.ethereumValueString(forWei: wei, withSymbol: false, fractionDigits: 6)
-        }
-        set {
-            // do nothing - this is read-only since it's lazy, but the compiler doesn't think so since it's still a var.
-        }
-    }
-
-    required init(from decoder: Decoder) throws {
-        fatalError("init(from:) has not been implemented")
-    }
-
-    override func convertToFiat() -> String? {
-        return EthereumConverter.fiatValueString(forWei: wei, exchangeRate: ExchangeRateClient.exchangeRate)
+        guard let valueInWei = wei else { return nil }
+        return EthereumConverter.fiatValueString(forWei: valueInWei, exchangeRate: ExchangeRateClient.exchangeRate)
     }
 }
 
@@ -113,6 +108,10 @@ final class TokenResults: Codable {
     enum CodingKeys: String, CodingKey {
         case
         tokens
+    }
+
+    init(tokens: [Token]) {
+        self.tokens = tokens
     }
 }
 

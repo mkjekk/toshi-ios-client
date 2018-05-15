@@ -97,10 +97,10 @@ final class SendTokenViewModel {
 
         switch (viewConfiguration.tokenType, viewConfiguration.primaryValue) {
         case (.fiatRepresentable, .fiat):
-            if let ether = token as? EtherToken {
-                let fiatString = EthereumConverter.fiatValueString(forWei: ether.wei, exchangeRate: ExchangeRateClient.exchangeRate, withCurrencyCode: false)
+            if let valueInWei = token.wei {
+                let fiatString = EthereumConverter.fiatValueString(forWei: valueInWei, exchangeRate: ExchangeRateClient.exchangeRate, withCurrencyCode: false)
                 if fiatString == valueText {
-                    final = ether.wei
+                    final = valueInWei
                 } else {
                     let ether = etherNumberFromFiatText(valueText)
                     if ether.isANumber {
@@ -110,8 +110,8 @@ final class SendTokenViewModel {
             }
 
         case (.fiatRepresentable, .token):
-            if let ether = token as? EtherToken, ether.displayValueString == valueText {
-                final = ether.wei
+            if let valueInWei = token.wei, token.displayValueString == valueText {
+                final = valueInWei
             } else {
                 final = NSDecimalNumber(string: valueText, locale: Locale.current).multiplying(by: EthereumConverter.weisToEtherConstant)
             }
@@ -142,7 +142,7 @@ final class SendTokenViewModel {
         case .token:
             var wei: NSDecimalNumber = .zero
             if isMaxValueSelected {
-                wei = NSDecimalNumber(hexadecimalString: token.value)
+                wei = NSDecimalNumber(hexadecimalString: token.balance)
             } else {
                 let eth = NSDecimalNumber(string: primaryValueText, locale: Locale.current)
                 wei = EthereumConverter.etherToWei(eth)
@@ -157,7 +157,7 @@ final class SendTokenViewModel {
             var wei: NSDecimalNumber = .zero
             var ethValueString = ""
             if isMaxValueSelected {
-                wei = NSDecimalNumber(hexadecimalString: token.value)
+                wei = NSDecimalNumber(hexadecimalString: token.balance)
                 ethValueString = EthereumConverter.ethereumValueString(forWei: wei, withSymbol: false, fractionDigits: 6)
             } else {
                 let ether = etherNumberFromFiatText(primaryValueText)
@@ -179,7 +179,7 @@ final class SendTokenViewModel {
         case .token:
             var wei: NSDecimalNumber = .zero
             if isMaxValueSelected {
-                wei = NSDecimalNumber(hexadecimalString: token.value)
+                wei = NSDecimalNumber(hexadecimalString: token.balance)
             } else {
                 let eth = NSDecimalNumber(string: primaryValueText, locale: Locale.current)
                 wei = EthereumConverter.etherToWei(eth)
@@ -193,7 +193,7 @@ final class SendTokenViewModel {
             var wei: NSDecimalNumber = .zero
             var ethValueString = ""
             if isMaxValueSelected {
-                wei = NSDecimalNumber(hexadecimalString: token.value)
+                wei = NSDecimalNumber(hexadecimalString: token.balance)
                 ethValueString = EthereumConverter.ethereumValueString(forWei: wei, fractionDigits: 6)
             } else {
                 let fiat = NSDecimalNumber(string: primaryValueText, locale: Locale.current)
@@ -220,7 +220,7 @@ final class SendTokenViewModel {
 
         switch viewConfiguration.tokenType {
         case .fiatRepresentable:
-            let fiatString = String.contentsOrEmpty(for: (token as? EtherToken)?.convertToFiat())
+            let fiatString = String.contentsOrEmpty(for: token.convertToFiat())
             return String(format: Localized.wallet_token_balance_format_with_fiat, self.token.symbol, self.token.displayValueString, fiatString)
         case .nonFiatRepresentable:
             return String(format: Localized.wallet_token_balance_format, self.token.symbol, self.token.displayValueString)
@@ -231,7 +231,7 @@ final class SendTokenViewModel {
 
         switch viewConfiguration.tokenType {
         case .fiatRepresentable:
-            let fiatString = String.contentsOrEmpty(for: (token as? EtherToken)?.convertToFiat())
+            let fiatString = String.contentsOrEmpty(for: token.convertToFiat())
             return String(format: Localized.wallet_insuffisient_fiat_balance_error, self.token.symbol, self.token.displayValueString, fiatString)
         case .nonFiatRepresentable:
             return String(format: Localized.wallet_insuffisient_token_balance_error, self.token.symbol, self.token.displayValueString)
@@ -245,8 +245,8 @@ final class SendTokenViewModel {
         case .token:
             valueToCompareAgainst = Decimal(string: token.displayValueString)
         case .fiat:
-            if let ether = token as? EtherToken {
-                let valueString = EthereumConverter.fiatValueString(forWei: ether.wei, exchangeRate: ExchangeRateClient.exchangeRate, withCurrencyCode: false)
+            if let valueInWei = token.wei {
+                let valueString = EthereumConverter.fiatValueString(forWei: valueInWei, exchangeRate: ExchangeRateClient.exchangeRate, withCurrencyCode: false)
                 valueToCompareAgainst = Decimal(string: valueString)
             }
         }

@@ -15,17 +15,6 @@
 
 import Foundation
 
-enum WalletItemConstants {
-    static let name = "name"
-    static let symbol = "symbol"
-    static let value = "value"
-    static let contractAddress = "contract_address"
-    static let icon = "icon"
-    static let tokens = "tokens"
-    static let decimals = "decimals"
-    
-}
-
 protocol WalletItem {
     var title: String? { get }
     var subtitle: String? { get }
