@@ -36,7 +36,7 @@ final class WalletViewController: UIViewController {
         view.dataSource = self
         view.tableFooterView = UIView()
         view.alwaysBounceVertical = true
-        view.refreshControl = self.refreshControl
+        view.addSubview(self.refreshControl)
 
         return view
     }()
@@ -44,7 +44,8 @@ final class WalletViewController: UIViewController {
     private lazy var refreshControl: UIRefreshControl = {
         let refreshControl = UIRefreshControl()
         refreshControl.addTarget(self, action: #selector(refresh(_:)), for: .valueChanged)
-
+        refreshControl.tintColor = .white
+        
         return refreshControl
     }()
 
@@ -113,6 +114,9 @@ final class WalletViewController: UIViewController {
     }
 
     @objc private func refresh(_ refreshControl: UIRefreshControl) {
+        // we need to show the spinner controller on top of the colored view placed on top of the header
+        tableView.bringSubview(toFront: refreshControl)
+
         guard Navigator.reachabilityStatus != .notReachable else {
             refreshControl.endRefreshing()
             return

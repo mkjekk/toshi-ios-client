@@ -25,6 +25,8 @@ protocol WalletTableViewHeaderDelegate: class {
 
 final class WalletTableHeaderView: UIView {
 
+    private let headerColor = Theme.tintColor.mixedWith(.black, atAlpha: 0.1)
+
     private let walletAddress: String
     private weak var delegate: WalletTableViewHeaderDelegate?
 
@@ -97,8 +99,9 @@ final class WalletTableHeaderView: UIView {
         self.delegate = delegate
         super.init(frame: frame)
 
-        backgroundColor = Theme.tintColor.mixedWith(.black, atAlpha: 0.1)
-        
+        backgroundColor = headerColor
+
+        setupPullToRefreshBackground()
         setupMainStackView()
 
         walletAddressLabel.text = walletAddress.truncateMiddle()
@@ -109,6 +112,17 @@ final class WalletTableHeaderView: UIView {
     }
 
     // MARK: - View Setup
+
+    // When we pul to refresh the wallet the space on top should be the same color as the wallet header
+    private func setupPullToRefreshBackground() {
+        let pullToRefreshBackground = UIView()
+        pullToRefreshBackground.backgroundColor = headerColor
+
+        addSubview(pullToRefreshBackground)
+        pullToRefreshBackground.height(UIScreen.main.bounds.height) // we can never pull further down then the height of the screen
+        pullToRefreshBackground.width(to: self)
+        pullToRefreshBackground.bottomToTop(of: self)
+    }
 
     private func setupMainStackView() {
         let stackView = UIStackView()
