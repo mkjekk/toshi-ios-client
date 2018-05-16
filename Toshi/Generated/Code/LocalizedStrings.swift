@@ -1087,7 +1087,7 @@ struct Localized {
     /// `en`: "No Collectibles Found"
     static let wallet_empty_collectibles_title = LocalizedKey.wallet_empty_collectibles_title.currentValue
     
-    /// `en`: "Your tokens will show up here\nautomatically. We scan your wallet\naddress for popular tokens.\nCustom tokens are coming soon."
+    /// `en`: ""
     static let wallet_empty_tokens_description = LocalizedKey.wallet_empty_tokens_description.currentValue
     
     /// `en`: "No Tokens Found"

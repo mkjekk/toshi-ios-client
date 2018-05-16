@@ -72,7 +72,6 @@ final class WalletViewController: UIViewController {
 
         title = Localized.wallet_controller_title
         view.backgroundColor = Theme.lightGrayBackgroundColor
-        emptyView.isHidden = true
 
         addSubviewsAndConstraints()
 
@@ -94,14 +93,7 @@ final class WalletViewController: UIViewController {
         }
     }
 
-    private lazy var emptyView: WalletEmptyView = {
-        return WalletEmptyView(frame: .zero)
-    }()
-
     private func addSubviewsAndConstraints() {
-        view.addSubview(emptyView)
-        emptyView.edges(to: layoutGuide(), insets: UIEdgeInsets(top: walletHeaderHeight + sectionHeaderHeight, left: 0, bottom: 0, right: 0))
-
         view.addSubview(tableView)
         tableView.edges(to: layoutGuide())
 
@@ -125,10 +117,8 @@ final class WalletViewController: UIViewController {
         datasource.loadItems()
     }
 
-    private func adjustEmptyStateView() {
-        emptyView.isHidden = !datasource.isEmpty
-        emptyView.title = datasource.emptyStateTitle
-        emptyView.details = datasource.emptyStateDetails
+    private func adjustToEmptyState() {
+
     }
 
     private func showActivityIndicatorIfOnline() {
@@ -267,7 +257,7 @@ extension WalletViewController: SegmentedHeaderDelegate {
 extension WalletViewController: WalletDatasourceDelegate {
 
     func walletDatasourceDidReload(_ datasource: WalletDatasource, cachedResult: Bool) {
-        adjustEmptyStateView()
+        adjustToEmptyState()
         tableView.reloadData()
 
         let shouldHideIndicator = !cachedResult || (cachedResult && !datasource.isEmpty)

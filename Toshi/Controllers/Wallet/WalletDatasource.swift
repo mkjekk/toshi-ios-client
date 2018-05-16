@@ -66,7 +66,7 @@ final class WalletDatasource {
     var contentDescription: String? {
         switch itemsType {
         case .token:
-            return !isEmpty ? Localized.wallet_tokens_description : nil
+            return !isEmpty ? Localized.wallet_tokens_description : Localized.wallet_empty_tokens_description
         case .collectibles:
             return nil
         }
@@ -78,15 +78,6 @@ final class WalletDatasource {
             return Localized.wallet_empty_tokens_title
         case .collectibles:
             return Localized.wallet_empty_collectibles_title
-        }
-    }
-
-    var emptyStateDetails: String? {
-        switch itemsType {
-        case .token:
-            return Localized.wallet_empty_tokens_description
-        case .collectibles:
-            return nil
         }
     }
 
