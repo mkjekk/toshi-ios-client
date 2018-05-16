@@ -260,7 +260,8 @@ extension WalletViewController: UITableViewDelegate {
     }
 
     private func didSelectCustomTokenCell() {
-        // add custom token controller
+        let controller = CreateCustomTokenViewController()
+        navigationController?.pushViewController(controller, animated: true)
     }
 
     func tableView(_ tableView: UITableView, estimatedHeightForRowAt indexPath: IndexPath) -> CGFloat {
