@@ -25,6 +25,9 @@ final class WalletViewController: UIViewController {
     private var timer: Timer?
 
     private var tokenDetailsViewController: TokenEtherDetailViewController?
+    private var indexPathForAddCustomTokenCell: IndexPath {
+        return IndexPath(row: datasource.numberOfItems, section: 0)
+    }
 
     private lazy var tableView: UITableView = {
         let view = UITableView(frame: self.view.frame, style: .grouped)
@@ -155,7 +158,7 @@ extension WalletViewController: SystemSharing { /* mix-in */ }
 extension WalletViewController: UITableViewDataSource {
 
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return datasource.numberOfItems
+        return datasource.numberOfItems + 1 // we show the add Custom token cell.
     }
 
     func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
@@ -171,7 +174,10 @@ extension WalletViewController: UITableViewDataSource {
     }
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-
+        guard indexPath != indexPathForAddCustomTokenCell else {
+           return addCustomTokenCell(for: indexPath)
+        }
+        
         guard let walletItem = datasource.item(at: indexPath.row) else {
             assertionFailure("Can't retrieve item at index: \(indexPath.row)")
             return UITableViewCell()
@@ -213,11 +219,27 @@ extension WalletViewController: UITableViewDataSource {
 
         return cell
     }
+
+    private func addCustomTokenCell(for indexPath: IndexPath) -> UITableViewCell {
+        let cellData = TableCellData(title: Localized.add_custom_token_title, leftImage: UIImage(named: "add_custom_token")!)
+
+        let configurator = CellConfigurator()
+        guard let cell = tableView.dequeueReusableCell(withIdentifier: configurator.cellIdentifier(for: cellData.components), for: indexPath) as? BasicTableViewCell else { return UITableViewCell() }
+
+        configurator.configureCell(cell, with: cellData)
+        cell.titleTextField.textColor = Theme.tintColor
+
+        return cell
+    }
 }
 
 extension WalletViewController: UITableViewDelegate {
 
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        guard indexPath != indexPathForAddCustomTokenCell else {
+            didSelectCustomTokenCell()
+            return
+        }
 
         switch datasource.itemsType {
         case .token:
@@ -234,6 +256,10 @@ extension WalletViewController: UITableViewDelegate {
             let controller = CollectibleViewController(collectibleContractAddress: item.contractAddress)
             navigationController?.pushViewController(controller, animated: true)
         }
+    }
+
+    private func didSelectCustomTokenCell() {
+        // add custom token controller
     }
 
     func tableView(_ tableView: UITableView, estimatedHeightForRowAt indexPath: IndexPath) -> CGFloat {

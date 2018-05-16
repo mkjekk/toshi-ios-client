@@ -276,9 +276,9 @@
 
 "wallet_empty_tokens_title" = "No Tokens Found";
 "wallet_empty_collectibles_title" = "No Collectibles Found";
-"wallet_empty_tokens_description" = "Your tokens will show up here\nautomatically. We scan your wallet\naddress for popular tokens.\nCustom tokens are coming soon.";
-"wallet_tokens_description" = "Your tokens will show up here automatically. We scan your wallet address for popular tokens. Custom tokens are coming soon.";
-"wallet_empty_tokens_description" = "";
+"wallet_empty_tokens_description" = "No tokens found. Your tokens will show up here automatically. We scan your wallet address for popular tokens.";
+"wallet_tokens_description" = "Your tokens will show up here automatically. We scan your wallet address for popular tokens.";
+"add_custom_token_title" = "Add custom Token";
 
 "wallet_amount_label" = "AMOUNT";
 "wallet_scan_QR_label" = "Scan QR";

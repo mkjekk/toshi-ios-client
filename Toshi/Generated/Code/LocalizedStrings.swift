@@ -14,6 +14,7 @@ enum LocalizedKey: String, StringCaseListable {
     accessibility_close,
     accessibility_more,
     active_network_format,
+    add_custom_token_title,
     alert_no_internet_message,
     alert_ok_action_title,
     attachment_message_preview_string,
@@ -333,6 +334,9 @@ struct Localized {
     
     /// `en`: "Active network: %@"
     static let active_network_format = LocalizedKey.active_network_format.currentValue
+    
+    /// `en`: "Add custom Token"
+    static let add_custom_token_title = LocalizedKey.add_custom_token_title.currentValue
     
     /// `en`: "It appears your device is not connected to the internet. Please double-check your connection, and try again."
     static let alert_no_internet_message = LocalizedKey.alert_no_internet_message.currentValue
@@ -1087,7 +1091,7 @@ struct Localized {
     /// `en`: "No Collectibles Found"
     static let wallet_empty_collectibles_title = LocalizedKey.wallet_empty_collectibles_title.currentValue
     
-    /// `en`: ""
+    /// `en`: "No tokens found. Your tokens will show up here automatically. We scan your wallet address for popular tokens."
     static let wallet_empty_tokens_description = LocalizedKey.wallet_empty_tokens_description.currentValue
     
     /// `en`: "No Tokens Found"
@@ -1156,7 +1160,7 @@ struct Localized {
     /// `en`: "Tokens"
     static let wallet_tokens = LocalizedKey.wallet_tokens.currentValue
     
-    /// `en`: "Your tokens will show up here automatically. We scan your wallet address for popular tokens. Custom tokens are coming soon."
+    /// `en`: "Your tokens will show up here automatically. We scan your wallet address for popular tokens."
     static let wallet_tokens_description = LocalizedKey.wallet_tokens_description.currentValue
     
     /// `en`: "Are you sure you want to\nleave your transaction?"
