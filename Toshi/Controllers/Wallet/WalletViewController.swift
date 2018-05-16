@@ -136,13 +136,6 @@ final class WalletViewController: UIViewController {
         showActivityIndicator()
     }
 
-    private func reloadTableView() {
-        let contentOffset = tableView.contentOffset
-        tableView.reloadData()
-        tableView.layoutIfNeeded()
-        tableView.setContentOffset(contentOffset, animated: false)
-    }
-
     func restartTimerIfNeeded() {
         // Do not start timer if there is none currently running
         guard let timer = self.timer else { return }
@@ -275,7 +268,7 @@ extension WalletViewController: WalletDatasourceDelegate {
 
     func walletDatasourceDidReload(_ datasource: WalletDatasource, cachedResult: Bool) {
         adjustEmptyStateView()
-        reloadTableView()
+        tableView.reloadData()
 
         let shouldHideIndicator = !cachedResult || (cachedResult && !datasource.isEmpty)
         guard shouldHideIndicator else { return }
