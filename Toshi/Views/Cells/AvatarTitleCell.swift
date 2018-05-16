@@ -35,10 +35,10 @@ final class AvatarTitleCell: BasicTableViewCell {
 
     private func setupLeftImageView() {
         leftImageView.size(CGSize(width: BasicTableViewCell.imageSize, height: BasicTableViewCell.imageSize))
-        leftImageView.centerY(to: contentView, priority: .defaultHigh)
+        leftImageView.centerY(to: contentView, priority: .required)
         leftImageView.left(to: contentView, offset: BasicTableViewCell.horizontalMargin)
-        leftImageView.top(to: contentView, offset: BasicTableViewCell.imageMargin, relation: .equalOrGreater)
-        leftImageView.bottom(to: contentView, offset: -BasicTableViewCell.imageMargin, relation: .equalOrGreater)
+        leftImageView.top(to: contentView, offset: BasicTableViewCell.imageMargin, relation: .equalOrGreater, priority: .defaultLow)
+        leftImageView.bottom(to: contentView, offset: -BasicTableViewCell.imageMargin, relation: .equalOrGreater, priority: .defaultLow)
     }
 
     private func setupTitleTextField() {

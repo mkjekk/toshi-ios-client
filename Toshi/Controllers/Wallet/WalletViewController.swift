@@ -19,6 +19,7 @@ final class WalletViewController: UIViewController {
 
     private let walletHeaderHeight: CGFloat = 180
     private let sectionHeaderHeight: CGFloat = 44
+    private let customTokenCellHeight: CGFloat = 81
 
     lazy var activityIndicator: UIActivityIndicatorView = defaultActivityIndicator()
 
@@ -263,6 +264,14 @@ extension WalletViewController: UITableViewDelegate {
     }
 
     func tableView(_ tableView: UITableView, estimatedHeightForRowAt indexPath: IndexPath) -> CGFloat {
+        return UITableViewAutomaticDimension
+    }
+
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        guard indexPath != indexPathForAddCustomTokenCell else {
+            return customTokenCellHeight
+        }
+
         return UITableViewAutomaticDimension
     }
 }
