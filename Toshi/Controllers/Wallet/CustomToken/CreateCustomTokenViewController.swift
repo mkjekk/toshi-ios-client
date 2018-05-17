@@ -16,6 +16,7 @@
 import UIKit
 
 final class CreateCustomTokenViewController: UIViewController {
+    var customToken = CustomToken()
 
     let items = [CustomTokenEditItem(.contactAddress), CustomTokenEditItem(.name), CustomTokenEditItem(.symbol), CustomTokenEditItem(.decimals), CustomTokenEditItem(.button)]
 
@@ -88,6 +89,20 @@ extension CreateCustomTokenViewController: CustomTokenCellDelegate {
     func customTokenCellDidUpdate(_ text: String, on cell: CustomTokenCell) {
         guard let indexPath = tableView.indexPath(for: cell), items.count >= indexPath.row else { return }
         let item = items[indexPath.row]
+
+        switch item.type {
+        case .contactAddress:
+            customToken.contractAddress = text
+        case .name:
+            customToken.name = text
+        case .symbol:
+            customToken.symbol = text
+        case .decimals:
+            guard let decimals = Int(text) else { return }
+            customToken.decimals = decimals
+        default:
+            break
+        }
     }
 }
 

@@ -142,11 +142,17 @@ extension Token: WalletItem {
 // MARK: - Custom Token
 
 struct CustomToken: Codable {
-    let contractAddress: String?
-    let name: String?
-    let symbol: String?
-    let decimals: Int?
+    var contractAddress: String?
+    var name: String?
+    var symbol: String?
+    var decimals: Int?
 
+    init(contractAddress: String? = nil, name: String? = nil, symbol: String? = nil, decimals: Int? = nil) {
+        self.contractAddress = contractAddress
+        self.name = name
+        self.symbol = symbol
+        self.decimals = decimals
+    }
     enum CodingKeys: String, CodingKey {
         case
              contractAddress = "contract_address",
