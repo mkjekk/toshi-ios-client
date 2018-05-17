@@ -19,21 +19,25 @@ final class CreateCustomTokenViewController: UIViewController {
 
     let items = [CustomTokenEditItem(.contactAddress), CustomTokenEditItem(.name), CustomTokenEditItem(.symbol), CustomTokenEditItem(.decimals), CustomTokenEditItem(.button)]
 
+    var scrollViewBottomInset: CGFloat = 0.0
+    var scrollView: UIScrollView { return tableView }
+
     private lazy var tableView: UITableView = {
         let view = UITableView(frame: self.view.frame, style: .plain)
 
         view.backgroundColor = nil
         view.register(CustomTokenCell.self)
-        view.delegate = self
         view.dataSource = self
         view.tableFooterView = UIView()
-        view.alwaysBounceVertical = true
 
         return view
     }()
 
     override func viewDidLoad() {
         super.viewDidLoad()
+
+
+        registerForKeyboardNotifications()
 
         title = "Add Custom Token"
         view.backgroundColor = Theme.lightGrayBackgroundColor
@@ -69,6 +73,23 @@ extension CreateCustomTokenViewController: UITableViewDataSource {
     }
 }
 
-extension CreateCustomTokenViewController: UITableViewDelegate {
+// MARK: - Keyboard Adjustable
 
+extension CreateCustomTokenViewController: KeyboardAdjustable {
+
+    var keyboardWillShowSelector: Selector {
+        return #selector(keyboardShownNotificationReceived(_:))
+    }
+
+    var keyboardWillHideSelector: Selector {
+        return #selector(keyboardHiddenNotificationReceived(_:))
+    }
+
+    @objc private func keyboardShownNotificationReceived(_ notification: NSNotification) {
+        keyboardWillShow(notification)
+    }
+
+    @objc private func keyboardHiddenNotificationReceived(_ notification: NSNotification) {
+        keyboardWillHide(notification)
+    }
 }
