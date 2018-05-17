@@ -17,4 +17,55 @@ import UIKit
 
 final class CreateCustomTokenViewController: UIViewController {
 
+    let items = [CustomTokenEditItem(.contactAddress), CustomTokenEditItem(.name), CustomTokenEditItem(.symbol), CustomTokenEditItem(.decimals), CustomTokenEditItem(.button)]
+
+    private lazy var tableView: UITableView = {
+        let view = UITableView(frame: self.view.frame, style: .plain)
+
+        view.backgroundColor = nil
+        BasicTableViewCell.register(in: view)
+        view.delegate = self
+        view.dataSource = self
+        view.tableFooterView = UIView()
+        view.alwaysBounceVertical = true
+
+        return view
+    }()
+
+    override func viewDidLoad() {
+        super.viewDidLoad()
+
+        title = "Add Custom Token"
+        view.backgroundColor = Theme.lightGrayBackgroundColor
+
+        addSubviewsAndConstraints()
+
+        preferLargeTitleIfPossible(false)
+    }
+
+    private func addSubviewsAndConstraints() {
+        view.addSubview(tableView)
+        tableView.edgesToSuperview()
+
+    }
+}
+
+extension CreateCustomTokenViewController: UITableViewDataSource {
+
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return items.count
+    }
+
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        
+        guard items.count >= indexPath.row else { return UITableViewCell() }
+        let item = items[indexPath.row]
+
+        print("title: \(item.titleText)")
+        return UITableViewCell()
+    }
+}
+
+extension CreateCustomTokenViewController: UITableViewDelegate {
+
 }

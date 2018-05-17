@@ -1084,6 +1084,7 @@
 		D197B65533BDB0BB9C8BB4CA /* AvatarTitleDescriptionCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = D197B705981C3AED3EFB40DC /* AvatarTitleDescriptionCell.swift */; };
 		D197B683AEBC4A7B8F0FF197 /* ReachabilityManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = D197BB02C1FCC52F69B81E12 /* ReachabilityManager.swift */; };
 		D197B68FAD277206C35FA934 /* PaymentRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = D197BCE7202958A0BA1A896E /* PaymentRouter.swift */; };
+		D197B69C6B4E93627657BD91 /* CustomTokenEditItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = D197B13D794D688D75584EE0 /* CustomTokenEditItem.swift */; };
 		D197B6A1519FAB078F9174F4 /* BlurView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D197BB4FC8D408B73FE253E5 /* BlurView.swift */; };
 		D197B6B964C6C99549F7B078 /* SofaInitialRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = D197BC051BEE35DB98BD053F /* SofaInitialRequest.swift */; };
 		D197B6C89BDD1FE57CA3DA33 /* RatingsClientTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = D197B6D88C3CCC7B7A890925 /* RatingsClientTests.swift */; };
@@ -1104,6 +1105,7 @@
 		D197B79D8C2B5092A70A98C8 /* CollectibleCellConfigurator.swift in Sources */ = {isa = PBXBuildFile; fileRef = D197BB0B32CD87852479976D /* CollectibleCellConfigurator.swift */; };
 		D197B79DACE43441E9C5B27A /* dappsFrontPage.json in Resources */ = {isa = PBXBuildFile; fileRef = D197B4857989DB703783427F /* dappsFrontPage.json */; };
 		D197B79EB8798DAA0647C3D7 /* ReceiptLineView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D197B65C63A525B97898821D /* ReceiptLineView.swift */; };
+		D197B7AB8281EEE8F69A441E /* CustomTokenEditItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = D197B13D794D688D75584EE0 /* CustomTokenEditItem.swift */; };
 		D197B80A67FA2271BE1C9621 /* YapDatabaseViewConnection+Additions.swift in Sources */ = {isa = PBXBuildFile; fileRef = D197B494213B9F6EC5413D88 /* YapDatabaseViewConnection+Additions.swift */; };
 		D197B83F0A9396CF2E7628D5 /* ActiveNetworkView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D197B6E47F5F979A8C154E9A /* ActiveNetworkView.swift */; };
 		D197B844B1C67758B2A0E9F2 /* StatusCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = D197BFD8FAC1FBE64984D60C /* StatusCell.swift */; };
@@ -1147,6 +1149,7 @@
 		D197BCE9E48328BF70480029 /* DirectoryAPIClientTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = D197BAAC781426CEFFF5DBA0 /* DirectoryAPIClientTests.swift */; };
 		D197BD08F09124F7B83238F9 /* ToshiError.swift in Sources */ = {isa = PBXBuildFile; fileRef = D197B54B1A4AD5DB747C55BF /* ToshiError.swift */; };
 		D197BD13B1D92FA792BFA14C /* searchGroupProfiles.json in Resources */ = {isa = PBXBuildFile; fileRef = D197B4894C9651424B00058F /* searchGroupProfiles.json */; };
+		D197BD4820FB5C6D146CC993 /* CustomTokenEditItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = D197B13D794D688D75584EE0 /* CustomTokenEditItem.swift */; };
 		D197BD532AA776C66EDCCDEB /* SofaPayment.swift in Sources */ = {isa = PBXBuildFile; fileRef = D197BC4FF536D4350C725251 /* SofaPayment.swift */; };
 		D197BDCFFA301DDA7C290BBB /* DoubleImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D197B52C452CE2763BB4976A /* DoubleImageView.swift */; };
 		D197BDD5424805C3D7F2163A /* ReachabilityManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = D197BB02C1FCC52F69B81E12 /* ReachabilityManager.swift */; };
@@ -1638,6 +1641,7 @@
 		D197B0B3F554858E7196CD70 /* ToshiErrorTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ToshiErrorTests.swift; sourceTree = "<group>"; };
 		D197B0B8C43D9AEF28A5170A /* IDAPIClientQuickSpecs.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IDAPIClientQuickSpecs.swift; sourceTree = "<group>"; };
 		D197B12C40488CB1523BB212 /* user.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = user.json; sourceTree = "<group>"; };
+		D197B13D794D688D75584EE0 /* CustomTokenEditItem.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CustomTokenEditItem.swift; sourceTree = "<group>"; };
 		D197B1451DB719E76A084950 /* timestamp.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = timestamp.json; sourceTree = "<group>"; };
 		D197B175422C9602CE00CF65 /* getCurrencies.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = getCurrencies.json; sourceTree = "<group>"; };
 		D197B17D59AD50BB600910D2 /* profilesFrontPage.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = profilesFrontPage.json; sourceTree = "<group>"; };
@@ -2917,6 +2921,7 @@
 			isa = PBXGroup;
 			children = (
 				D197B08E6CB943FB19F6CB6D /* CreateCustomTokenViewController.swift */,
+				D197B13D794D688D75584EE0 /* CustomTokenEditItem.swift */,
 			);
 			path = CustomToken;
 			sourceTree = "<group>";
@@ -4096,6 +4101,7 @@
 				D197B3CDAD5DA1A74B875B94 /* CollectibleCell.swift in Sources */,
 				D197BB1D4FCB90485B49C583 /* CollectibleCellConfigurator.swift in Sources */,
 				D197B02BB16EDE916D04124E /* CreateCustomTokenViewController.swift in Sources */,
+				D197BD4820FB5C6D146CC993 /* CustomTokenEditItem.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -4407,6 +4413,7 @@
 				D197B74C8F99174589EDC4C4 /* CollectibleCell.swift in Sources */,
 				D197BF0C0B5BD93C5100B473 /* CollectibleCellConfigurator.swift in Sources */,
 				D197BB717A1C0BF4F9471291 /* CreateCustomTokenViewController.swift in Sources */,
+				D197B69C6B4E93627657BD91 /* CustomTokenEditItem.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -4702,6 +4709,7 @@
 				D197B5D67AB45238543242CD /* CollectibleCell.swift in Sources */,
 				D197B79D8C2B5092A70A98C8 /* CollectibleCellConfigurator.swift in Sources */,
 				D197BB80F408F43CFB330A47 /* CreateCustomTokenViewController.swift in Sources */,
+				D197B7AB8281EEE8F69A441E /* CustomTokenEditItem.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
