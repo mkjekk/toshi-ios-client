@@ -23,7 +23,7 @@ final class CreateCustomTokenViewController: UIViewController {
         let view = UITableView(frame: self.view.frame, style: .plain)
 
         view.backgroundColor = nil
-        BasicTableViewCell.register(in: view)
+        view.register(CustomTokenCell.self)
         view.delegate = self
         view.dataSource = self
         view.tableFooterView = UIView()
@@ -46,7 +46,6 @@ final class CreateCustomTokenViewController: UIViewController {
     private func addSubviewsAndConstraints() {
         view.addSubview(tableView)
         tableView.edgesToSuperview()
-
     }
 }
 
@@ -57,12 +56,16 @@ extension CreateCustomTokenViewController: UITableViewDataSource {
     }
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        
+        guard let cell = tableView.dequeueReusableCell(withIdentifier: CustomTokenCell.reuseIdentifier, for: indexPath) as? CustomTokenCell else {
+            assertionFailure("Can't dequeue basic cell on wallet view controller for given reuse identifier: \(CustomTokenCell.reuseIdentifier)")
+            return UITableViewCell()
+        }
+
         guard items.count >= indexPath.row else { return UITableViewCell() }
         let item = items[indexPath.row]
 
-        print("title: \(item.titleText)")
-        return UITableViewCell()
+        cell.setTitle(item.titleText)
+        return cell
     }
 }
 
