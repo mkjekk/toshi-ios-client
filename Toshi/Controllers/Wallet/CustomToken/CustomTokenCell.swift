@@ -34,9 +34,10 @@ final class CustomTokenCell: UITableViewCell {
 
     private lazy var textField: UITextField = {
         let textField = UITextField()
-        titleLabel.adjustsFontForContentSizeCategory = true
-        titleLabel.font = Theme.preferredRegularSmall()
-        titleLabel.textColor = Theme.mediumTextColor
+        textField.adjustsFontForContentSizeCategory = true
+        textField.font = Theme.preferredRegularSmall()
+        textField.textColor = Theme.mediumTextColor
+        textField.delegate = self
 
         return textField
     }()
