@@ -23,14 +23,16 @@ final class CreateCustomTokenViewController: UIViewController {
     var scrollViewBottomInset: CGFloat = 0.0
     var scrollView: UIScrollView { return tableView }
 
+    lazy var activityIndicator: UIActivityIndicatorView = defaultActivityIndicator()
+
     private lazy var tableView: UITableView = {
         let view = UITableView(frame: self.view.frame, style: .plain)
 
         view.backgroundColor = nil
         view.register(CustomTokenCell.self)
         view.dataSource = self
+        view.delegate = self
         view.tableFooterView = UIView()
-        view.allowsSelection = false
 
         return view
     }()
@@ -46,6 +48,7 @@ final class CreateCustomTokenViewController: UIViewController {
         addSubviewsAndConstraints()
 
         preferLargeTitleIfPossible(false)
+        setupActivityIndicator()
     }
 
     override func viewDidAppear(_ animated: Bool) {
@@ -82,6 +85,38 @@ extension CreateCustomTokenViewController: UITableViewDataSource {
         cell.delegate = self
 
         return cell
+    }
+}
+
+extension CreateCustomTokenViewController: UITableViewDelegate {
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        guard items.count >= indexPath.row else { return }
+        let item = items[indexPath.row]
+        guard item.type == .button else { return }
+
+        addCustomToken()
+    }
+
+    private func addCustomToken() {
+        showActivityIndicator()
+        guard let address = customToken.contractAddress else { return }
+        EthereumAPIClient.shared.addToken(
+                with: address,
+                name: customToken.name,
+                symbol: customToken.symbol,
+                decimals: customToken.decimals) { [weak self] success, error in
+
+            guard let strongSelf = self else { return }
+
+            strongSelf.hideActivityIndicator()
+
+            guard success else {
+                strongSelf.showErrorOKAlert(message: "Couldn't create token because of: \(error?.description ?? "Unknown error")")
+                return
+            }
+
+            strongSelf.navigationController?.popViewController(animated: true)
+        }
     }
 }
 
@@ -126,3 +161,5 @@ extension CreateCustomTokenViewController: KeyboardAdjustable {
         keyboardWillHide(notification)
     }
 }
+
+extension CreateCustomTokenViewController: ActivityIndicating { /* mix-in */ }
