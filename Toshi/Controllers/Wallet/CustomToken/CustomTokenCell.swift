@@ -16,7 +16,7 @@
 import UIKit
 
 protocol CustomTokenCellDelegate: class {
-    func customTokenCellDidUpdate(_ text: String)
+    func customTokenCellDidUpdate(_ text: String, on cell: CustomTokenCell)
 }
 
 final class CustomTokenCell: UITableViewCell {
@@ -98,7 +98,7 @@ final class CustomTokenCell: UITableViewCell {
 extension CustomTokenCell: UITextFieldDelegate {
     func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
         guard let text = (textField.text as NSString?)?.replacingCharacters(in: range, with: string) else { return true }
-        delegate?.customTokenCellDidUpdate(text)
+        delegate?.customTokenCellDidUpdate(text, on: self)
 
         return true
     }

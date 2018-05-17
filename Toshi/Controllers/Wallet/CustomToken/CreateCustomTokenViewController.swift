@@ -78,7 +78,16 @@ extension CreateCustomTokenViewController: UITableViewDataSource {
         let item = items[indexPath.row]
 
         cell.setTitle(item.titleText)
+        cell.delegate = self
+
         return cell
+    }
+}
+
+extension CreateCustomTokenViewController: CustomTokenCellDelegate {
+    func customTokenCellDidUpdate(_ text: String, on cell: CustomTokenCell) {
+        guard let indexPath = tableView.indexPath(for: cell), items.count >= indexPath.row else { return }
+        let item = items[indexPath.row]
     }
 }
 
