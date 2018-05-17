@@ -29,6 +29,7 @@ final class CreateCustomTokenViewController: UIViewController {
         view.register(CustomTokenCell.self)
         view.dataSource = self
         view.tableFooterView = UIView()
+        view.allowsSelection = false
 
         return view
     }()
@@ -36,15 +37,23 @@ final class CreateCustomTokenViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
-
         registerForKeyboardNotifications()
 
         title = "Add Custom Token"
-        view.backgroundColor = Theme.lightGrayBackgroundColor
+        view.backgroundColor = Theme.viewBackgroundColor
 
         addSubviewsAndConstraints()
 
         preferLargeTitleIfPossible(false)
+    }
+
+    override func viewDidAppear(_ animated: Bool) {
+        makeFirstCellBecomeFirstResponder()
+    }
+
+    private func makeFirstCellBecomeFirstResponder() {
+        guard let firstCell = tableView.visibleCells.first as? CustomTokenCell else { return }
+        firstCell.becomeFirstResponder()
     }
 
     private func addSubviewsAndConstraints() {

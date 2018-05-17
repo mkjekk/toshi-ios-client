@@ -57,6 +57,12 @@ final class CustomTokenCell: UITableViewCell {
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
+
+    @discardableResult override func becomeFirstResponder() -> Bool {
+        super.becomeFirstResponder()
+
+        return textField.becomeFirstResponder()
+    }
     
     private func addSubviewsAndConstraints() {
         contentView.addSubview(titleLabel)
