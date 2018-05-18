@@ -17,11 +17,25 @@ import UIKit
 
 protocol CustomTokenCellDelegate: class {
     func customTokenCellDidUpdate(_ text: String, on cell: CustomTokenCell)
+    func customTokenCellDidRequestScanner(on cell: CustomTokenCell)
 }
 
 final class CustomTokenCell: UITableViewCell {
     static let reuseIdentifier = "CustomTokenCell"
+
     weak var delegate: CustomTokenCellDelegate?
+
+    var scanButtonHiddenConstraint: NSLayoutConstraint?
+    var scanButtonShownConstraint: NSLayoutConstraint?
+
+    private lazy var scanButton: UIButton = {
+        let button = UIButton()
+        button.setImage(ImageAsset.scan, for: .normal)
+        button.addTarget(self, action: #selector(scanButtonTapped), for: .touchUpInside)
+
+        return button
+    }()
+
 
     private lazy var titleLabel: UILabel = {
         let titleLabel = UILabel()
@@ -78,6 +92,7 @@ final class CustomTokenCell: UITableViewCell {
         contentView.addSubview(textField)
         contentView.addSubview(line)
         contentView.addSubview(addTokenButton)
+        contentView.addSubview(scanButton)
 
         titleLabel.top(to: contentView, offset: 16 + 12 + 6.5)
         titleLabel.left(to: contentView, offset: 20)
@@ -85,7 +100,13 @@ final class CustomTokenCell: UITableViewCell {
 
         textField.topToBottom(of: titleLabel, offset: 13)
         textField.left(to: contentView, offset: 20)
-        textField.right(to: contentView, offset: -20)
+
+        scanButton.leftToRight(of: textField, offset: 10)
+        scanButton.centerY(to: textField)
+        scanButton.height(28)
+        scanButton.right(to: contentView, offset: -10)
+        scanButtonHiddenConstraint = scanButton.width(0)
+        scanButtonShownConstraint = scanButton.width(28, isActive: false)
 
         line.topToBottom(of: textField, offset: 8)
         line.left(to: contentView, offset: 20)
@@ -94,7 +115,6 @@ final class CustomTokenCell: UITableViewCell {
         line.height(.lineHeight)
 
         addTokenButton.bottom(to: contentView)
-        addTokenButton.height(48)
         addTokenButton.left(to: contentView, offset: 16)
         addTokenButton.right(to: contentView, offset: -16)
     }
@@ -103,8 +123,13 @@ final class CustomTokenCell: UITableViewCell {
         titleLabel.text = text
     }
 
-    func setButton() {
+    func setupButton() {
         addTokenButton.isHidden = false
+    }
+
+    func setupScanButton() {
+        scanButtonHiddenConstraint?.isActive = false
+        scanButtonShownConstraint?.isActive = true
     }
 
     override func prepareForReuse() {
@@ -114,6 +139,13 @@ final class CustomTokenCell: UITableViewCell {
         titleLabel.text = nil
 
         addTokenButton.isHidden = true
+
+        scanButtonShownConstraint?.isActive = false
+        scanButtonHiddenConstraint?.isActive = true
+    }
+
+    @objc func scanButtonTapped() {
+        delegate?.customTokenCellDidRequestScanner(on: self)
     }
 }
 

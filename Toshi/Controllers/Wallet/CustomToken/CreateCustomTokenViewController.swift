@@ -14,6 +14,7 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 import UIKit
+import CameraScanner
 
 final class CreateCustomTokenViewController: UIViewController {
     var customToken = CustomToken()
@@ -85,8 +86,11 @@ extension CreateCustomTokenViewController: UITableViewDataSource {
         let item = items[indexPath.row]
 
         switch item.type {
+        case .contactAddress:
+            cell.setupScanButton()
+            cell.setTitle(item.titleText)
         case .button:
-            cell.setButton()
+            cell.setupButton()
         default:
             cell.setTitle(item.titleText)
         }
@@ -148,6 +152,13 @@ extension CreateCustomTokenViewController: CustomTokenCellDelegate {
             break
         }
     }
+
+    func customTokenCellDidRequestScanner(on cell: CustomTokenCell) {
+        let controller = ScannerController(instructions: Localized.qr_scanner_instructions, types: [.qrCode])
+        controller.delegate = self
+
+        present(controller, animated: true, completion: nil)
+    }
 }
 
 // MARK: - Keyboard Adjustable
@@ -178,4 +189,37 @@ extension CreateCustomTokenViewController: NavBarColorChanging {
     var navBarTintColor: UIColor? { return Theme.navigationBarColor }
     var navTitleColor: UIColor? { return Theme.darkTextColor }
     var navShadowImage: UIImage? { return UIImage() }
+}
+
+extension CreateCustomTokenViewController: ScannerViewControllerDelegate {
+    func scannerViewControllerDidCancel(_ controller: ScannerViewController) {
+        controller.dismiss(animated: true, completion: nil)
+    }
+
+    func scannerViewController(_ controller: ScannerViewController, didScanResult result: String) {
+
+        // We need to process only ethereum address or admin login intent and ignore all the rest
+        if let intent = QRCodeIntent(result: result) {
+            switch intent {
+            case .webSignIn(let loginToken):
+                IDAPIClient.shared.adminLogin(loginToken: loginToken) {[weak self] _, _ in
+                    SoundPlayer.playSound(type: .scanned)
+                    self?.dismiss(animated: true)
+                }
+            case .addressInput(let address):
+                controller.dismiss(animated: true, completion: { [weak self] in
+                    //
+                })
+            default:
+                let alert = UIAlertController(title: Localized.wallet_not_an_address_message, message: nil, preferredStyle: .alert)
+                alert.addAction(UIAlertAction(title: Localized.alert_ok_action_title, style: .default, handler: { _ in
+                    controller.startScanning()
+                }))
+                alert.addAction(UIAlertAction(title: Localized.cancel_action_title, style: .cancel, handler: { _ in
+                    controller.startScanning()
+                }))
+                Navigator.presentModally(alert)
+            }
+        }
+    }
 }
