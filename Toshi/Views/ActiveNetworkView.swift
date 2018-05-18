@@ -51,16 +51,39 @@ class ActiveNetworkView: UIView {
     }
 
     private func setupView() {
-        backgroundColor = Theme.mediumTextColor.withAlphaComponent(0.98)
+        backgroundColor = Theme.darkTextColor
 
         addSubview(textLabel)
         textLabel.edges(to: self, insets: UIEdgeInsets(top: margin, left: margin, bottom: -margin, right: -margin), priority: .defaultHigh)
 
         heightConstraint = heightAnchor.constraint(equalToConstant: 0)
-        if !isDefaultNetworkActive {
-            textLabel.text = String(format: Localized.active_network_format, NetworkSwitcher.shared.activeNetworkLabel)
-        }
+        updateTitle()
 
         heightConstraint?.isActive = true
+    }
+
+    func updateTitle() {
+        textLabel.text = String(format: Localized.active_network_format, NetworkSwitcher.shared.activeNetworkLabel)
+    }
+
+    var isAtZeroHeight: Bool {
+        return heightConstraint?.constant == 0
+    }
+
+    var isAtFullHeight: Bool {
+        return heightConstraint?.constant == ActiveNetworkView.height
+    }
+
+    func setZeroHeight() {
+        heightConstraint?.constant = 0
+    }
+
+    func setFullHeight() {
+        heightConstraint?.constant = ActiveNetworkView.height
+    }
+
+    /// For use when you're displaying this on something with a dark background and need more contrast
+    func useLighterBackground() {
+        backgroundColor = Theme.mediumTextColor
     }
 }

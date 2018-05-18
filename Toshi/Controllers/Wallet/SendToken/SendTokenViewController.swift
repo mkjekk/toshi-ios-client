@@ -33,6 +33,9 @@ final class SendTokenViewController: UIViewController {
     private var configurator: SendTokenViewConfigurator!
     weak var delegate: SendTokenViewControllerDelegate?
 
+    lazy var activeNetworkView: ActiveNetworkView = defaultActiveNetworkView()
+    var activeNetworkObserver: NSObjectProtocol?
+
     init(token: Token, tokenType: TokenType) {
         self.token = token
         self.tokenType = tokenType
@@ -47,9 +50,10 @@ final class SendTokenViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
+        setupActiveNetworkView()
+
         configurator = SendTokenViewConfigurator(token: token, view: view)
         configurator.delegate = self
-        configurator.layoutGuide = layoutGuide()
 
         registerForKeyboardNotifications()
 
@@ -59,7 +63,11 @@ final class SendTokenViewController: UIViewController {
 
         view.backgroundColor = Theme.viewBackgroundColor
 
-        configurator.configureView(view)
+        configurator.configureView(view, activeNetworkView: activeNetworkView)
+    }
+
+    deinit {
+        removeActiveNetworkObserver()
     }
 
     @objc private func cancelButtonTapped(_ item: UIBarButtonItem) {
@@ -143,6 +151,8 @@ extension SendTokenViewController: TokenSendConfirmationDelegate {
         delegate?.sendTokenControllerDidFinish(navigationController)
     }
 }
+
+extension SendTokenViewController: ActiveNetworkDisplaying { /* mix-in */ }
 
 // MARK: - Keyboard Adjustable
 

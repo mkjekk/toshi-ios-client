@@ -176,6 +176,10 @@ final class ProfileViewController: DisappearingNavBarViewController {
         return !isProfileEditable
     }
 
+    override var activeNetworkViewEnabled: Bool {
+        return isProfileEditable
+    }
+
     override var topSpacerHeight: CGFloat {
         if isProfileEditable {
             return navBarHeight + .giantInterItemSpacing
@@ -488,7 +492,6 @@ final class ProfileViewController: DisappearingNavBarViewController {
         paymentRouter.present()
 
         self.paymentRouter = paymentRouter
-
     }
     
     @objc private func didTapEditProfileButton() {

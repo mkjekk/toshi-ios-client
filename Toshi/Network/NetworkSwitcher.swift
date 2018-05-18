@@ -19,50 +19,49 @@ extension NSNotification.Name {
     static let SwitchedNetworkChanged = NSNotification.Name(rawValue: "SwitchedNetworkChanged")
 }
 
-enum NetworkInfo {
-
-    static let ActiveNetwork = "ActiveNetwork"
-
-    struct Label {
-
-        static let MainNet = Localized.mainnet_title
-        static let RopstenTestNetwork = Localized.ropsten_test_network_title
-        static let ToshiTestNetwork = Localized.toshi_test_network_title
-    }
-
-    struct Path {
-        static let MainNet = "https://ethereum.service.toshi.org"
-        static let RopstenTestNetwork = "https://ethereum.development.service.toshi.org"
-        static let ToshiTestNetwork = "https://ethereum.internal.service.toshi.org"
-    }
-}
-
 enum Network: String {
+
+    private static let ActiveNetwork = "ActiveNetwork"
+
     typealias RawValue = String
 
     case mainNet = "1"
-    case ropstenTestNetwork = "3"
     case toshiTestNetwork = "116"
+    case kovan = "42"
+    case rinkeby = "4"
+    case ropsten = "3"
 
     var baseURL: String {
         switch self {
         case .mainNet:
-            return NetworkInfo.Path.MainNet
-        case .ropstenTestNetwork:
-            return NetworkInfo.Path.RopstenTestNetwork
+            return "https://ethereum.service.toshi.org"
         case .toshiTestNetwork:
-            return NetworkInfo.Path.ToshiTestNetwork
+            return "https://ethereum.internal.service.toshi.org"
+        case .kovan:
+            return "https://toshi-eth-service-kovan.herokuapp.com"
+        case .rinkeby:
+            return "https://toshi-eth-service-rinkeby.herokuapp.com"
+        case .ropsten:
+            #if TOSHIDEV
+                return "https://ethereum.development.service.toshi.org"
+            #else
+                return "https://toshi-eth-service-ropsten.herokuapp.com"
+            #endif
         }
     }
 
     var label: String {
         switch self {
         case .mainNet:
-            return NetworkInfo.Label.MainNet
-        case .ropstenTestNetwork:
-            return NetworkInfo.Label.RopstenTestNetwork
+            return Localized.mainnet_title
         case .toshiTestNetwork:
-            return NetworkInfo.Label.ToshiTestNetwork
+            return Localized.toshi_test_network_title
+        case .kovan:
+            return Localized.kovan_network_title
+        case .rinkeby:
+            return Localized.rinkeby_network_title
+        case .ropsten:
+            return Localized.ropsten_network_title
         }
     }
 }
@@ -103,10 +102,12 @@ final class NetworkSwitcher {
     }
 
     var availableNetworks: [Network] {
-        #if DEBUG || TOSHIDEV
-            return [.ropstenTestNetwork, .toshiTestNetwork]
+        #if DEBUG
+            return [.toshiTestNetwork]
+        #elseif TOSHIDEV
+            return [.ropsten]
         #else
-            return [.ropstenTestNetwork]
+            return [.mainNet, .ropsten, .rinkeby, .kovan]
         #endif
     }
 
@@ -137,14 +138,14 @@ final class NetworkSwitcher {
                 return
             }
 
-            registerForSwitchedNetworkPushNotifications { success, _ in
+            registerForSwitchedNetworkPushNotifications { success, error in
                 if success {
                     UserDefaultsWrapper.activeNetwork = network.rawValue
 
                     let notification = Notification(name: .SwitchedNetworkChanged)
                     NotificationCenter.default.post(notification)
                 } else {
-                    DLog("Error registering - No connection")
+                    DLog("Error registering: \(String(describing: error))")
                     self.activateNetwork(nil)
                 }
             }
@@ -186,7 +187,7 @@ final class NetworkSwitcher {
         #if DEBUG
             return .toshiTestNetwork
         #elseif TOSHIDEV
-            return .ropstenTestNetwork
+            return .ropsten
         #else
             return .mainNet
         #endif

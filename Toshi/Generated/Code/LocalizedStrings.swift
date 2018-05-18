@@ -30,6 +30,7 @@ enum LocalizedKey: String, StringCaseListable {
     browse_top_rated_public_users,
     cancel_action_title,
     chat_input_empty_placeholder,
+    chat_not_on_default_message,
     chat_pay_button_title,
     chat_payment_recieved,
     chat_payment_request_action,
@@ -106,6 +107,7 @@ enum LocalizedKey: String, StringCaseListable {
     input_field_password_placeholder,
     input_field_username_placeholder,
     invalid_username_alert_message,
+    kovan_network_title,
     mainnet_title,
     messages_payment_approve,
     messages_payment_decline,
@@ -180,6 +182,8 @@ enum LocalizedKey: String, StringCaseListable {
     report_action_title,
     report_feedback_alert_message,
     report_feedback_alert_title,
+    rinkeby_network_title,
+    ropsten_network_title,
     ropsten_test_network_title,
     search_chat_bots_tab_name,
     search_chat_groups_tab_name,
@@ -378,6 +382,9 @@ struct Localized {
     
     /// `en`: "Message..."
     static let chat_input_empty_placeholder = LocalizedKey.chat_input_empty_placeholder.currentValue
+    
+    /// `en`: "Payments are not available in chat unless you are on the default payment network."
+    static let chat_not_on_default_message = LocalizedKey.chat_not_on_default_message.currentValue
     
     /// `en`: "Pay"
     static let chat_pay_button_title = LocalizedKey.chat_pay_button_title.currentValue
@@ -607,6 +614,9 @@ struct Localized {
     /// `en`: "Username is invalid! Use numbers, letters, and underscores only."
     static let invalid_username_alert_message = LocalizedKey.invalid_username_alert_message.currentValue
     
+    /// `en`: "Kovan"
+    static let kovan_network_title = LocalizedKey.kovan_network_title.currentValue
+    
     /// `en`: "Mainnet"
     static let mainnet_title = LocalizedKey.mainnet_title.currentValue
     
@@ -828,6 +838,12 @@ struct Localized {
     
     /// `en`: "Thanks"
     static let report_feedback_alert_title = LocalizedKey.report_feedback_alert_title.currentValue
+    
+    /// `en`: "Rinkeby"
+    static let rinkeby_network_title = LocalizedKey.rinkeby_network_title.currentValue
+    
+    /// `en`: "Ropsten"
+    static let ropsten_network_title = LocalizedKey.ropsten_network_title.currentValue
     
     /// `en`: "Ropsten Test Network"
     static let ropsten_test_network_title = LocalizedKey.ropsten_test_network_title.currentValue

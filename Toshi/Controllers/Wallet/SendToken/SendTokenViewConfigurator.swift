@@ -28,8 +28,6 @@ final class SendTokenViewConfigurator: NSObject {
 
     weak var delegate: SendTokenViewConfiguratorDelegate?
 
-    var layoutGuide: UILayoutGuide?
-
     var viewConfiguration: TokenTypeViewConfiguration {
         didSet {
             adjustViewsVisibility()
@@ -273,9 +271,10 @@ final class SendTokenViewConfigurator: NSObject {
         addressTextView.becomeFirstResponder()
     }
 
-    func configureView(_ view: UIView) {
+    func configureView(_ view: UIView, activeNetworkView: ActiveNetworkView) {
         view.addSubview(scrollView)
-        scrollView.edges(to: view)
+        scrollView.edgesToSuperview(excluding: .bottom)
+        scrollView.bottomToTop(of: activeNetworkView)
 
         let stackView = UIStackView()
         stackView.addBackground(with: Theme.viewBackgroundColor)

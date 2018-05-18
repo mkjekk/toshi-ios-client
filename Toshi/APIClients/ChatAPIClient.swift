@@ -33,7 +33,6 @@ final class ChatAPIClient {
     }
 
     func fetchTimestamp(_ completion: @escaping ((_ timestamp: String?, _ error: ToshiError?) -> Void)) {
-
         self.teapot.get("/v1/accounts/bootstrap/") { result in
             APITimestamp.parse(from: result, completion)
         }
@@ -41,13 +40,15 @@ final class ChatAPIClient {
 
     func registerUser(completion: @escaping ((_ success: Bool) -> Void) = { (Bool) in }) {
         fetchTimestamp { timestamp, _ in
+            guard let timestamp = timestamp else {
+                DispatchQueue.main.async {
+                    completion(false)
+                }
+                return
+            }
+
             DispatchQueue.main.async {
                 // This needs to be called on the main thread to avoid a race condition with creating the user.
-                guard let timestamp = timestamp else {
-                    completion(false)
-                    return
-                }
-
                 let cereal = Cereal.shared
                 let parameters = UserBootstrapParameter()
                 let path = "/v1/accounts/bootstrap"

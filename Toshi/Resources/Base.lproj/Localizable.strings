@@ -184,6 +184,9 @@
 "ropsten_test_network_title" = "Ropsten Test Network";
 "toshi_test_network_title" = "Toshi Test Network";
 "mainnet_title" = "Mainnet";
+"kovan_network_title" = "Kovan";
+"rinkeby_network_title" = "Rinkeby";
+"ropsten_network_title" = "Ropsten";
 
 /* Generic Alerts */
 "alert_ok_action_title" = "OK";
@@ -335,6 +338,7 @@
 "chat_payment_request_action" = "Payment request";
 "chat_payment_recieved" = "Payment received";
 "chat_payment_sent" = "Payment sent";
+"chat_not_on_default_message" = "Payments are not available in chat unless you are on the default payment network.";
 
 /* Search Chat */
 "search_chat_users_tab_name" = "Users";
