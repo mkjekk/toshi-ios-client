@@ -17,9 +17,13 @@ import UIKit
 import CameraScanner
 
 final class CreateCustomTokenViewController: UIViewController {
-    var customToken = CustomToken()
+    var customToken = CustomToken() {
+        didSet{
+            tableView.reloadData()
+        }
+    }
 
-    let items = [CustomTokenEditItem(.contactAddress), CustomTokenEditItem(.name), CustomTokenEditItem(.symbol), CustomTokenEditItem(.decimals), CustomTokenEditItem(.button)]
+    let items = [CustomTokenEditItem(.contractAddress), CustomTokenEditItem(.name), CustomTokenEditItem(.symbol), CustomTokenEditItem(.decimals), CustomTokenEditItem(.button)]
 
     var scrollViewBottomInset: CGFloat = 0.0
     var scrollView: UIScrollView { return tableView }
@@ -85,14 +89,25 @@ extension CreateCustomTokenViewController: UITableViewDataSource {
         guard items.count >= indexPath.row else { return UITableViewCell() }
         let item = items[indexPath.row]
 
+
         switch item.type {
-        case .contactAddress:
+        case .contractAddress:
             cell.setupScanButton()
-            cell.setTitle(item.titleText)
+            cell.setTitle(item.titleText, value: customToken.contractAddress)
+        case .name:
+            cell.setTitle(item.titleText, value: customToken.name)
+        case .symbol:
+            cell.setTitle(item.titleText, value: customToken.symbol)
+        case .decimals:
+            if let decimals = customToken.decimals {
+                cell.setTitle(item.titleText, value: "\(decimals)")
+            } else {
+                cell.setTitle(item.titleText)
+            }
         case .button:
             cell.setupButton()
         default:
-            cell.setTitle(item.titleText)
+            break
         }
 
         cell.delegate = self
@@ -131,6 +146,15 @@ extension CreateCustomTokenViewController: UITableViewDelegate {
             strongSelf.navigationController?.popViewController(animated: true)
         }
     }
+
+    private func fetchTokenInfo(for address: String) {
+        showActivityIndicator()
+
+        EthereumAPIClient.shared.getToken(with: address) { [weak self] token, error in
+            self?.hideActivityIndicator()
+            self?.customToken = token ?? CustomToken(contractAddress: address)
+         }
+    }
 }
 
 extension CreateCustomTokenViewController: CustomTokenCellDelegate {
@@ -139,7 +163,7 @@ extension CreateCustomTokenViewController: CustomTokenCellDelegate {
         let item = items[indexPath.row]
 
         switch item.type {
-        case .contactAddress:
+        case .contractAddress:
             customToken.contractAddress = text
         case .name:
             customToken.name = text
@@ -208,7 +232,7 @@ extension CreateCustomTokenViewController: ScannerViewControllerDelegate {
                 }
             case .addressInput(let address):
                 controller.dismiss(animated: true, completion: { [weak self] in
-                    //
+                    self?.fetchTokenInfo(for: address)
                 })
             default:
                 let alert = UIAlertController(title: Localized.wallet_not_an_address_message, message: nil, preferredStyle: .alert)

@@ -119,8 +119,11 @@ final class CustomTokenCell: UITableViewCell {
         addTokenButton.right(to: contentView, offset: -16)
     }
 
-    func setTitle(_ text: String) {
+    func setTitle(_ text: String, value: String? = nil) {
         titleLabel.text = text
+        if let value = value {
+            textField.text = value
+        }
     }
 
     func setupButton() {

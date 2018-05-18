@@ -20,7 +20,7 @@ enum CustomTokenInputType: Int {
 }
 
 enum CustomTokenEditItemType: Int {
-    case none, contactAddress, name, symbol, decimals, button
+    case none, contractAddress, name, symbol, decimals, button
 }
 
 struct CustomTokenEditItem {
@@ -35,7 +35,7 @@ struct CustomTokenEditItem {
         self.type = type
 
         switch type {
-        case .contactAddress:
+        case .contractAddress:
             titleText = "Contract address"
         case .name:
             titleText = "Name"
