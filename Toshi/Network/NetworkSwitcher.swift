@@ -103,7 +103,7 @@ final class NetworkSwitcher {
 
     var availableNetworks: [Network] {
         #if DEBUG
-            return [.toshiTestNetwork]
+            return [.toshiTestNetwork, .ropsten]
         #elseif TOSHIDEV
             return [.ropsten]
         #else
