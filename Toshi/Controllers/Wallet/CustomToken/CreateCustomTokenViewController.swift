@@ -33,6 +33,9 @@ final class CreateCustomTokenViewController: UIViewController {
         view.dataSource = self
         view.delegate = self
         view.tableFooterView = UIView()
+        view.allowsSelection = false
+        view.separatorStyle = .none
+        view.contentInset.bottom = -16
 
         return view
     }()
@@ -81,7 +84,13 @@ extension CreateCustomTokenViewController: UITableViewDataSource {
         guard items.count >= indexPath.row else { return UITableViewCell() }
         let item = items[indexPath.row]
 
-        cell.setTitle(item.titleText)
+        switch item.type {
+        case .button:
+            cell.setButton()
+        default:
+            cell.setTitle(item.titleText)
+        }
+
         cell.delegate = self
 
         return cell

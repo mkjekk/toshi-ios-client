@@ -42,6 +42,14 @@ final class CustomTokenCell: UITableViewCell {
         return textField
     }()
 
+    private lazy var addTokenButton: ActionButton = {
+        let view = ActionButton(margin: 16)
+        view.title = "ADD TOKEN"
+        view.isHidden = true
+
+        return view
+    }()
+
     private lazy var line: UIView = {
         let line = UIView()
         line.backgroundColor = Theme.separatorColor
@@ -69,6 +77,7 @@ final class CustomTokenCell: UITableViewCell {
         contentView.addSubview(titleLabel)
         contentView.addSubview(textField)
         contentView.addSubview(line)
+        contentView.addSubview(addTokenButton)
 
         titleLabel.top(to: contentView, offset: 16 + 12 + 6.5)
         titleLabel.left(to: contentView, offset: 20)
@@ -82,10 +91,20 @@ final class CustomTokenCell: UITableViewCell {
         line.left(to: contentView, offset: 20)
         line.right(to: contentView, offset: -20)
         line.bottom(to: contentView)
+        line.height(.lineHeight)
+
+        addTokenButton.bottom(to: contentView)
+        addTokenButton.height(48)
+        addTokenButton.left(to: contentView, offset: 16)
+        addTokenButton.right(to: contentView, offset: -16)
     }
 
     func setTitle(_ text: String) {
         titleLabel.text = text
+    }
+
+    func setButton() {
+        addTokenButton.isHidden = false
     }
 
     override func prepareForReuse() {
@@ -93,6 +112,8 @@ final class CustomTokenCell: UITableViewCell {
 
         textField.text = nil
         titleLabel.text = nil
+
+        addTokenButton.isHidden = true
     }
 }
 
