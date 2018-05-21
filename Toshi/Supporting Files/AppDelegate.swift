@@ -280,7 +280,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
                 CrashlyticsLogger.log("Failed to register for PNs", attributes: ["error": error.localizedDescription])
         })
-    }    
+    }
 }
 
 extension AppDelegate: UNUserNotificationCenterDelegate {
