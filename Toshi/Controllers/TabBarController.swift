@@ -205,8 +205,8 @@ extension TabBarController: ScannerViewControllerDelegate {
         guard reachabilityManager.reachability?.currentReachabilityStatus != .notReachable else {
 
             showErrorOKAlert(message: Localized.offline_alert_message,
-                             okActionHandler: { _ in
-                                self.scannerController.startScanning()
+                             okActionHandler: { [weak self] _ in
+                                self?.scannerController.startScanning()
                              })
             return
         }

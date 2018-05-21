@@ -245,27 +245,31 @@ final class TokenSendConfirmationViewController: UIViewController {
         hud.show()
         
         paymentManager.sendPayment { [weak self] error, _ in
-            guard let weakSelf = self else { return }
+            guard let strongSelf = self else { return }
 
             guard error == nil else {
-                weakSelf.hud.hide()
+                strongSelf.hud.hide()
+                strongSelf.showErrorMessage(for: error)
 
-                weakSelf.showAlert(title: Localized.transaction_error_message,
-                                   message: (error?.description ?? ToshiError.genericError.description),
-                                   actions: [
-                                    .okAction(handler: { _ in
-                                        weakSelf.navigationController?.dismiss(animated: true, completion: nil)
-                                    })
-                                   ])
                 return
             }
 
-            weakSelf.hud.successThenHide(after: 0.3, image: ImageAsset.success_check, text: Localized.wallet_send_confirmation_success_message, completion: {
+            strongSelf.hud.successThenHide(after: 0.3, image: ImageAsset.success_check, text: Localized.wallet_send_confirmation_success_message, completion: {
 
-                weakSelf.navigationController?.dismiss(animated: false, completion: {
-                    weakSelf.delegate?.tokenSendConfirmationControllerDidFinish(weakSelf)
+                strongSelf.navigationController?.dismiss(animated: false, completion: {
+                    strongSelf.delegate?.tokenSendConfirmationControllerDidFinish(strongSelf)
                 })
             })
         }
+    }
+
+    private func showErrorMessage(for error: ToshiError?) {
+        showAlert(title: Localized.transaction_error_message,
+                  message: (error?.description ?? ToshiError.genericError.description),
+                  actions: [
+                    .okAction(handler: { [weak self] _ in
+                        self?.navigationController?.dismiss(animated: true, completion: nil)
+                    })
+                  ])
     }
 }

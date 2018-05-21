@@ -187,8 +187,8 @@ final class GroupViewController: UIViewController {
                   message: Localized.group_info_leave_confirmation_message,
                   actions: [
                     .cancelAction(),
-                    .destructiveStyleAction(title: Localized.group_info_leave_action_title, handler: { _ in
-                        self.exitGroup()
+                    .destructiveStyleAction(title: Localized.group_info_leave_action_title, handler: { [weak self] _ in
+                        self?.exitGroup()
                     })
                   ])
     }

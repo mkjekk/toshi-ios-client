@@ -77,8 +77,8 @@ final class SendTokenViewController: UIViewController {
                   message: nil,
                   actions: [
                     .defaultStyleAction(title: Localized.wallet_transaction_leave_cancel_action),
-                    .destructiveStyleAction(title: Localized.wallet_transaction_leave_confirm_action, handler: { _ in
-                        self.dismiss(animated: true, completion: nil)
+                    .destructiveStyleAction(title: Localized.wallet_transaction_leave_confirm_action, handler: { [weak self] _ in
+                        self?.dismiss(animated: true, completion: nil)
                     })
                   ])
     }

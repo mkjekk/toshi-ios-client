@@ -108,18 +108,22 @@ final class SignInViewController: UIViewController {
             case .notConnected:
                 strongSelf.showErrorOKAlert(message: Localized.alert_no_internet_message)
             case .signUpWithPassphrase:
-                strongSelf.showAlert(title: Localized.sign_up_with_passphrase_alert_title,
-                          message: Localized.sign_up_with_passphrase_alert_message,
-                          actions: [
-                            .cancelAction(),
-                            .defaultStyleAction(title: Localized.sign_up_with_passphrase_accept_action_title, handler: { _ in
-                                strongSelf.passphraseSignupAccepted(passphrase)
-                            })
-                          ])
+                strongSelf.showPassphraseSignupAlert(passphrase)
             default:
                 strongSelf.navigationController?.dismiss(animated: true, completion: nil)
             }
         }
+    }
+
+    private func showPassphraseSignupAlert(_ passphrase: [String]) {
+        showAlert(title: Localized.sign_up_with_passphrase_alert_title,
+                  message: Localized.sign_up_with_passphrase_alert_message,
+                  actions: [
+                    .cancelAction(),
+                    .defaultStyleAction(title: Localized.sign_up_with_passphrase_accept_action_title, handler: { [weak self] _ in
+                        self?.passphraseSignupAccepted(passphrase)
+                    })
+                  ])
     }
 
     private func passphraseSignupAccepted(_ passphrase: [String]) {

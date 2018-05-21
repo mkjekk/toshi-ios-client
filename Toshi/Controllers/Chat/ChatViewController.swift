@@ -533,11 +533,11 @@ extension ChatViewController: UITableViewDelegate {
         
         if let signalMessage = message.signalMessage as? TSOutgoingMessage, signalMessage.messageState == .unsent {
             showActionSheet(actions: [
-                                .destructiveStyleAction(title: Localized.messages_sent_error_action_delete, handler: { _ in
-                                    self.viewModel.deleteItemAt(indexPath)
+                                .destructiveStyleAction(title: Localized.messages_sent_error_action_delete, handler: { [weak self] _ in
+                                    self?.viewModel.deleteItemAt(indexPath)
                                 }),
-                                .destructiveStyleAction(title: Localized.messages_sent_error_action_resend, handler: { _ in
-                                    self.viewModel.resendItemAt(indexPath)
+                                .destructiveStyleAction(title: Localized.messages_sent_error_action_resend, handler: { [weak self] _ in
+                                    self?.viewModel.resendItemAt(indexPath)
                                 }),
                                 .cancelAction()
                             ])

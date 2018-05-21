@@ -165,12 +165,12 @@ final class SplashViewController: UIViewController {
         showAlert(title: Localized.accept_terms_title,
                   message: Localized.accept_terms_text,
                   actions: [
-                    .defaultStyleAction(title: Localized.accept_terms_action_read, handler: { _ in
-                        self.readTerms()
+                    .defaultStyleAction(title: Localized.accept_terms_action_read, handler: { [weak self] _ in
+                        self?.readTerms()
                     }),
                     // Use default style since you can only have one `cancel` style action per alert
-                    .cancelAction(style: .default, handler: { _ in
-                        self.cerealToRegister = nil
+                    .cancelAction(style: .default, handler: { [weak self] _ in
+                        self?.cerealToRegister = nil
                     }),
                     agreeAction
                   ])
