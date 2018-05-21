@@ -215,6 +215,7 @@ struct Profile: Codable {
         return toshiId == Cereal.shared.address
     }
 
+    // swiftlint:disable cyclomatic_complexity - not seeing a super great way to simplify this
     static func retrieveCurrentUserFromStore() -> Profile? {
         guard _current == nil else { return _current }
 
@@ -296,6 +297,7 @@ struct Profile: Codable {
 
         return profile
     }
+    // swiftlint:enable cyclomatic_complexity
 
     mutating func updatePublicState(to isPublic: Bool) {
         self.isPublic = isPublic

@@ -20,11 +20,13 @@ import Nimble
 import Teapot
 @testable import Toshi
 
+// swiftlint:disable cyclomatic_complexity - QuickSpec actually treats these as separate methods.
 class IDAPIClientQuickSpecs: QuickSpec {
     override func spec() {
         describe("the id API Client") {
 
             context("Ok status") {
+                // swiftlint:disable:next implicitly_unwrapped_optional - Testing setup
                 var subject: IDAPIClient!
 
                 it("fetches the timestamp") {
@@ -340,6 +342,7 @@ class IDAPIClientQuickSpecs: QuickSpec {
             }
 
             context("Error status") {
+                // swiftlint:disable:next implicitly_unwrapped_optional - Testing setup
                 var subject: IDAPIClient!
 
                 it("fetches the timestamp") {

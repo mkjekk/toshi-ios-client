@@ -80,7 +80,7 @@ final class SearchProfilesDataSource: NSObject {
     }
 
     private func profile(at indexPath: IndexPath) -> Profile? {
-        guard let typeProfiles = profilesMap[queryData.type] else { fatalError() }
+        guard let typeProfiles = profilesMap[queryData.type] else { fatalError("No profiles of the appropriate type!") }
         return typeProfiles[indexPath.row]
     }
 }
@@ -97,7 +97,7 @@ extension SearchProfilesDataSource: UITableViewDataSource {
     }
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        guard let typeProfiles = profilesMap[queryData.type] else { fatalError() }
+        guard let typeProfiles = profilesMap[queryData.type] else { fatalError("No profiles of the correct type") }
         let profile = typeProfiles[indexPath.row]
 
         let cellData = TableCellData(title: profile.nameOrDisplayName, subtitle: profile.displayUsername, leftImagePath: profile.avatar)
