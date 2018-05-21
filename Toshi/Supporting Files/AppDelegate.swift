@@ -24,25 +24,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     var window: UIWindow?
 
-    private var screenProtectionActivated = false
-
-    private lazy var screenProtectionWindow: UIWindow = {
-        let window = UIWindow()
-        window.isHidden = true
-        window.backgroundColor = .clear
-
-        window.isUserInteractionEnabled = false
-        window.windowLevel = CGFloat.greatestFiniteMagnitude
-        window.alpha = 0
-
-        let effectView = UIVisualEffectView(effect: UIBlurEffect(style: .extraLight))
-        window.addSubview(effectView)
-
-        effectView.edgesToSuperview()
-
-        return window
-    }()
-
     var token = "" {
         didSet {
             updateRemoteNotificationsCredentials()
@@ -104,7 +85,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         // to avoid some weird UIKit issue where due to the queue difference, some racing conditions may apply
         // leaving the app with a protection screen when it shouldn't have any.
         DispatchQueue.main.async {
-            self.activateScreenProtection()
+            ScreenProtectionViewController.activate()
         }
 
         guard TSAccountManager.isRegistered() else { return }
@@ -120,7 +101,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         // and back to active again. Due to the queue difference, some racing conditions may apply
         // leaving the app with a protection screen when it shouldn't have any.
         DispatchQueue.main.async {
-            self.deactivateScreenProtection()
+            ScreenProtectionViewController.deactivate()
         }
 
         if TSAccountManager.isRegistered() {
@@ -299,34 +280,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
                 CrashlyticsLogger.log("Failed to register for PNs", attributes: ["error": error.localizedDescription])
         })
-    }
-
-    // Screen protection
-
-    private func activateScreenProtection() {
-
-        guard screenProtectionActivated == false else { return }
-
-        screenProtectionActivated = true
-
-        UIView.animate(withDuration: 0.3, animations: {
-            self.screenProtectionWindow.alpha = 1
-        }, completion: { _ in
-            self.screenProtectionWindow.isHidden = false
-        })
-    }
-
-    private func deactivateScreenProtection() {
-        guard screenProtectionActivated else { return }
-
-        screenProtectionActivated = false
-
-        UIView.animate(withDuration: 0.3, animations: {
-            self.screenProtectionWindow.alpha = 0
-        }, completion: { _ in
-            self.screenProtectionWindow.isHidden = true
-        })
-    }
+    }    
 }
 
 extension AppDelegate: UNUserNotificationCenterDelegate {
