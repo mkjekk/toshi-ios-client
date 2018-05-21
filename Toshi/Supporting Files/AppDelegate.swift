@@ -262,20 +262,40 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     private func updateRemoteNotificationsCredentials() {
 
-        ALog("\n||--------------------\n||\n|| --- Account is registered:\(TSAccountManager.isRegistered()) \n||\n||--------------------\n\n")
+        ALog("""
+            
+            ||--------------------
+            ||
+            || --- Account is registered:\(TSAccountManager.isRegistered())
+            ||
+            ||--------------------
+
+            """)
 
         TSAccountManager.sharedInstance().registerForPushNotifications(pushToken: token, voipToken: nil, success: { [weak self] in
 
             guard let strongSelf = self else { return }
 
-            ALog("\n\n||------- \n||\n|| - TOKEN: chat PN register - SUCCESS: token: \(strongSelf.token) \n")
+            ALog("""
+
+                ||-------
+                || - TOKEN: chat PN register - SUCCESS: token: \(strongSelf.token)
+                ||-------
+
+                """)
 
             EthereumAPIClient.shared.registerForMainNetworkPushNotifications()
             EthereumAPIClient.shared.registerForSwitchedNetworkPushNotificationsIfNeeded()
 
             }, failure: { error in
 
-                ALog("\n\n||------- \n|| - TOKEN: chat PN register - FAILURE: \(error.localizedDescription) \n||------- \n")
+                ALog("""
+
+                    ||-------
+                    || - TOKEN: chat PN register - FAILURE: \(error.localizedDescription)
+                    ||-------
+
+                    """)
 
                 CrashlyticsLogger.log("Failed to register for PNs", attributes: ["error": error.localizedDescription])
         })
