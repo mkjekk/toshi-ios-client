@@ -193,6 +193,8 @@ class SettingsController: UIViewController {
             showOKOnlyAlert(title: Localized.settings_signout_error_title,
                             message: Localized.settings_signout_error_message,
                             okActionHandler: { _ in
+                                // The user has gotten into some weird situation where there is no current user - crash the app immediately
+                                // to prevent the state from being further messed with.
                                 fatalError()
                             })
 
