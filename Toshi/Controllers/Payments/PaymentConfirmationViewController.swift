@@ -604,6 +604,8 @@ final class PaymentConfirmationViewController: UIViewController {
 
                 return
             }
+
+            weakSelf.delegate?.paymentConfirmationViewControllerFinished(on: weakSelf, parameters: weakSelf.paymentManager.parameters, transactionHash: transactionHash, recipientInfo: weakSelf.recipientInfo, error: error)
         }
     }
 
